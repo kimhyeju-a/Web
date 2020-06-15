@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	div {
+		width: 300px;
+		margin: 10px;
+		padding: 10px;
+		text-align: center;
+		border: 2px solid red;
+	}
+	
+	.div01 {
+		border-radius: 20px; /* 네 개의 모서리 모두  */
+	}
+	
+	.div02 {
+		border-radius: 20px;
+		border-bottom-left-radius : 0;
+		border-top-right-radius : 0;
+		box-shadow: 10px 10px 10px black;
+	}
+
+	.div03 {
+		border-top-right-radius: 20px; 
+		border-bottom-left-radius: 20px;
+	}
+	
+	.div04 { /* 	타원만들기 가로/세로   	   */
+		border-radius:60px/30px
+	}
+</style>
+</head>
+<body>
+	<div class="div01">사각형1</div>
+	<div class="div02">사각형2</div>
+	<div class="div03">사각형3</div>
+	<div class="div04">사각형4</div>
+</body>
+</html>

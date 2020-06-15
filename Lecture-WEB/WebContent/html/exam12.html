@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- HTML5이전 embed : <embed src="playlist/Wildlife.wmv"> -->
+	HTML이전 embed<br>
+	<embed src="playlist/Kalimba.mp3">
+	<br>
+	HTML5 버전 : <br>
+	<audio src="playlist/Kalimba.mp3" controls autoplay="autoplay"></audio>
+	<hr>
+	
+	<h3> HTML5 이전 버전  embed tag 이용</h3>
+	<embed src="playlist/movie.mp4">
+	
+	<h3> HTML5 이전 버전  object tag 이용</h3>
+	<object data="playlist/movie.mp4"></object>
+	
+	<h3>HTML5버전 : video tag 이용</h3>
+	<video src="playlist/movie.mp4" controls="controls" width="640" height="480"></video>	
+	<video controls="controls" width="640" height="480">
+		<source src="playlist/movie.mp4">
+	</video>	
+	<h3>YOUTUBE 영상 삽입</h3>
+	<iframe width="560" height="315" 
+			src="https://www.youtube.com/embed/yhXT3hBaDoU" 
+			frameborder="0" 
+			allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+			allowfullscreen></iframe>
+	<br>
+	<canvas width="600" height="600" style="border : 3px dotted red"></canvas>
+</body>
+</html>
