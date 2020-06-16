@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var a = 10;
+	let b = 20;
+	const c = 30;
+	
+	alert(`a = ${a}, b = ${b}, c = ${c}`);
+	
+	a = a * 5;
+	b = b * 5;
+	//c = c * 5;  // 오류발생 (상수값 대입 금지)
+	alert(`a = ${a}, b = ${b}, c = ${c}`); // 나오지 않음
+	
+	var a = 100;
+	//let b = 100; // 오류발생 (재선언 금지)
+	alert(`a = ${a}, b = ${b}, c = ${c}`); // 나오지 않음
+	
+	{
+		var temp = 1000;
+		let letTemp = 2000;
+		alert(`temp : ${temp}, letTemp : ${ letTemp }`);
+	}
+		alert(`temp : ${temp}`);
+</script>
+</head>
+<body>
+
+</body>
+</html>

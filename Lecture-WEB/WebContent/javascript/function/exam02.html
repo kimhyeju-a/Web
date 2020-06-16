@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	
+	function aaa() {
+		switch(arguments.length){
+		case 0 :
+			alert('call aaa()...');
+			break;
+		case 1 : 
+			alert('call aaa(data) : ' + arguments[0]);
+			break;
+		case 2 :
+			alert('a : '+ arguments[0] + ", b : " + arguments[1]);
+		}
+	}
+	aaa();
+	aaa('hello');
+	aaa(10, 20);
+</script>
+</head>
+<body>
+
+</body>

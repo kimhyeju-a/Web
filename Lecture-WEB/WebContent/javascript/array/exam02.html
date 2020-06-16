@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var names = ["홍길동", "강길동", "홍길순", "윤길동", "박길동"];
+	
+	alert(names);
+	
+	document.write('<h3>방법1</h3>');
+	for(var i = 0; i < names.length; i++){
+		//alert(names[i]);
+		document.write(names[i] + '<br>');
+		console.log(names[i]);
+	}
+	
+	document.write('<h3>방법 2</h3>');
+	for(var i in names){// index를 말한다.
+		document.write(names[i] +'<br>');
+	}
+	for(var name of names){
+		document.write(name + '<br>');
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>

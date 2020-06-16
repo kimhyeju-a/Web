@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	//선언적 함수
+	function testFunction() {
+		alert('call...');
+	}
+	
+	function testFunction2(data){
+		alert('data : ' + data)
+	}
+	
+	function testFunction3(data1, data2){
+		alert(`data1 : ${data1} , data2 : ${data2}`)
+	}
+	function sum(a,b){
+		return a + b;
+	}
+	aaa();
+	function aaa(){
+		alert('call aaa()');
+	}
+	function aaa(data){
+		alert('call aaa(data)');
+	}
+	function aaa(a, b){
+		alert('call aaa(a, b)');
+	}
+	
+	var aaa = function(){
+		alert('aaa 함수 ');
+	}
+	var temp = function(){
+		alert('call func01()...');
+	}	
+	
+	var func01 =function() {
+		alert('익명함수 call func01()....');
+	}
+	//temp();
+	//func01();
+	
+	
+	function getSum(a,b) {
+		let s = 0;
+		while(a <= b) {
+			s += a++;
+		}
+		return s;
+	}
+	/* var total = getSum(1,10);
+	alert('1~10사이의 총합 : ' + total); */
+	function printSum(a,b){
+		alert('1~10 사이의 총합 : ' + getSum(a, b));
+		function sum(a,b){
+			let s = 0;
+			while(a <=b){
+				s += a++;
+			}
+			return s;
+		}
+		alert('1 ~ 10사이의 총합: ' + sum(a,b));
+	}
+	///////////////////////함수 선언부////////////////////////
+	function callbackFunc(f){
+		f();//인자로 함수를 받을 수 있다.
+	}
+	function createTag(f) {
+		f();
+	}
+	///////////////////////함수 호출부 ////////////////////////
+	
+	createTag(function(){
+		
+	})
+	callbackFunc(function(){
+		alert('익명함수호출...');
+	});
+	
+	callbackFunc(aaa);
+	callbackFunc(testFunction);
+	callbackFunc(temp);
+	
+	
+	
+	printSum(1,10);
+	
+	var total = sum(12, 45);
+	alert('총합 : ' + total + ',type : ' + typeof(total));
+	
+	testFunction();
+	testFunction2(100);	
+	testFunction2("hello");	
+	testFunction3("A",12.34);	
+</script>
+</head>
+<body>
+
+</body>
+</html>
