@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function getArr() {
+		let arr = [];
+		for (var i = 0; i < 3; i++) {
+			arr.push(Math.floor(Math.random() * 10));
+			for (var j = i - 1; j >= 0; j--) {
+				if (arr[i] == arr[j]) {
+					arr.pop();
+					i--;
+				}
+			}
+		}
+
+		console.log(arr);
+		return arr;
+	}
+
+	function baseball(arr) {
+		let end = [ 0, 10 ]; // [0] : 삼진아웃 [1] : 횟수
+		let cnt = 0;
+		
+		while (true) {
+			if(end[1] === 0){
+				alert('아쉽습니다. 기회를 다 소진하였습니다.\n정답은 ' + arr.join(''));
+				break;
+			}
+			var msg = '';
+			var score = [ 0, 0 ]; // [0] : ball 수 [1] : 스트라이크 수
+			var num = prompt('숫자 3개를 입력하세요');
+			var userNum = [ Number(num.charAt(0)), Number(num.charAt(1)), Number(num.charAt(2))];
+
+			//볼과 스트라이크를 검사하는 코드
+			for (var i = 0; i < 3; i++) {
+				for (var j = 0; j < 3; j++) {
+					if (i != j) {
+						if (arr[i] == userNum[j])
+							score[0]++;
+					} else {
+						if (arr[i] == userNum[j]) {
+							score[1]++;
+						}
+					}
+				}
+			}
+			end[1]--;
+			
+			if(score[1] === 3){
+				alert('축하합니다. 정답입니다.');
+				break;
+			}
+			if(end[0] === 3){
+				alert('삼진아웃입니다.');
+				break;
+			}
+			if (score[0] !== 0) {
+				msg += (score[0] + 'b ');
+			}
+			
+			if (score[1] !== 0) {
+				end[0]++;
+				msg += (score[1] + 's');
+			}
+			alert(msg + '\n남은 횟수는 ' + end[1] +'회입니다.');
+		}
+
+	}
+	
+	let arr = getArr();
+	baseball(arr);
+</script>
+</head>
+<body>
+
+</body>
+</html>

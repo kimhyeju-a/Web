@@ -3,6 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	let num = prompt('10 - 100 사이의 숫자를 입력');
+	let numTen;
+	let numOne;
+	let printPPO;
+	num = Number(num);
+	for (var i = 1; i <= num; i++) {
+		numTen = Math.floor(i / 10);
+		numOne = Math.floor(i % 10);
+		if (numTen == 3 || numTen == 6 || numTen == 9) {
+			document.write('짝');
+			if (numOne == 3 || numOne == 6 || numOne == 9) {
+				document.write('짝');
+			}
+		} else if (numOne == 3 || numOne == 6 || numOne == 9) {
+			document.write('짝');
+		} else {
+			document.write(i);
+		}
+		if (i % 10 == 0) {
+			if(printPPO === undefined)
+				printPPO = '뾰';
+			else
+				printPPO += '뾰';
+			document.write(printPPO + '송');
+		}
+		document.write('<br>');
+	}
+</script>
 </head>
 <body>
 
