@@ -3,11 +3,8 @@ Lecture-WEB/.classpath
 Lecture-WEB/.project
 Lecture-WEB/.settings/
 Servers/
-Lecture-WEB/WebContent/META-INF/
-Lecture-WEB/WebContent/WEB-INF/
 Lecture-WEB/WebContent/html/playlist/Kalimba.mp3
 Lecture-WEB/WebContent/html/playlist/Wildlife.wmv
 Lecture-WEB/WebContent/html/playlist/movie.mp4
 Lecture/.settings/org.eclipse.wst.common.component
 Lecture/.settings/
-*.project
