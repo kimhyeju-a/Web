@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	/*
+	//일반적으로 이렇게 안쓴다.
+	var func = function(){
+		alert('3초지났습니다.');
+	}
+	setTimeout(func,3000); */
+	
+/* 	setTimeout(function(){
+		alert('3초가 지났습니다.');
+	},3000); */
+	
+	var id = setInterval(function(){
+		document.write('현재시간 : ' + new Date() + '<br>');
+	}, 1000);
+	
+	setTimeout(function(){
+		alert('날짜쓰기 종료 .... ');
+		clearInterval(id);
+		
+	},10000);
+</script>
+</head>
+<body>
+
+</body>
+</html>

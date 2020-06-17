@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function func(a, b, c) {
+		document.write(`${ a } : ${ b } : ${ c }<br>`);
+	}
+
+	function func01() {
+		document.write(arguments[0] + ' : ' + arguments[1] + ' : ' + arguments[2] + '<br>');
+	}
+	
+	function func02() {
+		for(let i of arguments) {
+			document.write(i + ' : ');
+		}
+		document.write('<br>');
+	}
+	
+	function func03(...numbers) {
+		console.log(numbers);	
+	}
+	
+	function func04(a, b, ...number){
+		document.write('a : ' + a + '<br>');
+		document.write('b : ' + b + '<br>');
+		document.write('numbers : ' + numbers + '<br>');
+	}
+	
+	var array = [1, 2, 3];
+	
+	func04(...array); // a -> 1 | b -> 2 | c -> 3
+	func04(...array, ...array) // a -> 1 || b -> 2 || c -> 3123
+	
+	//func01(array);
+	//func(array);
+	//func(array[0], array[1], array[2]);
+	/* func.apply(null, array);
+	func(...array); */
+	func02(...array)
+	
+//	func03(10, 20, 30);
+//	func02(10, 20);
+//	func02(10, 20, 30)
+//	func01(10, 20);
+//	func01(10, 20, 30)
+</script>
+</head>
+<body>
+
+</body>
+</html>

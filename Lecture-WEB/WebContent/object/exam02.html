@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var person = {
+		'name' : '홍길동',
+		'phone' : '010-1111-2222',
+		'addr' : '경기도 광명시',
+		'info' : function() {
+			/* alert('name : ' + this.name + '\n'
+					+ 'phone : ' + this.phone + '\n'
+					+ 'addr : ' + this.addr +'\n'); */
+			/*
+			let msg = '';
+			with(this){
+				msg += 'name : ' + name + '\n';
+				msg += 'phone : ' + phone + '\n';
+				msg += 'addr : ' + addr + '\n';
+				
+			}
+			alert(msg);
+			*/
+			for(var key in this){
+				console.log(this[key]);
+				/* if(key !='info') */
+				if((typeof this[key]) != 'function')
+					document.write(key + ' : ' + this[key] + '<br>');
+			}
+		}
+	}
+	
+	person.toString = function(){
+		let msg = '';
+		for(let key in this) {
+			if((typeof this[key] != 'function'))
+				msg += `${key} : ${this [key]} <br>`
+		}
+		return msg;
+	}
+	
+	document.write(person.toString())
+	document.write(person)
+	document.write('<hr>');
+	
+	with(person){
+		info();
+		/* toString = function(){
+			return 'with를 사용한 toString'
+		} */
+	}
+	
+	person.info();
+</script>
+</head>
+<body>
+
+</body>
+</html>

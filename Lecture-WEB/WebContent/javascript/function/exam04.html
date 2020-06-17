@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function returnFunc(name){
+		var msg = '반갑습니다 ' + name + '님!!!';
+		return function(){
+			alert(msg);
+		};
+	}
+	
+	returnFunc('홍길동')(); // return 값에 있는 함수를 호출하기 위해 ()를 하나더 붙인다.
+	/*
+	var f = returnFunc('홍길동');
+	f(); 
+	
+	//와 같은의미이다.
+	*/
+</script>
+</head>
+<body>
+
+</body>
+</html>

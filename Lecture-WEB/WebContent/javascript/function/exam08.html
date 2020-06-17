@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+
+
+	for(var i = 0; i < 3; i++){
+		(function(i){
+			setTimeout(function() {
+				alert(i);
+			},0);
+		})(i);
+	}
+	
+	/* function setTest(j){
+		var cnt = j
+		return function(){setTimeout(function() {
+			alert(cnt);
+		}, 0);
+		}
+	}
+	
+	for(var i = 0; i < 3 ; i++){
+		setTest(i)();
+	} */
+	
+	/* var func = function(i){
+		return setTimeout(function() {
+			alert(i);
+		}, 0)
+	}
+	
+	for(var i = 0; i < 3 ; i++){
+		func(i);
+	} */
+	
+	/*
+	for(var i = 0; i < 3 ; i++) {
+		setTimeout(function(){
+			alert(i);
+		}, 0);
+	}
+	*/
+	
+
+	/* alert("첫번째...");
+	setTimeout(function() {
+		alert('setTimeout()...');
+	},0);
+	alert("두번째..."); */
+</script>
+</head>
+<body>
+
+</body>
+</html>
