@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function start(dict) {
+		let idx = Math.floor(Math.random() * dict.length);
+		return dict[idx];
+	}
+
+	function hangMan(gameWord) {
+		let hint = [];
+		let cnt = gameWord.length;
+		let word = gameWord.toUpperCase(); //equalsIgnoreCase 기능을 대신하기 위해 대문자로 변경
+		let notCorrect = []; //내가 입력한 알파벳 중복으로 입력하지 못하게 함
+
+		for (var i = 0; i < gameWord.length; i++) {
+			hint.push('* ');
+		}
+
+		alert('*****행맨게임 시작 *****');
+
+		while (true) {
+			if (cnt == 0) {
+				alert('기회를 모두 소진하였습니다. \n게임을 종료합니다.');
+				break;
+			}
+
+			let select = prompt(hint.join('') + '\nA - Z : ').toUpperCase();
+			while (notCorrect.includes(select)) {
+				select = prompt(
+						select + ' 는 이미 입력하셨습니다.다시입력해주세요 \n' + hint.join('')
+								+ '\nA - Z : ').toUpperCase();
+			}
+			let check = false;
+			notCorrect.push(select);
+
+			for (var i = 0; i < word.length; i++) {
+				if (select === word.charAt(i)) {
+					hint[i] = select;
+					check = true;
+				}
+			}
+
+			if (check == true) {
+				let ask = prompt(hint.join('') + '\n\n단어를 아시겠습니까? ');
+				if (ask.toUpperCase() === 'Y') {
+					let answer = prompt('정답을 입력해주세요 ');
+					if (answer.toUpperCase() === word) {
+						alert('축하합니다 정답입니다. \n정답 : [' + gameWord + ']');
+						break;
+					} else {
+						alert('정답이 아닙니다.');
+					}
+				}
+			} else {
+				alert(select + '는 존재하지 않습니다. \n기회는 ' + (--cnt) + '번 남았습니다.');
+			}
+
+		}
+
+	}
+
+	let dict = [ 'banana', 'apple', 'eclipse', 'culture', 'experience',
+			'education', 'symbol', 'comfort', 'tradition' ];
+	let gameWord = start(dict);
+	hangMan(gameWord);
+</script>
+</head>
+<body>
+
+</body>
+</html>
