@@ -3,6 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	class Figure{
+		constructor(name,x,y,area){
+			this._name = name;		//사각형 | 삼각형 | 원 을 담는변수
+			this._x = x;			
+			this._y = y;	
+			this._area = area;
+		}
+		
+		info(){
+			alert(`******${ this._name }******\nx : ${ this._x }\ny : ${ this._y }\narea : ${this._area}`);
+			document.write(`******${ this._name }******<br>x : ${ this._x }<br>y : ${ this._y }<br>area : ${this._area}<br>`);
+		}
+	}
+	
+	class Rectangle extends Figure{
+		constructor(x, y){
+			super('사각형', x, y, (x*y));
+		}
+	}
+	
+	class Triangle extends Figure{
+		constructor(x, y){
+			super('삼각형', x, y, ((x*y)/2));
+		}
+	}
+	
+	class Circle extends Figure{
+		constructor(x){
+			let r = 3.141592;
+			super('원', x, r, ((x*x)*r));
+		}
+	}
+	
+
+	//길이 입력
+	function ask(a){
+		return Number(prompt( a + '길이를 입력하세요'));
+	}
+	
+	while(true){
+		let ch = Number(prompt('1. 사각형, 2, 삼각형, 3.원, 4.종료  (숫자만 가능)'));
+		let x;
+		let y;
+		// 4를 입력했을 때 종료 
+		if(ch === 4) 
+			break;
+		
+		switch(ch){
+		case 1 :
+			x = ask('사각형의 가로 ');
+			y = ask('사각형의 높이 ');
+			let rect = new Rectangle(x, y);
+			rect.info()
+			break;
+		case 2 :
+			x = ask('삼각형의 가로');
+			y = ask('삼각형의 높이');
+			let triangle = new Triangle(x, y);
+			triangle.info();
+			break;
+		case 3 :
+			x = ask('원의 반지름 ');
+			let circle = new Circle(x);
+			circle.info();
+			break;
+		default :
+			alert('잘못 입력하셨습니다.')
+			break;
+		}
+	}
+</script>
 </head>
 <body>
 

@@ -22,27 +22,36 @@
 		}
 		
 	}
+	//prototype으로 info를 정의
 	Figure.prototype.info = function() {
-		var msg = '';
+		let msgAlert = '';
+		let msgDoc = '';
 		for(let key in this){
-			if((typeof this[key])!= 'function')
-				msg += key + ' : ' + this[key] + '<br>'
+			if((typeof this[key])!= 'function'){
+				//document와 alert의 줄바꿈 표시가 다르기 때문에 다른 msg 변수를 사용
+				msgAlert += key + ' : ' + this[key] + '\n'
+				msgDoc += key + ' : ' + this[key] + '<br>'
+			}
 		}
-		document.write(msg);
+		alert(msgAlert);
+		document.write(msgDoc);
 	}
 	
+	//사각형
 	function Rectangle(x , y){
 		let area = x * y;
 		this.super = Figure;
 		this.super(x, y, area);
 	}
 	
+	//삼각형
 	function Triangle(x, y){
 		let area = (x * y) / 2
 		this.super = Figure;
 		this.super(x, y, area);
 	}
 	
+	//원
 	function Circle(x){
 		let y = 3.141592
 		let area = (x * x) * y
@@ -50,10 +59,51 @@
 		this.super(x, y, area);
 	}
 	
-	Rectangle.prototype = Figure.prototype;
+	//길이 입력
+	function ask(a){
+		return Number(prompt( a + '길이를 입력하세요'));
+	}
 	
-	let test = new Rectangle(10,20);
-	test.info()
+	//도형들의 prototype 이 Figure의 prototype을 가리키게함
+	Rectangle.prototype = Figure.prototype;
+	Triangle.prototype = Figure.prototype;
+	Circle.prototype = Figure.prototype;
+	
+	while(true){
+		let ch = Number(prompt('1. 사각형, 2, 삼각형, 3.원, 4.종료  (숫자만 가능)'));
+		let x;
+		let y;
+		// 4를 입력했을 때 종료 
+		if(ch === 4) 
+			break;
+		
+		switch(ch){
+		case 1 :
+			x = ask('사각형의 가로 ');
+			y = ask('사각형의 높이 ');
+			let rect = new Rectangle(x, y);
+			document.write('**************사각형**************<br>')
+			rect.info()
+			break;
+		case 2 :
+			x = ask('삼각형의 가로');
+			y = ask('삼각형의 높이');
+			let triangle = new Triangle(x, y);
+			document.write('**************삼각형**************<br>')
+			triangle.info();
+			break;
+		case 3 :
+			x = ask('원의 반지름 ');
+			let circle = new Circle(x);
+			document.write('***************원***************<br>')
+			circle.info();
+			break;
+		default :
+			alert('잘못 입력하셨습니다.')
+			break;
+		}
+	}
+	
 </script>
 </head>
 <body>
