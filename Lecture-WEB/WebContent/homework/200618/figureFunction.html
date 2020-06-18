@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function Figure(x, y, a){
+		let width;
+		let height;
+		let area;
+		
+		this.width = x;
+		this.height = y;
+		this.area = a;
+		this.getWidth = () => x;
+		this.setWidth = function(x){
+			width = x;
+		}
+		this.getHeight = () => y;
+		this.setHeight = function(x){
+			height = x;
+		}
+		
+	}
+	Figure.prototype.info = function() {
+		var msg = '';
+		for(let key in this){
+			if((typeof this[key])!= 'function')
+				msg += key + ' : ' + this[key] + '<br>'
+		}
+		document.write(msg);
+	}
+	
+	function Rectangle(x , y){
+		let area = x * y;
+		this.super = Figure;
+		this.super(x, y, area);
+	}
+	
+	function Triangle(x, y){
+		let area = (x * y) / 2
+		this.super = Figure;
+		this.super(x, y, area);
+	}
+	
+	function Circle(x){
+		let y = 3.141592
+		let area = (x * x) * y
+		this.super = Figure;
+		this.super(x, y, area);
+	}
+	
+	Rectangle.prototype = Figure.prototype;
+	
+	let test = new Rectangle(10,20);
+	test.info()
+</script>
+</head>
+<body>
+
+</body>
+</html>

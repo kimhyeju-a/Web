@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function Person(n, p, a){
+		let name = n;	//지역변수 => block scope [외부접근불가]
+		var phone = p;	//지역변수 => function scope [외부접근불가]
+		var addr = a; // 외부접근불가
+		/*
+		this.getName = function(){
+			return name;
+		}*/
+		
+		this.getName = () => name;
+		this.setName = function(n){
+			name = n;
+		}
+	}
+	let p = new Person('홍길동', '010-1111-2222', '경기도 광명시');
+	alert('변경전 : ' + p.getName())
+	p.setName('김혜주')
+	alert('변경후 : ' + p.getName())
+</script>
+</head>
+<body>
+
+</body>
+</html>

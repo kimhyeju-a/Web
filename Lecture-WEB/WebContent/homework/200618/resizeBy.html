@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var sub = window.open("","","width = 400, height = 500")
+	
+	let width = screen.width
+	let height = screen.height
+	
+	sub.moveBy(0,0)
+	sub.resizeTo(width,height)
+	
+	var id = setInterval(function() {
+		sub.resizeBy(-20,-20)
+		sub.moveBy(10,10);
+	}, 1000)
+	
+	setTimeout(function(){
+		clearInterval(id)
+	},10000)
+</script>
+</head>
+<body>
+
+</body>
+</html>

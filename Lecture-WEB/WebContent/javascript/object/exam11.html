@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var data = new String("Hello JAVASCRIPT!!!");
+	//프로토 타입이라는 것을 사용하게 되면 같이 공유할 수 있는 무엇인가를 만들 수 있다.
+	
+	String.prototype.change = function(){
+		return this.toUpperCase().bold()
+				.fontcolor('red').fontsize("20pt").link('http://www.naver.com') // change를 호출하는 녀석을 return함.
+	}
+	
+	document.write('data : ' + data + '<br>');
+	document.write('data : ' + data.change() + '<br>');
+	
+	var str = "Hello World";
+	
+	document.write('length : ' + str.length + '<br>' );
+	//length만 속성이다. 나머지는 함수다.
+	document.write('3번째 문자 : ' + str.charAt(2) + '<br>');
+	document.write('0번째 문자의 아스키코드 : ' + str.charCodeAt(0) + '<br>');
+	
+	document.write('serach("llo") : ' + str.search("llo")+ '<br>' );
+	document.write('serach("llp") : ' + str.search("llp")+ '<br>' );
+</script>
+</head>
+<body>
+
+</body>
+</html>

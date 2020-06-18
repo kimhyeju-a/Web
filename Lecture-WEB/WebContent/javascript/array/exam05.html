@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	var books = new Array();
+	
+	books.push('신데렐라')
+	books.push('콩지팥쥐')
+	books.push('피터팬')
+	books.push('백설공주')
+	
+	for(let element of books){
+		document.write(element + '&nbsp;&nbsp;&nbsp;')
+	}
+	document.write('<hr>')
+	
+	books.sort()
+
+	for(let element of books){
+		document.write(element + '&nbsp;&nbsp;&nbsp;')
+	}
+	document.write('<hr>')
+	
+	
+	var nums = [12, 5, 453, 64, 24, 54, 7];
+	
+	document.write(nums + '<hr>');
+	nums.sort()
+	document.write(nums + '<hr>');
+	
+	
+	nums.sort(function(left, right){
+		return left - right; // 오름차순 정렬
+	})
+	document.write(nums + '<hr>');
+	
+	nums.sort(function(left, right){
+		return right - left; // 오름차순 정렬
+	})
+	document.write(nums + '<hr>');
+	
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>

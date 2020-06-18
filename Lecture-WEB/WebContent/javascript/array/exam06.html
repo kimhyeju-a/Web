@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	var nums = [10, 20, 30, 40, 50]
+	
+	document.write('<h2>첫번째방식</h2>')
+	for(let i = 0; i < nums.length; i++){
+		document.write(`${ i }번째 정수 : ${ nums[i] }<br>`)
+	}
+	document.write('<h2>두번째방식</h2>')
+	for(let idx in nums){
+		document.write(`${ idx }번째 정수 : ${ nums[idx] }<br>`)
+	}
+	
+	document.write('<h2>세번째방식</h2>')
+	nums.forEach(function(element, index, nums) {
+		document.write(`${ index }번째 정수 : ${ element } <br>`);
+	})
+	
+//	var copyNums = [...nums]
+	/*  버전 1  */
+	/* 
+	var copyNums = []
+	for(let i in nums) {
+		copyNums[i] = nums[i] + 100;
+	} */ 
+	
+	var copyNums = nums.map(function(element){
+		return element + 100
+	})
+	
+	document.write('nums : ' + nums + '<br>')
+	document.write('copyNums : ' + copyNums + '<br>')
+	
+	/*
+	let bool = true
+	for(let data of nums){
+		if(data % 10 == 0){
+			bool = false;
+			break;
+		}
+	}
+	*/
+	let bool = false
+	bool = nums.every(function(element, index, nums){
+		return element % 10 == 0 // 이 조건이 모두 만족해야 true
+	})
+	document.write('every() 결과 : ' + bool + '<br>')
+	
+	bool = nums.some(function(element, index, nums){
+		return element % 10 == 0 // 이 조건이 모두 만족해야 true
+	})
+	document.write('every() 결과 : ' + bool + '<br>')
+	
+	/*
+	let s = 0;
+	for(let data of nums){
+		s += data
+	}
+	*/
+	
+	let sum = nums.reduce(function(before, element, index){
+		return before + element
+	})
+	
+	document.write('배열의 총합 : ' + sum + '<br>')
+	
+</script>
+</head>
+<body>
+
+</body>
+</html>
