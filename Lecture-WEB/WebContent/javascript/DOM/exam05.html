@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function(){
+		let idTag = document.getElementById('id')
+		//idTag.parentNode.removeChild(idTad)
+		idTag.remove()
+		
+		let pwd = document.getElementById('pwd');
+		// <td id='pwd' style ="color:red; font-size:20pt; background-color:yellow;">PASSWORD</td>
+		pwd.style.color = 'red'
+		pwd.style.fontSize = '20pt'
+		pwd.style.backgroundColor = 'yellow'
+		pwd.style['border-style'] = 'dashed'
+		pwd.style['border-color'] = 'blue'
+		pwd.style['border-width'] = '3px'
+	}
+</script>
+</head>
+<body>
+	<table border="1" style="width:100px; height: 100px">
+		<tr>
+			<td id='id'>ID</td>
+		</tr>
+		<tr>
+			<td id='pwd'>PASSWORD</td>
+		</tr>
+	</table>
+</body>
+</html>

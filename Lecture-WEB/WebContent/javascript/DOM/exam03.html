@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function () {
+		var tags = document.getElementsByTagName('td')
+		tags[0].innerHTML = '아이디'
+			
+		let nodes = document.querySelectorAll('td');
+		console.log(nodes)
+		
+		nodes[1].innerHTML = '패스워드'
+	}
+		
+</script>
+</head>
+<body>
+	<table border="1" style="width: 100px; height: 100px">
+		<tr>
+			<td>ID</td>
+		</tr>
+		<tr>
+			<td>PASSWORD</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	//console.log(document.body)
+	window.onload = function() {
+		alert('innerHTML: ' + document.body.innerHTML);
+		alert('innerText: ' + document.body.innerText);
+
+		let tags = ''
+		tags += '<ul>'
+		tags += '<li>red</li>'
+		tags += '<li>orange</li>'
+		tags += '<li>blue</li>'
+		tags += '</ul>'
+		//document.body.innerHTML += tags
+		//document.body.innerHTML = tags
+		document.body.innerHTML += '<br>'
+		document.body.innerText += tags
+		//document.body.innerText = tags
+		//document.write(tags)
+	}
+</script>
+</head>
+<body>
+	Hello
+	<br>
+	<h1>안녕하세요</h1>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function() {
+		var tag = document.createElement('h1')
+		var tagText = document.createTextNode("Hello")
+		tag.appendChild(tagText)
+		document.body.appendChild(tag)
+		
+		var imgTag = document.createElement('img')
+		imgTag.src = "https://t1.daumcdn.net/daumtop_chanel/op/20170315064553027.png"
+
+		var aTag = document.createElement('a')
+		aTag.setAttribute('href','http://www.naver.com')
+		aTag.setAttribute('target','_blank')
+		
+		aTag.appendChild(imgTag)
+		document.body.appendChild(aTag);
+	}
+</script>
+</head>
+<body>
+	
+</body>
+</html>

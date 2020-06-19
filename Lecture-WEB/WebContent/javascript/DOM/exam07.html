@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	window.onload = function () {
+		
+		var span = document.querySelector('span')
+		var h1 = document.querySelector('h1')
+		var div = document.querySelector('div')
+		
+		span.onclick = function (e) {
+			alert('click span...')
+		}
+		
+		h1.onclick = function (e) {
+			alert('click h1...')
+			e.cancelBubble = true
+		}
+		
+		div.onclick = function () {
+			alert('click div...')
+		}
+	}
+	
+</script>
+</head>
+<body>
+	<div>
+		<h1>
+			<span>Hello</span>
+		</h1>
+	</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#parentDiv {
+		border : 1px solid red;
+		width : 300px;
+		height : 200px;
+	}
+	div div {
+		width :300px;
+		height : 100px;
+	}
+	span {
+		padding : 16px 10px 16px 10px;
+		width: 180px;
+	    float: left;
+	}
+	input {
+		margin : 16px 10px 16px 10px;
+		width : 80px;
+		float : left;
+	}
+</style>
+<script>
+	window.onload = function () {
+		let parentDiv = document.querySelector('#parentDiv')
+		let inClick = document.querySelector('#inClick')
+		let deClick = document.querySelector('#deClick')
+		let clickBtn = document.querySelector('#clickBtn')
+		let clickDe = document.querySelector('#clickDe')
+		let inCnt = 0;
+		let deCnt = 10;
+		clickBtn.onclick = function () {
+			inClick.innerText = (++inCnt) + '번 클릭'
+		}
+		
+		clickDe.onclick = function () {
+			if(deCnt !== 0){
+				deClick.innerText = (--deCnt) + '번'
+			}
+		}
+	}
+</script>
+</head>
+<body>
+	<div id = 'parentDiv'>
+		<div>
+			<span id = 'inClick'>0번 클릭</span>
+			<input type='button' value = '클릭' id ='clickBtn'>			
+		</div>
+		<div>
+			<input type='button' value = '숫자검색' id = 'clickDe'>
+			<span id = 'deClick'>10번</span>		
+		</div>
+	</div>
+</body>
+</html>
