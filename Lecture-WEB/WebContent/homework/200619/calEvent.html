@@ -6,7 +6,20 @@
 <script>
 	function txt(value) {
 		let displayTxt = document.querySelector('#displayTxt')
-		displayTxt.value += value
+		if((displayTxt.value == '')&& (value == '/' || value == '*' || value == '-' || value == '+' || value == '%'))
+			alert('숫자를 먼저 입력해주세요 ')
+		else 
+			displayTxt.value += value
+	}
+	function result(){
+		let displayTxt = document.querySelector('#displayTxt')
+		let resultValue = eval(displayTxt.value)
+		displayTxt.value = resultValue
+	}
+	
+	function reset() {
+		let displayTxt = document.querySelector('#displayTxt')
+		displayTxt.value = "";
 	}
 </script>
 </head>
@@ -45,7 +58,7 @@
 		</tr>
 		<tr>
 			<td colspan = "2"><input type= "button" value ="=" style = "width:90%; height:80%;" onClick = 'result()'></td>
-			<td colspan = "2"><input type= "button" value ="clear" style = "width:90%; height:80%;" onClick = 'clear()'></td>
+			<td colspan = "2"><input type= "button" value ="clear" style = "width:90%; height:80%;" onClick = 'reset()'></td>
 		</tr>
 	</tbody>
 	</table>

@@ -3,8 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	let userNum = prompt('유저의 수를 입력하세요 [중복은 허용하지 않습니다.]');
+	
+	window.onload = function() {
+		//user의 값 배열 형태로
+		let user = [ Number(userNum.charAt(0)), Number(userNum.charAt(1)), Number(userNum.charAt(2))];
+		let comGuess = document.getElementById('comGuess')
+		//경우의수를 담는 곳
+		let perm = []
+		let guessCnt = 0;
+		
+		// 012 ~ 987 까지의 모든 경우의 수를 구한다.
+		function permutation() {
+			for (let i = 0; i < 10; i++) {
+				for (let j = 0; j < 10; j++) {
+					for (let k = 0; k < 10; k++) {
+						//만약 숫자 중복이 있다면 perm.push()를 건너뜀
+						if (i == j || j == k || k == i) {
+							continue;
+						}
+						perm.push([ i, j, k ])
+					}
+				}
+			}
+		}
+		
+		function strike(userNo, comNo){
+			let strikeCnt = 0;
+			for(let i = 0; i < 3 ; i++){
+				if(userNo[i] == comNo[i])
+					strikeCnt++;
+			}
+			return strikeCnt;
+		}
+		
+		function ball(userNo, comNo){
+			let ballCnt = 0;
+			for(let i = 0; i < 3 ; i++){
+				for(let j = 0; j <3; j++){
+					if(i != j){
+						if(userNo[i] == comNo[i])
+							ballCnt++;
+					}
+				}
+			}
+			return ballCnt;
+		}
+		
+		
+		permutation()
+		//여기서의 perm은 012 ~ 987 로 이루어져있는 배열.
+		let guess = perm[Math.floor(Math.random() * perm.length)]
+		while(true){
+			comGuess.innerText += (++guessCnt + '번째 [ ' + guess + ' ] \n')
+			let strikeCnt = strike(user, guess);
+			if(strikeCnt == 3){
+				comGuess.innerHTML += '<h5>user의 번호는 [' + guess+' ] 입니다.</h5>'
+				break;
+			}
+			let ballCnt = ball(user,guess);
+			comGuess.innerText +=('▶ball : ' + ballCnt + 'b , strike : ' + strikeCnt +'s\n' )
+			
+			//perm 중에서 guess와 strikeCnt, ballCnt 가 다른 것을 삭제한다.
+			for(let i = 0; i < perm.length; i++){
+				if(strikeCnt != strike(guess,perm[i])){
+					perm.splice(i,1)
+					i--
+				}
+			}
+			for(let i = 0; i < perm.length; i++){
+				if(ballCnt != ball(guess,perm[i])){
+					perm.splice(i,1)
+					i--
+				}
+			}
+			
+			//여기서 perm은 답의 가능성이 있는 조합으로 이루어져있다.
+			guess = perm[Math.floor(Math.random() * perm.length)]
+		}
+		
+	}
+</script>
 </head>
 <body>
-
+	<h2>AI 숫자 야구 게임</h2>
+	<div id='comGuess'></div>
 </body>
 </html>
