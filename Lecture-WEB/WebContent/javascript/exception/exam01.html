@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	try {
+		throw new Error('사용자 에러')
+		let erray = new Array(99999999999)
+	}catch(e){
+		alert('에러발생!!!!')
+		console.log(e.message)
+		
+		for(var i in e ){
+			document.write(i + " : " + e[i] + '<br>')
+		}
+	}finally{
+		console.log('finally')
+	}
+</script>
+</head>
+<body>
+
+</body>
+</html>
