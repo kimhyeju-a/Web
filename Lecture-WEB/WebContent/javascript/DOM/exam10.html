@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function checkForm() {
+		let f = document.searchForm
+		if (f.searchType[0].selected) {
+			/* if(f.searchType.selectedIndex == 0){ */
+			alert('검색항목을 선택하세요')
+			f.searchType.focus()
+			return false
+		}
+		/*
+		if(f.searchWord.value == ""){
+			alert('검색어를 입력하세요')
+			return false
+		}
+		 */
+		let words = [ '', '제목', '작성자' ]
+
+		if (f.searchWord.value == '') {
+			/* switch (f.searchType.selectedIndex) {
+			case 1 :
+				keyword = '제목'
+				break;
+			case 2 :
+				keyword = '작성'
+				break
+			} 
+			alert('검색할 ' + keyword + '를 입력하세요')
+			return false
+			 */
+			alert('검색할 ' + words[f.searchType.selectedIndex] + '을 입력하세요')
+			return false
+		}
+
+		if (f.searchWord.value.length < 2) {
+			alert('검색어는 2글자 이상 입력하세요')
+			f.searchWord.focus()
+			return false
+		}
+
+		return true
+	}
+</script>
+</head>
+<body>
+	<form action="http://www.naver.com" name="searchForm" onsubmit="return checkForm()">
+		<select name="searchType">
+			<option>선택하세요</option>
+			<option>제목</option>
+			<option>작성자</option>
+		</select> 
+		<input type="text" name="searchWord"> 
+		<input type="submit" value="검색">
+	</form>
+</body>
+</html>

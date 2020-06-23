@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function showInfo() {
+		let hobbys = document.inputForm.hobby;
+		let list = ''
+		for(let i = 0; i < hobbys.length; i++){
+			if(hobbys[i].checked){
+				list += hobbys[i].value + '\n'
+			}
+		}
+		alert(list)
+	}
+	/* 
+	function selectAll() {
+		let hobbys = document.inputForm.hobby;
+		for(let i = 0; i < hobbys.length; i++){
+			hobbys[i].checked = true
+		}
+	}
+	function deSelectAll() {
+		let hobbys = document.inputForm.hobby;
+		for(let i = 0; i < hobbys.length; i++){
+			hobbys[i].checked = false		}
+	} */
+	
+	function toggle(check) {
+		for(let i in document.inputForm.hobby){
+			document.inputForm.hobby[i].checked = check
+		}
+	}
+	
+	function toggle() {
+		let hobbys =  document.inputForm.hobby
+		/*
+		for(let i in hobbys) {
+			hobbys[i].checked = !hobbys[i].checked
+		}
+		*/
+		/*
+		let checking = 0
+		for(let i in hobbys) {
+			if(hobbys[i].checked == true){
+				checking++
+			}
+		}
+		for(let i in hobbys) {
+			if(checking < 4 && checking >= 0)
+				hobbys[i].checked = true
+			else {
+				hobbys[i].checked = false		
+			}
+		}
+		*/
+		
+		let check = false
+		for(let i = 0; i < hobbys.length; i++){
+			if(!hobbys[i].checked){
+				check = true
+				console.log(!hobbys[i].checked)				
+			}
+		}
+		for(let i = 0; i < hobbys.length; i++ ){
+			hobbys[i].checked = check;
+		}
+	}
+</script>
+</head>
+<body>
+	<form action="" name='inputForm'>
+		당신의 취미는?<br>
+		<input type="checkbox" name="hobby" value = "음악감상"> 음악감상 <br>
+		<input type="checkbox" name="hobby" value = "movie"> 영화감상 <br>
+		<input type="checkbox" name="hobby" value = "등산"> 등산 <br>
+		<input type="checkbox" name="hobby" value = "game"> 게임 <br>
+		<!-- 
+		<input type="button" value="전체선택" onclick = 'selectAll()'>
+		<input type="button" value="전체취소" onclick = 'deSelectAll()'>
+		 -->
+		<!--  
+		<input type="button" value="결과보기" onclick = 'toggle(true)'>
+		<input type="button" value="결과보기" onclick = 'toggle(false)'>
+		 -->
+		
+		<input type="button" value="전체선택/해제" onclick = "toggle()">
+
+		<input type="button" value="결과보기" onclick = 'showInfo()'> <br>
+		
+	</form>
+</body>
+</html>
