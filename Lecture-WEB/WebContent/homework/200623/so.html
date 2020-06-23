@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+div {
+	width: 34px;
+	position: relative;
+	float: left;
+	font-size: 8px;
+	padding-top: 500px;
+	text-align: center;
+	border: solid 1px;
+	border-color: gray;
+}
+
+img {
+	position: absolute;
+}
+
+p {
+	position: absolute;
+	font-weight: bold;
+	display: inline-block;
+}
+
+div .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+</style>
+
+<script src="jquery-3.5.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	function timezone(utc) {
+		var now = new Date()
+		var tz = now.getTime() + (now.getTimezoneOffset() * (60 * 1000))
+				+ (Number(utc) * 60 * 60 * 1000)
+		now.setTime(tz);
+
+		let year = 1900 + now.getYear()
+		let month = now.getMonth() + 1
+		let day = now.getDate()
+		let hour = now.getHours()
+		let time = now.getMinutes()
+		let sec = now.getSeconds()
+		let arr = [ year, month, day, hour, time, sec ]
+		return arr;
+	}
+
+	$(document).ready(
+			function() {
+
+				$('#div').click(function(event) {
+					console.log(event.pageX, event.pageY)
+					console.log(event)
+				})
+
+				$('div').hover(
+						function() {
+							let attr = $(this).text()
+							let t = timezone(attr)
+							let str = t[0] + '-' + t[1] + '-' + t[2] + ' '
+									+ t[3] + ':' + t[4] + ':' + t[5]
+							console.log(attr)
+							$(this).css({
+								'border-color' : 'red'
+							});
+							$(this).children().css({
+								'visibility': 'visible'
+							})
+							$(this).children().html(str);
+
+						}, function() {
+							$(this).css({
+								'border-color' : 'gray'
+							})
+							$(this).children().css({
+								'visibility': 'hidden'
+							})
+						})
+			})
+</script>
+</head>
+<body>
+
+	<img src="img_worldmap.png" width="936px" height="500px">
+	<div>GMT</div>
+	<div id="gmt+0" class='tooltiptext'>+0
+	<span class='tooltiptext'></span></div>
+	<div id="gmt+1" class='tooltiptext'>+1</div>
+	<div id="gmt+2" class='tooltiptext'>+2</div>
+	<div id="gmt+3" class='tooltiptext'>+3</div>
+	<div id="gmt+4" class='tooltiptext'>+4</div>
+	<div id="gmt+5" class='tooltiptext'>+5</div>
+	<div id="gmt+6" class='tooltiptext'>+6</div>
+	<div id="gmt+7" class='tooltiptext'>+7</div>
+	<div id="gmt+8" class='tooltiptext'>+8</div>
+	<div id="gmt+9" class='tooltiptext'>+9</div>
+	<div id="gmt+10" class='tooltiptext'>+10</div>
+	<div id="gmt+11" class='tooltiptext'>+11</div>
+	<div id="gmt+12" class='tooltiptext'>+12</div>
+	<div id="gmt-11" class='tooltiptext'>-11</div>
+	<div id="gmt-10" class='tooltiptext'>-10</div>
+	<div id="gmt-9" class='tooltiptext'>-9</div>
+	<div id="gmt-8" class='tooltiptext'>-8</div>
+	<div id="gmt-7" class='tooltiptext'>-7</div>
+	<div id="gmt-6" class='tooltiptext'>-6</div>
+	<div id="gmt-5" class='tooltiptext'>-5</div>
+	<div id="gmt-4" class='tooltiptext'>-4</div>
+	<div id="gmt-3" class='tooltiptext'>-3</div>
+	<div id="gmt-2" class='tooltiptext'>-2</div>
+	<div id="gmt-1" class='tooltiptext'>-1</div>
+	<div>GMT</div>
+
+	<!--
+        <p style="left: 410px; top: 190px;" class='+9'>대한민국 <span class='tooltiptext'></span></p>
+        <p style="left: 780px; top: 195px;" class='-5'>미국 <span class='tooltiptext'></span></p>
+        <p style="left: 360px; top: 117px;" class='+3'>모스크바(러시아)<span class='tooltiptext'></span></p>
+       <p style="left: 344px; top: 217px;" class='+8'>베이징 <span class='tooltiptext'></span></p>
+       <p style="left: 443px; top: 390px;" class='+10'>오스트레일리아<span class='tooltiptext'></span></p>
+        <p style="left: 900px; top: 337px;" class='-3'>상파울루 <span class='tooltiptext'></span></p>
+       <p style="left: 220px; top: 181px;" class='+6'>누르술탄<br>(카자흐스탄) <span class='tooltiptext'></span></p> -->
+
+</body>
+</html>

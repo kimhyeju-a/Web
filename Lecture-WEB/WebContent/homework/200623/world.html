@@ -20,24 +20,20 @@ p {
 }
 
 p .tooltiptext {
-	visibility: hidden;
+	/* visibility: hidden; */
+	display: none;
 	width: 120px;
-	background-color: black;
-	color: #fff;
+	background-color: pink;
+	color: black;
 	text-align: center;
 	border-radius: 6px;
 	padding: 5px 0;
-	/* Position the tooltip */
 	position: absolute;
 	z-index: 1;
 	bottom: 100%;
 	left: 50%;
 	margin-left: -60px;
 }
-
-/* p:hover #tooltiptext{
-	visibility: visible;
-} */
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
@@ -54,35 +50,46 @@ p .tooltiptext {
 		let time = now.getMinutes()
 		let sec = now.getSeconds()
 
-		let arr = [ year, month, day, hour, time, sec ]
-		return arr;
-	}
-	function settingTime(){
+		let t = [ year, month, day, hour, time, sec ]
 		
+		let str = t[0] + '-' + t[1] + '-' + t[2] + ' ' + t[3] + ':' + t[4] + ':' + t[5]
+		return str;
 	}
+	
 	$(document).ready(
-			function() {
+		function() {
 
-				$('#div01').click(function(event) {
-					console.log(event.pageX, event.pageY)
-					console.log(event)
-				})
-
-				$('p').hover(
-						function() {
-							let attr = $(this).attr('class')
-							let t = timezone(attr)
-							let str = t[0] + '-' + t[1] + '-' + t[2] + ' '
-									+ t[3] + ':' + t[4] + ':' + t[5]
-							$(this).children().css('visibility', 'visible')
-							//setInterval(function() {
-								//console.log(str)
-								$(this).children().html(str)
-							//}, 1000)
-						}, function() {
-							$(this).children().css('visibility', 'hidden')
-						})
+			$('#div01').click(function(event) {
+				console.log(event.pageX, event.pageY)
+				console.log(event)
 			})
+
+			$('p').hover(function() {
+					//지연시간을 위해 한번 text를 뿌려준다. 이 줄이 없으면 1초뒤에 text가 출력됨
+					let str = timezone( $(this).attr('class'))
+					$(this).children().text(str)
+					$(this).children().fadeToggle(1000)
+					
+					//setInterval안에서는 내가 원하는 방식대로 this 가 작동하지 않는다 -> setInterval 이 실행되는 순간 this가 정해지므로
+					//방법2. arrow function은 자기 상위의 값을 가리킨다.
+					setInterval(()=> {
+						let str = timezone( $(this).attr('class'))
+							$(this).children().text(str)
+					},1000)
+
+					
+					//방법 1
+					/* setInterval((function(self) {
+						return function() {
+							let str = timezone( $(self).attr('class'))
+							$(self).children().text(str)
+						}
+					})(this), 1000) */
+					
+				}, function() {
+					$(this).children().fadeToggle(1000)
+				})
+		})
 </script>
 </head>
 <body>
