@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		/* $('h1').show(3000)
+		alert('complete') */
+		/* 
+			3초에 걸쳐서 "첫번째 문장" 이라고 화면에 보인뒤, complete라는 alert출력
+		 */
+
+		/* $('h1').show(3000, function() {
+			alert('complete')
+		}) */
+
+		/*
+			3초에 걸쳐서 '첫번째 문장' 이라고 화면에 보인뒤, 
+			글자색을 파란색으로 변한 후, 
+			슬라이드 효과로 올라갔다 내려갔다를 수행한 후에, 배경색을 노란색으로 변경
+		 */
+		
+		$('h1').show(3000,function(){
+			$(this).css('color', 'blue')
+			$(this).slideUp(1000).slideDown(1000, function () {
+				$(this).css('background-color', 'yellow')
+			})
+		})
+	})
+</script>
+</head>
+<body>
+	<h1 style='display:none'>첫번째 문장</h1>
+</body>
+</html>

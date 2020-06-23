@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+div#div01 {
+	position: relative;
+}
+
+div#child>div {
+	position: absolute;
+	font-weight: bold;
+}
+
+p {
+	position: absolute;
+	font-weight: bold;
+	display: inline-block;
+}
+
+p .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	/* Position the tooltip */
+	position: absolute;
+	z-index: 1;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -60px;
+}
+
+/* p:hover #tooltiptext{
+	visibility: visible;
+} */
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	function timezone(utc) {
+		var now = new Date()
+		var tz = now.getTime() + (now.getTimezoneOffset() * (60 * 1000))
+				+ (Number(utc) * 60 * 60 * 1000)
+		now.setTime(tz);
+
+		let year = 1900 + now.getYear()
+		let month = now.getMonth() + 1
+		let day = now.getDate()
+		let hour = now.getHours()
+		let time = now.getMinutes()
+		let sec = now.getSeconds()
+
+		let arr = [ year, month, day, hour, time, sec ]
+		return arr;
+	}
+	function settingTime(){
+		
+	}
+	$(document).ready(
+			function() {
+
+				$('#div01').click(function(event) {
+					console.log(event.pageX, event.pageY)
+					console.log(event)
+				})
+
+				$('p').hover(
+						function() {
+							let attr = $(this).attr('class')
+							let t = timezone(attr)
+							let str = t[0] + '-' + t[1] + '-' + t[2] + ' '
+									+ t[3] + ':' + t[4] + ':' + t[5]
+							$(this).children().css('visibility', 'visible')
+							//setInterval(function() {
+								//console.log(str)
+								$(this).children().html(str)
+							//}, 1000)
+						}, function() {
+							$(this).children().css('visibility', 'hidden')
+						})
+			})
+</script>
+</head>
+<body>
+	<div id='div01'>
+		<img
+			src="https://i.pinimg.com/originals/96/5e/3d/965e3d6ba4613332e7ff1368f0943659.jpg"
+			style="width: 1000px;">
+		<div id='child'>
+			<p style="left: 410px; top: 190px;" class='+9'>
+				대한민국 <span class='tooltiptext'></span>
+			</p>
+			<p style="left: 780px; top: 195px;" class='-5'>
+				미국 <span class='tooltiptext'></span>
+			</p>
+			<p style="left: 360px; top: 117px;" class='+3'>
+				모스크바(러시아) <span class='tooltiptext'></span>
+			</p>
+			<p style="left: 344px; top: 217px;" class='+8'>
+				베이징 <span class='tooltiptext'></span>
+			</p>
+			<p style="left: 443px; top: 390px;" class='+10'>
+				오스트레일리아<span class='tooltiptext'></span>
+			</p>
+			<p style="left: 900px; top: 337px;" class='-3'>
+				상파울루 <span class='tooltiptext'></span>
+			</p>
+			<p style="left: 220px; top: 181px;" class='+6'>
+				누르술탄<br>(카자흐스탄) <span class='tooltiptext'></span>
+			</p>
+		</div>
+	</div>
+</body>
+</html>

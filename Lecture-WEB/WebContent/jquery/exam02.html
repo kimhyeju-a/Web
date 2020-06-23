@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "js/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+		alert('ready')
+		//$('h1').hide()
+		//$('#h01').hide()
+		//$('h1.h02').hide()
+		//$('*').hide()
+		$('h1:first').hide()// 첫번째 h1
+		$('h1:last').hide()//마지막 h1
+		
+		/* let h1Tags = document.getElementsByTagName('h1')
+		for(var i in h1Tags){
+			h1Tags[i].style.display = 'none'
+		} */
+		
+	})
+</script> 	
+</head>
+<body>
+	<hr>
+	<h1 id = 'h01' class='h01'>hello</h1>
+	<h1 id = 'h02'>hi</h1>
+	
+	<h2 class='h02'>good-by</h2>
+	<hr>
+	<h1 class = 'h01'>hello</h1>
+	<h1 class = 'h02'>hi</h1>
+</body>
+</html>

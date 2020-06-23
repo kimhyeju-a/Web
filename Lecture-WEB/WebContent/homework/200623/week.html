@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+div {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	float: left;
+	text-align: center;
+	line-height: 100px
+}
+
+
+div#div01 {
+	background-color: red;
+}
+
+div#div02 {
+	background-color: orange;
+}
+
+div#div03 {
+	background-color: yellow;
+}
+
+div#div04 {
+	background-color: green;
+}
+
+div#div05 {
+	background-color: blue;
+}
+
+div#div06 {
+	background-color: navy;
+}
+
+div#div07 {
+	background-color: purple;
+}
+</style>
+<script src = "http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('div').hover(function() {
+			$(this).css({
+				'width' : '130px',
+				'height' : '130px',
+				'line-height': '130px'
+			})
+		}, function() {
+			$(this).css({
+				'width' : '100px',
+				'height' : '100px',
+				'line-height': '100px'
+			})
+		})
+	})
+</script>
+</head>
+<body>
+	<div id="div01">월</div>
+	<div id='div02'>화</div>
+	<div id='div03'>수</div>
+	<div id='div04'>목</div>
+	<div id='div05'>금</div>
+	<div id='div06'>토</div>
+	<div id='div07'>일</div>
+</body>
+</html>
