@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src = "js/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function() {
+		/*
+		$('#btn01').click(function() {
+			let hTag = document.createElement('h1')
+			let text = document.createTextNode('세번째 문장')
+			hTag.appendChild(text)
+			document.querySelector('div').appendChild(hTag)
+		})
+		*/
+		
+		$('div').append('<h1>세번째 문장 </h1>')
+		
+		$('#btn02').click(function () {
+//			$('ol').append('<li>노랑 </li>')
+			$('ol').prepend('<li>노랑 </li>')
+		})
+		
+		$('#btn03').click(function(){
+			$('body').prepend('<h4>추가된 문장 </h4>')
+			$('body').prepend('<h4>또 추가된 문장 </h4>')
+			$('body').prepend('<h4>또또 추가된 문장 </h4>')
+			$('body').prepend('<h4>추가 1 </h4>','<h4>추가 2 </h4>','<h4>추가 3 </h4>')
+		})
+	})
+</script>
+</head>
+<body>
+	<div>
+		<h1>첫번째문장</h1>
+		<h1>두번째문장</h1>
+	</div>
+	<h2>색상표</h2>
+	<ol>
+		<li>빨강</li>
+		<li>파랑</li>
+		<li>녹색</li>
+	</ol>
+	<button id='btn01'>문장추가</button>
+	<button id='btn02'>문장추가</button>
+	<button id='btn03'>문장추가</button>
+</body>
+</html>

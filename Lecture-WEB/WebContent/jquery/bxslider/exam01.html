@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+img {
+	width: 200px;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.slider').bxSlider({
+			mode : 'fade',
+			captions : true,
+			slideWidth : 500
+		});
+	});
+</script>
+</head>
+<body>
+
+	<div class="slider">
+		<div>
+			<img src='/Lecture-WEB/html/images/dog.jpg' title='귀여운 강아지'>
+		</div>
+		<div>
+			<img src='/Lecture-WEB/html/images/mogu.jpg' title='오구구구구'>
+		</div>
+		<div>
+			<img src='/Lecture-WEB/html/images/cat.jpg' title='귀여운 고양이'>
+		</div>
+		<div>
+			<img src='/Lecture-WEB/html/images/totoro.gif' title='귀여운 토토로'>
+		</div>
+	</div>
+
+</body>
+</html>

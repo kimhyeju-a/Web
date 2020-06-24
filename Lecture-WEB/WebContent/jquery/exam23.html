@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	#ancester * {
+		border: 1px solid red;
+		display: block;
+		padding: 10px;
+		margin: 10px;
+	}
+	
+	.blue {
+		border-color : blue;
+	}
+</style>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function () {
+		//$('span').parent().css('border-color','blue')
+		//$('span').parents().css('border-color','blue')
+		//$('span').parents('div').css('border-color','blue')
+		//$('span').parentsUntil('div').css('border-color','blue')
+		
+		//$('#ancester').children().css('border-color','blue')
+		//$('#ancester').children('#div01').css('border-color','blue')
+		$('#ancester').find('ul').css('border-color','blue')
+		$('#ancester *').filter('ul').css('border-color','blue')
+	})
+</script>
+</head>
+<body>
+	<div id="ancester">
+		<div id='div01'>
+			div1
+			<ul>
+				<li>li <span>span</span>
+				</li>
+			</ul>
+		</div>
+		<div id='div02'>
+			<p>
+				p <span>span</span>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
