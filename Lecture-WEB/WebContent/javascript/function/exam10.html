@@ -27,7 +27,7 @@
 	function func04(a, b, ...number){
 		document.write('a : ' + a + '<br>');
 		document.write('b : ' + b + '<br>');
-		document.write('numbers : ' + numbers + '<br>');
+		//document.write('numbers : ' + numbers + '<br>');
 	}
 	
 	var array = [1, 2, 3];
@@ -35,9 +35,9 @@
 	func04(...array); // a -> 1 | b -> 2 | c -> 3
 	func04(...array, ...array) // a -> 1 || b -> 2 || c -> 3123
 	
-	//func01(array);
-	//func(array);
-	//func(array[0], array[1], array[2]);
+	func01(array);
+	func(array);
+	func(array[0], array[1], array[2]);
 	/* func.apply(null, array);
 	func(...array); */
 	func02(...array)
