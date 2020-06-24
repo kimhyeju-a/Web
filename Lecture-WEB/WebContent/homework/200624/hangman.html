@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+@font-face {
+	font-family: 'NEXON Lv1 Gothic OTF';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: 'NEXON Lv1 Gothic OTF';
+}
+
+#parent {
+	height: 350px;
+}
+
+#hangmanImg {
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+}
+
+#hangmanImg>div {
+	width: 32px;
+	height: 300px;
+	position: relative;
+	float: left;
+	border: 1px solid #FFEEE4;
+	background: #f1bbba;
+}
+
+img {
+	position: absolute;
+}
+
+#quiz {
+	height: 60px;
+}
+
+.subQuiz {
+	float: left;
+	width: 50px;
+	height: 50px;
+	background-color: #FFEEE4;
+	border: 1px solid #f1bbba;
+	position: relative;
+}
+
+h3.quizText {
+	text-align: center;
+	display: none;
+}
+
+#check {
+	clear: both;
+	margin-top: 20px;
+	height: 130px;
+}
+
+#check .checkChar {
+	float: left;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	font-size: 15pt;
+	border: 1px solid #f8ecc9;
+	background-color: #eb9f9f;
+	margin: 1px;
+	border-radius: 50%
+}
+
+#answer {
+	clear: both;
+	/* display: none; */
+}
+
+#answer div {
+	width: 300px;
+	height: 40px;
+	float: left;
+	text-align: center;
+	line-height: 40px;
+	border: 1px solid #f8ecc9;
+}
+
+#answerTxt {
+	height: 40px;
+	font-size: 20pt;
+	width: 300px;
+	float: left;
+	margin-right: 30px;
+	border: 2px solid pink;
+	font-family: 'NEXON Lv1 Gothic OTF';
+	width: 300px;
+	float: left;
+	margin-right: 30px;
+	border: 2px solid pink;
+	float: left;
+	margin-right: 30px;
+	border: 2px solid pink;
+	margin-right: 30px;
+	border: 2px solid pink;
+	border: 2px solid pink;
+}
+</style>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	function hangmanQuiz() {
+		let dict = ['banana', 'apple', 'eclipse', 'culture', 'experience', 'education', 'symbol', 'comfort', 'tradition'
+		];
+		let idx = Math.floor(Math.random() * dict.length);
+		return dict[idx]
+	}
+
+	$(document).ready(function() {
+		//타이틀을 눌러야 게임이 시작된다.
+		$('h2').click(function() {
+			$('#quiz').children().remove()
+			$('#check').children().remove()
+
+			let word = hangmanQuiz()
+
+			//랜덤으로 뽑힌 단어에 맞는 div를 생성한다  
+			for (let i = 0; i < word.length; i++) {
+				$('#quiz').append('<div class="subQuiz"><h3 class="quizText">' + word.charAt(i) + '</h3></div>')
+			}
+
+			//알파벳울 생성 
+			for (let i = 97; i < 123; i++) {
+				$('#check').append('<div class="checkChar">' + String.fromCharCode(i) + '</div>')
+			}
+
+			
+			//알파벳을 클릭한 경우 발생
+			$('.checkChar').click(function() {
+				let check = false;
+				
+				//클릭한 알파벳이 단어에 들어 있는지 확인
+				for (var i = 0; i < word.length; i++) {
+					if ($(this).text() === word.charAt(i)) {
+						$('#quiz').children().eq(i).css('background-color', 'white')
+						$('#quiz').children().eq(i).children().css({
+							'display' : 'block',
+							'background-color' : 'white'
+						})
+						check = true;
+					}
+				}
+				
+				//클릭한 알파벳이 단어에 들어있을 경우
+				if (check == true) {
+					$('#answer').children().remove()
+					$('#answer').append('<h3>정답을아시겠습니까?</h3>')
+					$('#answer').append('<div id="yes">네</div>')
+					$('#answer').append('<div id="no">아니오</div>')
+
+					//정답을 안다고 클릭했을 경우
+					$('#yes').click(function() {
+						let i = 30;
+						$('#answer').children().remove()
+						$('#answer').append('<h3>' + (i) + '초안에 입력해주세요</h3>')
+
+						//남은 시간 count
+						let intervalId = setInterval(function() {
+							$('#answer').children('h3').text((--i) + '초안에 입력해주세요')
+						}, 1000)
+
+						//30초가 지나면 interval을 종료하고, 시간초과를 띄움
+						setTimeout(function() {
+							clearInterval(intervalId);
+							$('#answer').children().remove()
+							$('#answer').append('<h3 style="color:red">시간초과입니다.</h3>')
+						}, 30000)
+						
+						$('#answer').append('<input type="text" id="answerTxt" value="정답을 입력하세요" onfocus="this.value=\'\'">')
+						$('#answer').append('<div id="answerSubmit">정답 보내기</div>')
+						
+						//내가 입력한 답과 word가 맞은 경우 정답임을 출력
+						$('#answerSubmit').click(function() {
+							let answer = $('#answer #answerTxt').val()
+							if (answer.toLowerCase() == word) {
+								clearInterval(intervalId);
+								$('#answer').children().remove()
+								$('#answer').append('<h3>정답입니다 축하합니다.</h3>')
+							}
+						})
+					})
+					
+					//아니오를 클릭했을 경우 발생
+					$('#no').click(function() {
+						$('#answer').children().remove()
+					})
+				} else {
+					//내가 클릭한 알파벳이 없는 경우 img를 가리고 있는 div를 하나씩 지운다.
+					$('#hangmanImg').children('div').first().remove()
+					
+					// == 1 이면 img밖에 남지 않은 것, 따라서 실패했다는 메시지를 출력한다.
+					if ($('#hangmanImg').children().length == 1) {
+						$('#hangmanImg').prepend('<h2 style="color:red">실패하셨습니다<h2>')
+						$('.checkChar').off('click')
+						$('#answer').children().remove()
+					}
+				}
+				//클릭 이벤트를 끈다.
+				$(this).off('click');
+				$(this).css({
+					'background-color' : '#FFEEE4',
+					'color' : '#FFEEE4'
+				})
+			})
+		})
+
+	})
+</script>
+</head>
+<body>
+	<div>
+		<h2 style='text-align: center; background-color: #FFEEE4; padding: 10px; color: #000000'>행맨게임 시작(클릭하세요)</h2>
+	</div>
+	<div id='parent'>
+		<div id='hangmanImg'>
+			<img src='https://i.pinimg.com/originals/9c/bc/3f/9cbc3fd093845953fc91a44477f05bb0.jpg' width='300px' height='300px' style='border: 1px solid red'>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<hr>
+	<div id='quiz'></div>
+	<div id='check'></div>
+	<div id='answer'></div>
+</body>
+</html>
