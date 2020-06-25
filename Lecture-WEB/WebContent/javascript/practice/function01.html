@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	//함수 호이스팅이 일어난다.
+	aaa();
+	function aaa(){
+		console.log('aaa()');
+	}
+	function aaa(data){
+		console.log('aaa(data)');
+	}
+	//익명함수는 호이스팅이 일어나지 않는다.
+	var aaa = function() {
+		console.log('aaa의 익명함수')
+	}
+	//선언적함수보다 익명함수의 우선순위가 높다.
+	aaa();
+	
+	
+	function getSum(a,b) {
+		let s = 0;
+		while(a <= b) {
+			s += a++;
+		}
+		return s+1;
+	}
+	function printSum(a,b){
+		alert('getSum 1~10사이의 총합 : ' + getSum(a, b))
+		function getSum(a,b){
+			let s = 0;
+			while(a <= b){
+				s+= a++
+			}
+			return s;
+		}
+		alert('내장 getSum1~10사이의 총합 : ' + getSum(a,b))
+	}
+	
+	printSum(1,10)
+	alert('이건뭔가 : ' + getSum(1,10))
+</script>
+</head>
+<body>
+
+</body>
+</html>

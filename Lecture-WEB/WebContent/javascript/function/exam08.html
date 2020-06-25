@@ -6,15 +6,15 @@
 <script>
 
 
-	for(var i = 0; i < 3; i++){
+ 	 for(var i = 0; i < 3; i++){
 		(function(i){
 			setTimeout(function() {
 				alert(i);
 			},0);
 		})(i);
-	}
-	
-	/* function setTest(j){
+	} 
+ 
+	function setTest(j){
 		var cnt = j
 		return function(){setTimeout(function() {
 			alert(cnt);
@@ -24,7 +24,7 @@
 	
 	for(var i = 0; i < 3 ; i++){
 		setTest(i)();
-	} */
+	}
 	
 	/* var func = function(i){
 		return setTimeout(function() {
@@ -36,15 +36,13 @@
 		func(i);
 	} */
 	
-	/*
-	for(var i = 0; i < 3 ; i++) {
+	
+	/* for(var i = 0; i < 3 ; i++) {
 		setTimeout(function(){
 			alert(i);
 		}, 0);
-	}
-	*/
+	} */
 	
-
 	/* alert("첫번째...");
 	setTimeout(function() {
 		alert('setTimeout()...');

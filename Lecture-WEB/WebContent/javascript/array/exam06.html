@@ -46,14 +46,14 @@
 	*/
 	let bool = false
 	bool = nums.every(function(element, index, nums){
-		return element % 10 == 0 // 이 조건이 모두 만족해야 true
+		return element % 50 == 0 // 이 조건이 모두 만족해야 true
 	})
 	document.write('every() 결과 : ' + bool + '<br>')
 	
 	bool = nums.some(function(element, index, nums){
-		return element % 10 == 0 // 이 조건이 모두 만족해야 true
+		return element % 50 == 0 // 하나라도 만족하면 true
 	})
-	document.write('every() 결과 : ' + bool + '<br>')
+	document.write('some() 결과 : ' + bool + '<br>')
 	
 	/*
 	let s = 0;

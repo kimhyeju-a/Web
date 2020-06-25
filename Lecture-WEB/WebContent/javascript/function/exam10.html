@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 <script>
 	function func(a, b, c) {
-		document.write(`${ a } : ${ b } : ${ c }<br>`);
+		document.write(`func ${ a } : ${ b } : ${ c }<br>`);
 	}
 
 	function func01() {
@@ -38,8 +38,8 @@
 	func01(array);
 	func(array);
 	func(array[0], array[1], array[2]);
-	/* func.apply(null, array);
-	func(...array); */
+	func.apply(null, array);
+	func(...array); 
 	func02(...array)
 	
 //	func03(10, 20, 30);
