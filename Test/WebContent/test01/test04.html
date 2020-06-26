@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function aaa() {
+		let form = document.inputForm
+
+		//아이디
+		if (!form.id.value) {
+			alert("아이디는 필수입력값입니다.");
+			form.id.focus();
+			return false;
+		}else if(form.id.value.length < 4){
+			alert("아이디는 4글자 이상입니다.");
+			form.id.focus();
+			return false;
+		}
+		
+		//비밀번호 필수항목
+		if (!form.pass.value) {
+			alert("비밀번호는 필수입력값입니다.");
+			form.pass.focus();
+			return false;
+		}
+
+		//비밀번호 확인 체크
+		if (!form.passcheck.value) {
+			alert("비밀번호 확인은 필수입력값입니다.");
+			form.passcheck.focus()
+			return false;
+		}else if(form.passcheck.value !== form.pass.value){
+			alert("비밀번호가 같지 않습니다.")
+			form.passcheck.focus()
+			return false;
+		}
+		//성별 체크
+		if (!form.gender.value) {
+			alert("성별은 필수입력값입니다.");
+			return false;
+		}
+		return true;
+	}
+</script>
+</head>
+<body>
+	<form action="test04.html" name="inputForm" onsubmit="return aaa()">
+		아이디 : <input type="text" name='id'> <br> 
+		패스워드 : <input type="password" name='pass'> <br> 
+		패스워드확인 : <input type="password" name='passcheck'> <br> 
+		성별 : <input type="radio" name='gender' value="male">남 
+		<input type="radio" name='gender' value="girl">여 <br> 
+		취미 : <input type="checkbox" name="hobby" value="movie">
+		영화감상 <input type="checkbox" name="hobby" value="music">
+		음악감상 <input type="checkbox" name="hobby" value="reading">독서 <br> 
+		<input type="submit" value="전송" name="btn">
+	</form>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	.quiz{
+		border: 2px solid pink;
+		width : 700px;
+		padding : 5px;
+		margin-bottom: 4px;
+	}
+	.quiz div {
+		margin : 10px;
+	}
+	span {
+		border : 1px solid gray;
+		background-color : #eaeaea;
+		margin-left : 5px;
+	}
+</style>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.5.0.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$('.quiz div').dblclick(function(){
+			console.log($(this).text())
+			if($(this).text() == $('.quiz div').eq(3).text()){
+				$(this).css('background-color','yellow')
+				alert('정답입니다.');
+			}else {
+				$(this).css('background-color','gray')
+				alert('틀렸습니다.');
+			}
+		})
+		$('#re').click(function(){
+			$('.quiz div').css('background-color','white');
+		})
+		$('#answer').click(function(){
+			$('.quiz div').eq(3).css('background-color','yellow');
+		})
+	})
+</script>
+</head>
+<body>
+	<div class="quiz">
+		<div>문제1. 자바에서 application의 시작과 끝을 의미하는 메소드는 무엇인가?(답 선택시 더블클릭)</div>
+		<div>1.public static void main(String args){}</div>
+		<div>2.public static void main(String[] args){}</div>
+		<div>3.public static void main(String[] args){}</div>
+		<div>4.public static void main(String[] args){}</div>
+	</div>
+		<span id="re">다시선택</span><span id="answer">정답보기</span>
+</body>
+</html>

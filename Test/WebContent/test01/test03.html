@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function showMinMaxValues(arr) {
+		var arrSort = arr.sort(function(left, right) {
+			return left - right
+		})
+		
+		document.write(arr + '<br>');
+		document.write('가장 큰수 : ' + arrSort[arrSort.length-1] + '<br>');
+		document.write('가장 작은 수 : ' + arrSort[0] + '<br>');
+		document.write('<hr>')
+	}
+	
+	var arr1 = [10, 4, 3, 35, 593, 2231, 3000];
+	var arr2 = [45, 235, 12, 654, 5555, 90];
+	
+	showMinMaxValues(arr1);
+	showMinMaxValues(arr2);
+</script>
+</head>
+<body>
+
+</body>
+</html>
