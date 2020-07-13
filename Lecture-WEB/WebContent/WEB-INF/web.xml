@@ -2,6 +2,15 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>Lecture-WEB</display-name>
   <servlet>
+  	<servlet-name>tableServlet</servlet-name>
+  	<servlet-class>kr.ac.kopo.servlet.TableServletExam</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>tableServlet</servlet-name>
+  	<url-pattern>/table</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
   	<servlet-name>homework</servlet-name>
   	<servlet-class>kr.ac.kopo.servlet.homework.PInfoResultServlet</servlet-class>
   </servlet>
