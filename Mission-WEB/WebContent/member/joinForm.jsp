@@ -18,6 +18,14 @@ input[type="text"], input[type="password"] {
 	align: "left"
 }
 </style>
+<script>
+	window.onload = function () {
+		let btnList = document.getElementById('btnList');
+		btnList.onclick = function() {
+			location.href = "list.jsp"
+		}
+	}
+</script>
 </head>
 <body>
 	<div align="center">
@@ -25,7 +33,7 @@ input[type="text"], input[type="password"] {
 			<hr>
 			<h2>회원가입</h2>
 			<hr>
-			<form action="join.jsp" method="post">
+			<form action="list.jsp" method="post">
 				<div class="join_title" >아이디</div>
 				<input type="text" name="id" required>
 
@@ -58,6 +66,7 @@ input[type="text"], input[type="password"] {
 				<br>
 				
 				<input type="submit" value="회원가입하기">
+				<input type="button" value="목록보기" id = "btnList">
 			</form>
 		</div>
 	</div>
