@@ -10,6 +10,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script>
+	function goWriteForm(){
+		//location.href = "writeForm.jsp";
+		location.href = "/Mission-WEB/board/writeForm.jsp";
+	}
+</script>
 </head>
 <body>
 	<%
@@ -52,6 +58,8 @@
 				}
 			%>
 		</table>
+		<br>
+		<button onClick="goWriteForm()">새글 등록</button>
 	</div>
 	<%
 		JDBCClose.close(conn, pstmt);
