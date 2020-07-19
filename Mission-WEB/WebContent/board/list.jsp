@@ -23,7 +23,8 @@
 </head>
 <body>
 	<%
-		String url = "jdbc:oracle:thin:@172.16.88.132:1521:xe";
+		/* String url = "jdbc:oracle:thin:@172.16.88.132:1521:xe"; */
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
 		String user = "hr";
 		String password = "hr";
 		Connection conn= new ConnectionFactory().getConnection(url, user, password);

@@ -68,7 +68,7 @@
 		<hr width="80%">
 		<table border="1" style="width: 80%">
 			<tr>
-				<th>번호</th>
+				<th width="23%">번호</th>
 				<td>${ board.no }</td>
 			</tr>
 			<tr>
@@ -79,7 +79,7 @@
 				<th>글쓴이</th>
 				<td>${ board.writer }</td>
 			</tr>
-			<tr>
+			<tr height="300px">
 				<th>내용</th>
 				<td>${ board.content }</td>
 			</tr>
