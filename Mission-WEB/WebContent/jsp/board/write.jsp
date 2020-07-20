@@ -1,3 +1,5 @@
+<%@page import="kr.ac.kopo.board.BoardVO"%>
+<%@page import="kr.ac.kopo.board.BoardDAO"%>
 <%@page import="kr.ac.kopo.util.JDBCClose"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
@@ -6,24 +8,22 @@
     pageEncoding="UTF-8"%>
 <%
 	request.setCharacterEncoding("utf-8");
+	//1단계
 	String title = request.getParameter("title");
 	String writer = request.getParameter("writer");
 	String content = request.getParameter("content");
 	
-	Connection conn = new ConnectionFactory().getConnection();
-	StringBuilder sql = new StringBuilder();
-	sql.append("insert into t_board(no,title,writer,content) ");
-	sql.append(" values(seq_t_board_no.nextval, ?, ?, ? ) ");
-	PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-	pstmt.setString(1, title);
-	pstmt.setString(2, writer);
-	pstmt.setString(3, content);
+	//2단계
+	BoardVO board = new BoardVO();
+	board.setTitle(title);
+	board.setWriter(writer);
+	board.setContent(content);
 	
-	pstmt.executeUpdate();
-	
-	JDBCClose.close(conn, pstmt);
+	BoardDAO dao = new BoardDAO();
+	dao.insertBoard(board);
 	
 %>
+<%-- 3단계 --%>
 <script>
 	alert('게시판에 등록되었습니다.');
 	location.href="list.jsp";

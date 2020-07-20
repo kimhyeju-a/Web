@@ -1,3 +1,4 @@
+<%@page import="kr.ac.kopo.board.BoardDAO"%>
 <%@page import="kr.ac.kopo.board.BoardVO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -6,20 +7,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
+	/*
+		작업순서
+		1. no 파라미터값을 추출
+		2. no에 해당하는 게시물을 db에서 얻어온다.
+		3. 조회된 게시물을 화면에 출력
+	*/
+	/* //내가 한 것
 	String str = request.getParameter("no");
 	int paramNo = Integer.parseInt(str);
-
+	
 	Connection conn = new ConnectionFactory().getConnection();
 	//select문 
 	StringBuilder sql = new StringBuilder();
 	sql.append("select no,title,writer,content,view_cnt,to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
 	sql.append("  from t_board ");
 	sql.append(" where no = ? ");
-
+	
 	PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 	pstmt.setInt(1, paramNo);
 	ResultSet rs = pstmt.executeQuery();
-
+	
 	
 	//update문
 	StringBuilder updateSql = new StringBuilder();
@@ -27,7 +35,7 @@
 	updateSql.append(" set view_cnt = ? ");
 	updateSql.append(" where no = ? ");
 	PreparedStatement updatePstmt = conn.prepareStatement(updateSql.toString());
-
+	
 	BoardVO board = null;
 	//rs.next()를 한번만 실행한다 ==> no는 unique 이므로 
 	if (rs.next()) {
@@ -44,8 +52,19 @@
 		//BoardVO에 select한 값들을 넣어준다.
 		board = new BoardVO(no, title, writer, content, viewCnt, regDate);
 	}
-
+	
 	rs = updatePstmt.executeQuery();
+	pageContext.setAttribute("board", board); */
+
+	//교수님
+	// 파라미터 추출
+	int no = Integer.parseInt(request.getParameter("no"));
+
+	BoardDAO dao = new BoardDAO();
+	// 게시판 번호에 의한 게시물 조회
+	BoardVO board = dao.selectByNo(no);
+
+	//공유영역(pageContext)에 게시물 등록
 	pageContext.setAttribute("board", board);
 %>
 
@@ -54,15 +73,31 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script>
-	//버튼 클릭시 이동
-	function goList() {
-		location.href="/Mission-WEB/board/list.jsp";
+<style>
+	hr, table {
+		width: 80%;
 	}
+</style>
+<script>
+	function doAction(type){
+		switch(type){
+		case 'U' :
+			break;
+		case 'D' :
+			break;
+		case 'L' :
+			location.href = "list.jsp";
+			break;
+		}
+	}
+/* 	//버튼 클릭시 이동
+	function goList() {
+		location.href = "/Mission-WEB/board/list.jsp";
+	} */
 </script>
 </head>
 <body>
-	<div align="center">
+	<%-- <div align="center">
 		<hr width="80%">
 		<h2>게시판 상세 페이지</h2>
 		<hr width="80%">
@@ -96,6 +131,43 @@
 	</div>
 	<script>
 		
-	</script>
+	</script> --%>
+
+	<div align="center">
+		<hr>
+		<h2>게시판 상세 페이지</h2>
+		<hr>
+		<br>
+		<table border="1">
+			<tr>
+				<th width="25%">번호</th>
+				<td>${ board.no }</td>
+			</tr>
+			<tr>
+				<th width="25%">제목</th>
+				<td><c:out value="${ board.title }"/></td>
+			</tr>
+			<tr>
+				<th width="25%">글쓴이</th>
+				<td><c:out value = "${ board.writer }"/></td>
+			</tr>
+			<tr>
+				<th width="25%">내용</th>
+				<td>${ board.content }</td>
+			</tr>
+			<tr>
+				<th width="25%">조회수</th>
+				<td>${ board.viewCnt }</td>
+			</tr>
+			<tr>
+				<th width="25%">등록일</th>
+				<td>${ board.regDate }</td>
+			</tr>
+		</table>
+		<br>
+		<input type="button" value="수정" onclick="doAction('U')">&nbsp;&nbsp;
+		<input type="button" value="삭제" onclick="doAction('D')">&nbsp;&nbsp;
+		<input type="button" value="목록" onclick="doAction('L')">&nbsp;&nbsp;
+	</div>
 </body>
 </html>
