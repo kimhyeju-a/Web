@@ -1,5 +1,5 @@
-<%@page import="kr.ac.kopo.member.MemberDAO"%>
 <%@page import="kr.ac.kopo.member.MemberVO"%>
+<%@page import="kr.ac.kopo.member.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%

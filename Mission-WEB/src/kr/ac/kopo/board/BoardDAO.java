@@ -125,4 +125,32 @@ public class BoardDAO {
 			JDBCClose.close(conn, pstmt);
 		}
 	}
+	
+
+	/**
+	 * 게시판 삭제 서비스 
+	 * @param no 삭제할 게시물 번호
+	 */
+	public void deleteBoard(int no) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = new ConnectionFactory().getConnection(url, user, password);
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete t_board ");
+			sql.append(" where no = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, no);
+			
+			pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(conn, pstmt);
+		}
+	}
+	
 }

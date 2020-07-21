@@ -21,6 +21,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/Mission-WEB/css/layout.css">
+<link rel="stylesheet" href="/Mission-WEB/css/board.css">
 <script>
 	function goWriteForm() {
 		//location.href = "writeForm.jsp";
@@ -57,8 +58,8 @@
 			<%
 				}
 			%> --%>
-				<c:forEach items="${ boardList }" var="board">
-					<tr>
+				<c:forEach items="${ boardList }" var="board" varStatus="loop">
+					<tr <c:if test="${ loop.count mod 2 eq 0 }">class="even"</c:if>>
 						<td>${ board.no }</td>
 						<td><a href="detail.jsp?no=${ board.no }"><c:out value="${ board.title }" /></a></td>
 						<td>${ board.writer }</td>

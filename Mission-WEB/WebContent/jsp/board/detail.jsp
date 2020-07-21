@@ -84,16 +84,15 @@
 		case 'U' :
 			break;
 		case 'D' :
+			if(confirm('삭제하시겠습니까?')){
+				location.href = "delete.jsp?no=${ param.no }";
+			}
 			break;
 		case 'L' :
 			location.href = "list.jsp";
 			break;
 		}
 	}
-/* 	//버튼 클릭시 이동
-	function goList() {
-		location.href = "/Mission-WEB/board/list.jsp";
-	} */
 </script>
 </head>
 <body>

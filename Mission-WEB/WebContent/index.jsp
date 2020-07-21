@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>메인페이지</title>
 <link rel="stylesheet" href="/Mission-WEB/css/layout.css">
+<link rel="stylesheet" href="/Mission-WEB/css/board.css">
 </head>
 <body>
 	<header>
