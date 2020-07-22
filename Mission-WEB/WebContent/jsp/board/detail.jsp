@@ -74,29 +74,35 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	hr, table {
-		width: 80%;
-	}
+hr, table {
+	width: 80%;
+}
 </style>
+<link rel="stylesheet" href="/Mission-WEB/css/layout.css">
+<link rel="stylesheet" href="/Mission-WEB/css/board.css">
 <script>
-	function doAction(type){
-		switch(type){
-		case 'U' :
-			break;
-		case 'D' :
-			if(confirm('삭제하시겠습니까?')){
-				location.href = "delete.jsp?no=${ param.no }";
-			}
-			break;
-		case 'L' :
-			location.href = "list.jsp";
-			break;
+	function doAction(type) {
+		switch (type) {
+			case 'U':
+				break;
+			case 'D':
+				if (confirm('삭제하시겠습니까?')) {
+					location.href = "delete.jsp?no=${ param.no }";
+				}
+				break;
+			case 'L':
+				location.href = "list.jsp";
+				break;
 		}
 	}
 </script>
 </head>
 <body>
-	<%-- <div align="center">
+	<header>
+		<jsp:include page="/jsp/include/topMenu.jsp"></jsp:include>
+	</header>
+	<section>
+		<%-- <div align="center">
 		<hr width="80%">
 		<h2>게시판 상세 페이지</h2>
 		<hr width="80%">
@@ -132,41 +138,44 @@
 		
 	</script> --%>
 
-	<div align="center">
-		<hr>
-		<h2>게시판 상세 페이지</h2>
-		<hr>
-		<br>
-		<table border="1">
-			<tr>
-				<th width="25%">번호</th>
-				<td>${ board.no }</td>
-			</tr>
-			<tr>
-				<th width="25%">제목</th>
-				<td><c:out value="${ board.title }"/></td>
-			</tr>
-			<tr>
-				<th width="25%">글쓴이</th>
-				<td><c:out value = "${ board.writer }"/></td>
-			</tr>
-			<tr>
-				<th width="25%">내용</th>
-				<td>${ board.content }</td>
-			</tr>
-			<tr>
-				<th width="25%">조회수</th>
-				<td>${ board.viewCnt }</td>
-			</tr>
-			<tr>
-				<th width="25%">등록일</th>
-				<td>${ board.regDate }</td>
-			</tr>
-		</table>
-		<br>
-		<input type="button" value="수정" onclick="doAction('U')">&nbsp;&nbsp;
-		<input type="button" value="삭제" onclick="doAction('D')">&nbsp;&nbsp;
-		<input type="button" value="목록" onclick="doAction('L')">&nbsp;&nbsp;
-	</div>
+		<div align="center">
+			<hr>
+			<h2>게시판 상세 페이지</h2>
+			<hr>
+			<br>
+			<table border="1">
+				<tr>
+					<th width="25%">번호</th>
+					<td>${ board.no }</td>
+				</tr>
+				<tr>
+					<th width="25%">제목</th>
+					<td><c:out value="${ board.title }" /></td>
+				</tr>
+				<tr>
+					<th width="25%">글쓴이</th>
+					<td><c:out value="${ board.writer }" /></td>
+				</tr>
+				<tr>
+					<th width="25%">내용</th>
+					<td>${ board.content }</td>
+				</tr>
+				<tr>
+					<th width="25%">조회수</th>
+					<td>${ board.viewCnt }</td>
+				</tr>
+				<tr>
+					<th width="25%">등록일</th>
+					<td>${ board.regDate }</td>
+				</tr>
+			</table>
+			<br> <input type="button" value="수정" onclick="doAction('U')">&nbsp;&nbsp; 
+			<input type="button" value="삭제" onclick="doAction('D')">&nbsp;&nbsp; 
+			<input type="button" value="목록" onclick="doAction('L')">&nbsp;&nbsp;
+		</div>
+	</section>
+	<footer>
+		<%@ include file="/jsp/include/footer.jsp"%>
+	</footer>
 </body>
 </html>

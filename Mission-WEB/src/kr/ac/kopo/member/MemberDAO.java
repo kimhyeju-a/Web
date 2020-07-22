@@ -139,4 +139,30 @@ public class MemberDAO {
 		return member;
 	}
 	
+
+	/**
+	 * 회원 탈퇴 서비스 
+	 * @param id 탈퇴할 회원 아이디
+	 */
+	public void deleteMember(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = new ConnectionFactory().getConnection(url, user, password);
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete t_member ");
+			sql.append(" where id = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			
+			pstmt.executeUpdate();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(conn, pstmt);
+		}
+	}
 }

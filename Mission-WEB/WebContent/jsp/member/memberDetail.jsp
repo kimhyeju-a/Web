@@ -3,6 +3,7 @@
 <%@page import="kr.ac.kopo.board.BoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String id = request.getParameter("id");
 	
@@ -23,6 +24,9 @@
 		switch(type){
 		case 'L' :
 			location.href = "memberList.jsp";
+			break;
+		case 'D' :
+			location.href = "memberDelete.jsp?id=${member.id}";
 			break;
 		}
 	}
@@ -61,6 +65,14 @@
 				</tr>
 			</table>
 			<br>
+			<c:choose>
+				<c:when test="${ userVO.type eq 'S' }">
+					<input type="button" value="회원탈퇴시키기" onclick="memberDetailAction('D')">
+				</c:when>
+				<c:otherwise>
+					<input type="button" value="회원탈퇴하기" onclick="memberDetailAction('D')">
+				</c:otherwise>
+			</c:choose>
 			<input type="button" value="목록" onclick="memberDetailAction('L')">
 		</div>
 	</section>

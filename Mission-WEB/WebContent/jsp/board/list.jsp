@@ -27,6 +27,12 @@
 		//location.href = "writeForm.jsp";
 		location.href = "/Mission-WEB/jsp/board/writeForm.jsp";
 	}
+	
+	function loginService(){
+		if(confirm('로그인이 필요한 서비스입니다.\n로그인하시겠습니까?')){
+			location.href = "/Mission-WEB/jsp/login/login.jsp";
+		}
+	}
 </script>
 </head>
 <body>
@@ -61,7 +67,19 @@
 				<c:forEach items="${ boardList }" var="board" varStatus="loop">
 					<tr <c:if test="${ loop.count mod 2 eq 0 }">class="even"</c:if>>
 						<td>${ board.no }</td>
-						<td><a href="detail.jsp?no=${ board.no }"><c:out value="${ board.title }" /></a></td>
+						<td>
+						<c:choose>
+							<c:when test="${ not empty userVO }">
+								<a href="detail.jsp?no=${ board.no }"><c:out value="${ board.title }" /></a>
+							</c:when>
+							<c:otherwise>
+								
+								<a href="#" onclick="loginService()">
+									<c:out value="${ board.title }" />
+								</a>
+							</c:otherwise>
+						</c:choose>
+						</td>
 						<td>${ board.writer }</td>
 						<td>${ board.regDate }</td>
 					</tr>

@@ -3,7 +3,9 @@ package kr.ac.kopo.board;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import kr.ac.kopo.util.ConnectionFactory;
@@ -30,25 +32,34 @@ public class BoardDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		BoardVO board = null;
-
+		SimpleDateFormat allFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH시mm분ss초");
+		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String today = dayFormat.format(date);
 		try {
 			conn = new ConnectionFactory().getConnection(url, user, password);
 			StringBuilder sql = new StringBuilder();
-			sql.append("select no, title, writer, content, view_cnt, to_char(reg_date,'yyyy-mm-dd')as reg_date ");
+			sql.append("select no, title, writer, content, view_cnt, to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') as reg_date ");
 			sql.append("   from t_board ");
 			sql.append(" where no = ? ");
-
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, no);
-
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
+				Date check = allFormat.parse(rs.getString("reg_date"));
+				String dbDay = dayFormat.format(check);
 				int boardNo = rs.getInt("no");
 				String title = rs.getString("title");
 				String writer = rs.getString("writer");
 				String content = rs.getString("content");
 				int viewCnt = rs.getInt("view_cnt");
-				String regDate = rs.getString("reg_date");
+				String regDate = "";
+				if(today.compareTo(dbDay) == 0) {
+					regDate = timeFormat.format(check);
+				}else {
+					regDate = dbDay;
+				}
 
 				board = new BoardVO(boardNo, title, writer, content, viewCnt, regDate);
 
@@ -73,11 +84,16 @@ public class BoardDAO {
 		PreparedStatement pstmt = null;
 		List<BoardVO> list = new ArrayList<>();
 	
+		SimpleDateFormat allFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH시mm분ss초");
+		SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		String today = dayFormat.format(date);
 		try {
 			conn = new ConnectionFactory().getConnection();
 			
 			StringBuilder sql = new StringBuilder();
-			sql.append("select no, title, writer, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
+			sql.append("select no, title, writer, to_char(reg_date, 'yyyy-mm-dd hh:mi:ss') as reg_date ");
 			sql.append("   from t_board ");
 			sql.append(" order by no ");
 			
@@ -88,10 +104,20 @@ public class BoardDAO {
 				int no = rs.getInt("no");
 				String title = rs.getString("title");
 				String writer = rs.getString("writer");
-				String regDate = rs.getString("reg_date");
+				/* String regDate = rs.getString("reg_date"); */
+				//오늘 등록한 게시물 시간으로 변환
+				String regDate = "";
+				Date check = allFormat.parse(rs.getString("reg_date"));
+				String dbDay = dayFormat.format(check);
+				if(today.compareTo(dbDay) == 0) {
+					regDate = timeFormat.format(check);
+				}else {
+					regDate = dbDay;
+				}
 				
 				BoardVO board = new BoardVO(no, title, writer, regDate);
 				list.add(board);
+				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
