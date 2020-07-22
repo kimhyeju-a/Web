@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>회원가입페이지</title>
 <link rel="stylesheet" href="/Mission-WEB/css/layout.css">
+<link rel="stylesheet" href="/Mission-WEB/css/board.css">
 <style>
 input[type="text"], input[type="password"] {
 	width: 90%;

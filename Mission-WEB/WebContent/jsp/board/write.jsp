@@ -1,3 +1,4 @@
+<%@page import="kr.ac.kopo.login.LoginVO"%>
 <%@page import="kr.ac.kopo.board.BoardVO"%>
 <%@page import="kr.ac.kopo.board.BoardDAO"%>
 <%@page import="kr.ac.kopo.util.JDBCClose"%>
@@ -11,6 +12,8 @@
 	//1단계
 	String title = request.getParameter("title");
 	String writer = request.getParameter("writer");
+	/* String writer = ((LoginVO)session.getAttribute("userVO")).getId(); */
+	
 	String content = request.getParameter("content");
 	
 	//2단계

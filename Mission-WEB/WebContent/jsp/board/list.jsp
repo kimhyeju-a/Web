@@ -68,7 +68,9 @@
 				</c:forEach>
 			</table>
 			<br>
-			<button onClick="goWriteForm()">새글 등록</button>
+			<c:if test="${ not empty userVO }">
+				<button onClick="goWriteForm()">새글 등록</button>
+			</c:if>
 		</div>
 	</section>
 	<footer>

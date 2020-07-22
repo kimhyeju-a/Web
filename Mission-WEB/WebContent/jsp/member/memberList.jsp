@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>회원리스트</title>
 <link rel="stylesheet" href="/Mission-WEB/css/layout.css">
+<link rel="stylesheet" href="/Mission-WEB/css/board.css">
 <script>
 	window.onload = function () {
 		let joinBtn = document.getElementById('joinBtn');
@@ -57,7 +58,7 @@
 				</c:forEach>
 			</table>
 			<br>
-			<input type="button" value="회원가입하기>" id="joinBtn">
+			<!-- <input type="button" value="회원가입하기>" id="joinBtn"> -->
 		</div>
 	</section>
 	<footer>

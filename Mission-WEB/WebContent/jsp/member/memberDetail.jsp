@@ -17,6 +17,7 @@
 <meta charset="UTF-8">
 <title>회원 상세정보</title>
 <link rel="stylesheet" href="/Mission-WEB/css/layout.css">
+<link rel="stylesheet" href="/Mission-WEB/css/board.css">
 <script>
 	function memberDetailAction(type){
 		switch(type){
