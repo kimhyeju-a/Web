@@ -27,11 +27,23 @@
 		//location.href = "writeForm.jsp";
 		location.href = "/Mission-WEB/jsp/board/writeForm.jsp";
 	}
-	
+	/* 
 	function loginService(){
 		if(confirm('로그인이 필요한 서비스입니다.\n로그인하시겠습니까?')){
 			location.href = "/Mission-WEB/jsp/login/login.jsp";
 		}
+	}
+	 */
+	function doAction(boardNo){
+		<c:choose>
+			<c:when test="${ empty userVO }">
+				if(confirm('로그인 후 사용 가능합니다\n로그인 페이지로 이동하시겠습니까?'))
+					location.href = "/Mission-WEB/jsp/login/login.jsp"
+			</c:when>
+			<c:otherwise>
+				location.href = "detail.jsp?no=" + boardNo + "&type=list";
+			</c:otherwise>
+		</c:choose>
 	}
 </script>
 </head>
@@ -51,7 +63,7 @@
 					<th width="16%">글쓴이</th>
 					<th width="20%">등록일</th>
 				</tr>
-				<%-- <%
+	<%-- <%
 				while(rs.next()){
 					
 			%>	
@@ -68,17 +80,21 @@
 					<tr <c:if test="${ loop.count mod 2 eq 0 }">class="even"</c:if>>
 						<td>${ board.no }</td>
 						<td>
+						<a href="javascript:doAction(${ board.no })">
+							<c:out value="${ board.title }" />
+						</a>
+						<%-- 
 						<c:choose>
 							<c:when test="${ not empty userVO }">
 								<a href="detail.jsp?no=${ board.no }"><c:out value="${ board.title }" /></a>
 							</c:when>
 							<c:otherwise>
-								
 								<a href="#" onclick="loginService()">
 									<c:out value="${ board.title }" />
 								</a>
 							</c:otherwise>
 						</c:choose>
+						 --%>
 						</td>
 						<td>${ board.writer }</td>
 						<td>${ board.regDate }</td>

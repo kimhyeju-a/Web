@@ -138,11 +138,12 @@ public class BoardDAO {
 			conn = new ConnectionFactory().getConnection();
 			StringBuilder sql = new StringBuilder();
 			sql.append("insert into t_board(no,title,writer,content) ");
-			sql.append(" values(seq_t_board_no.nextval, ?, ?, ? ) ");
+			sql.append(" values(?, ?, ?, ? ) ");
 			pstmt = conn.prepareStatement(sql.toString());
-			pstmt.setString(1, board.getTitle());
-			pstmt.setString(2, board.getWriter());
-			pstmt.setString(3, board.getContent());
+			pstmt.setInt(1, board.getNo());
+			pstmt.setString(2, board.getTitle());
+			pstmt.setString(3, board.getWriter());
+			pstmt.setString(4, board.getContent());
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -179,4 +180,103 @@ public class BoardDAO {
 		}
 	}
 	
+	
+	/**
+	 * seq_t_board_no 생성하는 기능
+	 * @return seq_t_board_no 반환
+	 */
+	public int selectBoardNo() {
+		
+		String sql = "select seq_t_board_no.nextval from dual";
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+		){
+			
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getInt(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	/**
+	 * 조회수 증가 서비스
+	 * @param no
+	 */
+	public void incrementViewCnt(int no) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update t_board ");
+		sql.append("   set view_cnt = view_cnt + 1 ");
+		sql.append(" where no = ? ");
+		
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		){
+			pstmt.setInt(1, no);
+			pstmt.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	//					첨부파일 crud									//
+	//////////////////////////////////////////////////////////////////
+	
+	public void insertFile(BoardFileVO fileVO) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into t_board_file(no, board_no, file_ori_name, file_save_name, file_size) ");
+		sql.append(" values(seq_t_board_file_no.nextval, ?, ?, ?, ?) ");
+		
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		){
+			pstmt.setInt(1, fileVO.getBoardNo());
+			pstmt.setString(2, fileVO.getFileOriName());
+			pstmt.setString(3, fileVO.getFileSaveName());
+			pstmt.setInt(4, fileVO.getFileSize());
+			
+			pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<BoardFileVO> selectFileByNo(int boardNo){
+		
+		List<BoardFileVO> fileList = new ArrayList<BoardFileVO>();
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("select no, file_ori_name, file_save_name, file_size ");
+		sql.append(" from t_board_file ");
+		sql.append(" where board_no = ? ");
+		
+		try(
+			Connection conn = new ConnectionFactory().getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		){
+			pstmt.setInt(1, boardNo);
+			ResultSet rs =pstmt.executeQuery();
+			
+			while(rs.next()) {
+				BoardFileVO fileVO = new BoardFileVO();
+				fileVO.setBoardNo(rs.getInt("no"));
+				fileVO.setFileOriName(rs.getString("file_ori_name"));
+				fileVO.setFileSaveName(rs.getString("file_save_name"));
+				fileVO.setFileSize(rs.getInt("file_size"));
+				
+				fileList.add(fileVO);
+			}
+			
+		} catch (Exception e) {
+		}
+		
+		return fileList;
+	}
 }

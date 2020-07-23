@@ -5,6 +5,7 @@
 	int no = Integer.parseInt(request.getParameter("no"));
 	
 	BoardDAO dao = new BoardDAO();
+	//dao.deleteFile(no);
 	dao.deleteBoard(no);
 	
 %>
