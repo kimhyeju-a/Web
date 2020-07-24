@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 <style>
 input[type="text"], input[type="password"] {
-	width: 90%;
+	width: 50%;
 	height: 25px;
 }
 

@@ -165,4 +165,38 @@ public class MemberDAO {
 			JDBCClose.close(conn, pstmt);
 		}
 	}
+	
+	/**
+	 * 아이디 중복체크
+	 */
+	
+	public boolean idCheck(String id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = new ConnectionFactory().getConnection(url, user, password);
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("select id ");
+			sql.append("  from t_member ");
+			sql.append(" where id = ? ");
+			
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				return true;
+			}else {
+				return false;
+			}
+		
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCClose.close(conn, pstmt);
+		}
+		return false;
+	}
 }

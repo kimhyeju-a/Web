@@ -9,7 +9,7 @@
 	
 	MemberDAO dao = new MemberDAO();
 	MemberVO member = dao.selectById(id);
-	
+
 	pageContext.setAttribute("member", member);
 %>
 <!DOCTYPE html>
