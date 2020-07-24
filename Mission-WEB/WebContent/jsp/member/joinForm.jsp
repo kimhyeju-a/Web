@@ -52,6 +52,7 @@ input[type="text"], input[type="password"] {
 	window.onload = function () {
 		let btnList = document.getElementById('btnList');
 		btnList.onclick = function() {
+			if()
 			location.href = "memberList.jsp"
 		}
 	}
