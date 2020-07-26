@@ -17,3 +17,6 @@
 		등록가능한 id입니다.
 	</c:otherwise>
 </c:choose>
+<script>
+	alert(id)
+</script>

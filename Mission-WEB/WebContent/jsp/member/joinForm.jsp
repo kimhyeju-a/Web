@@ -19,6 +19,7 @@ input[type="text"], input[type="password"] {
 	margin-top: 10px;
 }
 </style>
+<script src="/Mission-WEB/js/httpRequest.js"></script>
 <script>
 	let httpRequest = null;
 	function getXMLHttpRequest(){
@@ -51,9 +52,20 @@ input[type="text"], input[type="password"] {
 	
 	window.onload = function () {
 		let btnList = document.getElementById('btnList');
+		let joinBtn = document.getElementById('joinBtn');
+		let idCheckInput = document.getElementById("idCheckInput");
+		let id = document.getElementById('id')
+		
 		btnList.onclick = function() {
-			if()
 			location.href = "memberList.jsp"
+		}
+		
+		joinBtn.onclick = function () {
+			if(idCheckInput.innerText != '등록가능한 id입니다.' || idCheckInput.innerText == ''){
+				id.value = ''
+				alert('id 중복체크를 확인해주세요')
+				idCheckInput.innerHTML = ''
+			}
 		}
 	}
 </script>
@@ -69,7 +81,7 @@ input[type="text"], input[type="password"] {
 			<hr>
 			<form action="join.jsp" method="post">
 				<div class="join_title">아이디</div>
-				<input type="text" name="id" style="width: 40%" id="id" required>&nbsp;&nbsp;<input type="button" value="중복체크" onclick="sendProcess()">
+				<input type="text" name="id" style="width: 40%" id="id" required>&nbsp;&nbsp;<input type="button" value="중복체크" onclick="sendProcess()" id="checkIdBtn">
 				<div style="height: 20px" id="idCheckInput"></div>
 				<div class="join_title">이름</div>
 				<input type="text" name="name" required>
@@ -90,7 +102,7 @@ input[type="text"], input[type="password"] {
 				<span style="margin-right: 80px"><input type="radio" name="type" value="s">슈퍼유저</span>
 				<span><input type="radio" name="type" value="u" checked>일반유저</span> <br> <br> 
 				
-				<input type="submit" value="회원가입하기"> 
+				<input type="submit" value="회원가입하기" id="joinBtn"> 
 				<input type="button" value="목록보기" id="btnList">
 				<br>
 				<br>
