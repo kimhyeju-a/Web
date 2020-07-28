@@ -16,16 +16,11 @@
 <script>
 	$(document).ready(function(){
 		$('#serachBtn').click(function(){
-			//let date = $('#searchDate').val().replace(/-/g,'');
-			//let date = $('#searchDate').val().replace(/-/g,"");
-			//console.log(date);
-			
-			var searchDate = $('#searchDate').val().split('-').join('');
+			let searchDate = $('#searchDate').val().split('-').join('');
 			console.log(searchDate)
 			$.ajax({
 				url : 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
 				type : 'get',
-				//data : 'key=-&targetDt=20200727&itemPerPage=3',
 				data : {
 					key : '-',
 					targetDt : searchDate,
@@ -40,8 +35,27 @@
 		})
 	})
 	
+	function callback(result) {
+		let list = result.boxOfficeResult.dailyBoxOfficeList;
+		for(var i = 0; i < list.length; i++){
+			let movieInfo = list[i];
+			let rank = movieInfo.rank;
+			let name = movieInfo.movieNm;
+			let audiCnt = movieInfo.audiCnt;
+			let movieCd = movieInfo.movieCd;
+			console.log(movieCd);
+			
+			$('#searchResult').append('<h4>' + rank + '위</h4>');
+			$('#searchResult').append('<strong> ' + name + ' </strong>('+ audiCnt +')<br>');
+			$('#searchResult').append('<button onclick="detailBtnClick('+movieCd+')" id="'+movieCd+'Btn">상세보기 </button>');
+			$('#searchResult').append('<button onclick="closeDetail('+movieCd+')" id = "close'+movieCd+'Btn">닫기</button>');
+			$('#close'+movieCd+'Btn').toggle();
+			$('#searchResult').append('<div id="'+ movieCd +'"></div>');
+			$('#searchResult').append('<hr>');
+		}
+	}
+	
 	function detailBtnClick(movieCd){
-		console.log('detailBtnClick - check')
 		$.ajax({
 			url : 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json',
 			type : 'get',
@@ -56,37 +70,21 @@
 			}
 		})
 	}
-	function callback(result) {
-		let list = result.boxOfficeResult.dailyBoxOfficeList;
-		for(var i = 0; i < list.length; i++){
-			let movieInfo = list[i];
-			let rank = movieInfo.rank;
-			let name = movieInfo.movieNm;
-			let audiCnt = movieInfo.audiCnt;
-			let movieCd = movieInfo.movieCd;
-			console.log(movieCd);
-			
-			$('#searchResult').append('<h4>' + rank + '위</h4>');
-			$('#searchResult').append('<strong> ' + name + ' </strong>('+ audiCnt +')<br>');
-			$('#searchResult').append('<button onclick="detailBtnClick('+movieCd+')">상세보기 </button>');
-			$('#searchResult').append('<div id="'+ movieCd +'"></div>');
-			$('#searchResult').append('<hr>');
-		}
-	}
+	//상세 화면 콜백함수
 	function detailFunc(result){
+		
 		let msg = ''
-		console.log(result)
 		let detail = result.movieInfoResult.movieInfo;
-		let openDt = detail.openDt;
-		let genreNm = detail.genreNm;
-		let actors = detail.actors
-		let movieCd = detail.movieCd
-		let directors = detail.directors
-		console.log(movieCd);
+		
+		let movieCd = detail.movieCd;			//영화 pk 
+		let openDt = detail.openDt;				//개봉일
+		let directors = detail.directors;		//감독들 배열 형태
+		let actors = detail.actors;				//배우들 배열 형태
+		$('#'+movieCd+'Btn').toggle();
+		$('#close'+movieCd+'Btn').toggle();
+		//출력 부분
 		msg += '개봉일 : ' + openDt +'<br>'
-		$('#'+movieCd).append(msg); 
-		msg = '감독명  : '
-		console.log(msg);
+		msg += '감독명  : '
 		for(let i = 0; i < directors.length ; i++){
 			if(i != 0) {
 				msg += ', ';
@@ -101,8 +99,20 @@
 			msg += actors[i].peopleNm;
 		}
 		msg += '<br>';
-		$('#'+movieCd).append(msg); 
+		$('#'+movieCd).append(msg);
+		let heightPlus =  $('#searchResult').height()+$('#'+movieCd).height();
+ 		$('#searchResult').css('height',heightPlus)
 	}
+	
+	//닫기
+	function closeDetail(movieCd){
+		let heightMinus =  $('#searchResult').height()-$('#'+movieCd).height();
+ 		$('#searchResult').css('height',heightMinus)
+		$('#'+movieCd).text('');
+		$('#'+movieCd+'Btn').toggle();
+		$('#close'+movieCd+'Btn').toggle();
+	}
+	
 </script>
 </head>
 <body>
