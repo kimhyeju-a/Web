@@ -12,3 +12,6 @@ Lecture-WEB/.tern-project
 Test/.classpath
 Test/.project
 Test/.settings/
+Mission-WEB-MVC01/.settings/
+Mission-WEB-MVC01/.project
+*.classpath

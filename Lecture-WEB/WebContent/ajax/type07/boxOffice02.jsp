@@ -22,7 +22,7 @@
 				url : 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
 				type : 'get',
 				data : {
-					key : '-',
+					key : '5548c8ea5a98415f90860740fad38c90',
 					targetDt : searchDate,
 					itemPerPage : 5
 				},
@@ -60,7 +60,7 @@
 			url : 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json',
 			type : 'get',
 			data : {
-				key : '-',
+				key : '5548c8ea5a98415f90860740fad38c90',
 				movieCd : movieCd
 			},
 			datatype : 'jsonp',
