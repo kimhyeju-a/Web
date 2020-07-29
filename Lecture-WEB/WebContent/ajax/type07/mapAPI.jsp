@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=68545cf2030244d292c55958c9819737"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=-"></script>
 <script>
 	window.onload = function() {
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
