@@ -5,10 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kr.ac.kopo.dao.BoardDAO;
-import kr.ac.kopo.vo.BoardVO;
+import kr.ac.kopo.board.dao.BoardDAO;
+import kr.ac.kopo.board.vo.BoardVO;
 
-public class ListController {
+public class ListController implements Controller {
+	
+	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		BoardDAO dao = new BoardDAO();
 		List<BoardVO> list = dao.selectBoard();
