@@ -30,93 +30,31 @@
 	<header id="header" class="fixed-top ">
 		<jsp:include page="/include/header.jsp"></jsp:include>
 	</header>
-	<section>
-		<div class="container">
-			<br>
-			<div class="card bg-light">
-				<article class="card-body mx-auto" style="max-width: 400px;">
-					<h4 class="card-title mt-3 text-center">Create Account</h4>
-					<p class="text-center">Get started with your free account</p>
-					<p>
-						<a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login via Twitter
-						</a> <a href="" class="btn btn-block btn-facebook"> <i class="fab fa-facebook-f"></i>   Login via facebook
-						</a>
-					</p>
-					<p class="divider-text">
-						<span class="bg-light">OR</span>
-					</p>
-					<form>
-						<div class="form-group input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"> <i class="fa fa-user"></i>
-								</span>
-							</div>
-							<input name="" class="form-control" placeholder="Full name" type="text">
-						</div>
-						<!-- form-group// -->
-						<div class="form-group input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"> <i class="fa fa-envelope"></i>
-								</span>
-							</div>
-							<input name="" class="form-control" placeholder="Email address" type="email">
-						</div>
-						<!-- form-group// -->
-						<div class="form-group input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"> <i class="fa fa-phone"></i>
-								</span>
-							</div>
-							<select class="custom-select" style="max-width: 120px;">
-								<option selected="">+971</option>
-								<option value="1">+972</option>
-								<option value="2">+198</option>
-								<option value="3">+701</option>
-							</select> <input name="" class="form-control" placeholder="Phone number" type="text">
-						</div>
-						<!-- form-group// -->
-						<div class="form-group input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"> <i class="fa fa-building"></i>
-								</span>
-							</div>
-							<select class="form-control">
-								<option selected="">Select job type</option>
-								<option>Designer</option>
-								<option>Manager</option>
-								<option>Accaunting</option>
-							</select>
-						</div>
-						<!-- form-group end.// -->
-						<div class="form-group input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"> <i class="fa fa-lock"></i>
-								</span>
-							</div>
-							<input class="form-control" placeholder="Create password" type="password">
-						</div>
-						<!-- form-group// -->
-						<div class="form-group input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"> <i class="fa fa-lock"></i>
-								</span>
-							</div>
-							<input class="form-control" placeholder="Repeat password" type="password">
-						</div>
-						<!-- form-group// -->
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary btn-block">Create Account</button>
-						</div>
-						<!-- form-group// -->
-						<p class="text-center">
-							Have an account? <a href="">Log In</a>
-						</p>
-					</form>
-				</article>
+		<section id="hero" class="d-flex align-items-center justify-content-center">
+		<div class="wrapper fadeInDown">
+			<div id="formContent">
+				<!-- Icon -->
+				<div class="fadeIn first">
+					<b>ACCOUNT</b><span> MGT</span>
+				</div>
+
+				<!-- Join Form -->
+				<form>
+					<input type="text" id="id" class="fadeIn second" name="id" placeholder="id"> 
+					<input type="text" id="password" class="fadeIn third" name="password" placeholder="password"> 
+					<input type="text" id="email" class="fadeIn third" name="email" placeholder="Email Enter"> 
+					<input type="submit" class="fadeIn fourth" value="Log In">
+				</form>
+
+				<!-- Remind Passowrd -->
+				<div id="formFooter">
+					<a class="underlineHover" href="#">비밀번호찾기</a><span class="underlineHover">회원가입</span>
+				</div>
+
 			</div>
 		</div>
 	</section>
-
+	
 	<!-- Vendor JS Files -->
 	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
