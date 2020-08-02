@@ -40,9 +40,10 @@
 
 				<!-- Join Form -->
 				<form>
-					<input type="text" id="id" class="fadeIn second" name="id" placeholder="id"> 
-					<input type="text" id="password" class="fadeIn third" name="password" placeholder="password"> 
-					<input type="text" id="email" class="fadeIn third" name="email" placeholder="Email Enter"> 
+					<span class="fadeIn second">아이디</span><input type="text" id="id" class="fadeIn second" name="id" placeholder="id"> 
+					<span class="fadeIn third">비밀번호</span><input type="password" id="password" class="fadeIn third" name="password" placeholder="password"> 
+															<input type="password" id="passwordCheck" class="fadeIn third" placeholder="password check"> 
+					<span class="fadeIn third">이메일</span><input type="text" id="email" class="fadeIn third" name="email" placeholder="Email Enter"> 
 					<input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
 
