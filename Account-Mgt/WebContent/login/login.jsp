@@ -29,27 +29,47 @@
 <link href="<%=request.getContextPath()%>/assets/css/login.css" rel="stylesheet">
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
-Kakao.init('-')
-function loginFormWithKakao() {
-	Kakao.Auth.loginForm({
-		success : function(authObj) {
-			if(authObj == null){
+	Kakao.init('-')
+	function loginFormWithKakao() {
+		Kakao.Auth.loginForm({
+			success : function(authObj) {
 				Kakao.API.request({
-					url : '/v1/user/me',
+					url : '/v2/user/me',
 					success : function(res) {
 						console.log(res);
+						res.id = '@k' + res.id;
+						var params = {
+								id : res.id,
+								email : res.kakao_account.email,
+								name : res.properties.nickname
+						}
+						
+						post_to_url("<%=request.getContextPath()%>/login.do", params, "post")
 					}
 				})
-				location.href="/Account-Mgt/join/joinForm.jsp";
-			}else {
-				console.log(authObj);
-				/* location.href="/Account-Mgt/login.do"; */
 			}
-		},
-		fail : function(err) {
-		},
-	})
-}
+		})
+	}
+	// 카카오 request에서 세팅한 params를 JSON 형태로 넘긴다. form을 이용해 값을 넘긴다.
+	function post_to_url(path, params, method) {
+
+		method = method || "post";
+		var form = document.createElement("form");
+		form.setAttribute("method", method);
+		form.setAttribute("action", path);
+		console.log(params)
+		for (var key in params) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			console.log(key);
+			hiddenField.setAttribute("value", params[key]);
+			console.log(params[key]);
+			form.appendChild(hiddenField);
+		}
+		document.body.appendChild(form);
+		form.submit();
+	}
 </script>
 </head>
 <body>
@@ -65,10 +85,8 @@ function loginFormWithKakao() {
 				</div>
 
 				<!-- Login Form -->
-				<form>
-					<input type="text" id="login" class="fadeIn second" name="login" placeholder="login"> 
-					<input type="text" id="password" class="fadeIn third" name="login" placeholder="password"> 
-					<input type="submit" class="fadeIn fourth" value="Log In">
+				<form action="<%=request.getContextPath()%>/login.do">
+					<input type="text" id="login" class="fadeIn second" name="login" placeholder="login"> <input type="text" id="password" class="fadeIn third" name="login" placeholder="password"> <input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
 				<a id="login-form-btn" href="javascript:loginFormWithKakao()"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222" /></a>
 				<!-- Remind Passowrd -->
@@ -79,7 +97,7 @@ function loginFormWithKakao() {
 			</div>
 		</div>
 	</section>
-	
+
 	<!-- Vendor JS Files -->
 	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

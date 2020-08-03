@@ -5,6 +5,7 @@ public class MemberVO {
 	private String id;
 	private String password;
 	private String name;
+	private String jumin;
 	private String email;
 	private String phoneNo;
 	private char type;
@@ -38,6 +39,15 @@ public class MemberVO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getJumin() {
+		return jumin;
+	}
+
+	public void setJumin(String jumin) {
+		this.jumin = jumin;
+	}
+
 	public String getEmail() {
 		return email;
 	}

@@ -6,7 +6,8 @@
   	<servlet-class>kr.ac.kopo.FrontControllerServlet</servlet-class>
   	<init-param>
   		<param-name>propLocation</param-name>
-  		<param-value>C:\\Lecture\\web-workspace\\Mission-WEB-MVC01\\bean.properties</param-value>
+  		<param-value>C:\\Lecture\\web\\Mission-WEB-MVC01\\bean.properties</param-value>
+  		<!-- <param-value>C:\\Lecture\\web-workspace\\Mission-WEB-MVC01\\bean.properties</param-value> -->
   	</init-param>
   </servlet>
   <servlet-mapping>

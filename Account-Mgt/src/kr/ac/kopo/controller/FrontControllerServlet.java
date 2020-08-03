@@ -14,8 +14,10 @@ public class FrontControllerServlet extends HttpServlet{
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
+		
 		String propLoc = config.getInitParameter("propLocation");
 		mappings = new HandlerMapping(propLoc);
+		//System.out.println("mapping객체를 만들었습니다.");
 	}
 
 	@Override
@@ -27,10 +29,15 @@ public class FrontControllerServlet extends HttpServlet{
 			Controller control = mappings.getController(uri);
 			if(control != null) {
 				String callPage = control.handleRequest(request, response);
-				RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
-				dispatcher.forward(request, response);
+				if(callPage.startsWith("redirect :")) {
+					response.sendRedirect(callPage.substring("redirect :".length()));
+				} else {
+					RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
+					dispatcher.forward(request, response);
+				}
 			}
-		} catch (Exception e) {
+			
+		}catch(Exception e) {
 			e.printStackTrace();
 			throw new ServletException(e);
 		}

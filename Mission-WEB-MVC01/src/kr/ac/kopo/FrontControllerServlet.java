@@ -32,6 +32,7 @@ public class FrontControllerServlet extends HttpServlet{
 				if(callPage.startsWith("redirect :")) {
 					response.sendRedirect(callPage.substring("redirect :".length()));
 				} else {
+					System.out.println("여기안들어옴?");
 					RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
 					dispatcher.forward(request, response);
 				}

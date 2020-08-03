@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javafx.beans.binding.StringBinding;
+import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.util.ConnectionFactory;
 import kr.ac.kopo.util.JDBCClose;
 
@@ -16,6 +18,35 @@ public class MemberDAO {
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	private String user = "hr";
 	private String password = "hr";
+	
+
+	/**
+	 * 새로운 멤버 등록
+	 * @param member 등록할 멤버
+	 */
+	public void insertMember(MemberVO member) {
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("insert into a_member(member_no, id, password, name, jumin, email, phone_no ) ");
+		sql.append(" values(seq_a_member_no.nextval, ?, ?, ?, ?, ?, ? ) ");
+		try(
+				Connection conn = new ConnectionFactory().getConnection(url, user, password);
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		) {
+			
+			pstmt.setString(1, member.getId());
+			pstmt.setString(2, member.getPassword());
+			pstmt.setString(3, member.getName());
+			pstmt.setString(4, member.getJumin());
+			pstmt.setString(5, member.getEmail());
+			pstmt.setString(6, member.getPhoneNo());
+			
+			pstmt.executeQuery();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	/**
 	 * 아이디 중복체크
@@ -35,7 +66,6 @@ public class MemberDAO {
 			
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setString(1, id);
-			
 			ResultSet rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
