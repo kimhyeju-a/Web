@@ -22,20 +22,15 @@
 							url : '/v2/user/me',
 							success : function(res) {
 								console.log(res);
-								location.href="/Account-Mgt/login.do";
+								location.href="/Account-Mgt/join/joinForm.jsp";
 							}
 						})
-						
-						
 					}else {
-						console.log(res);
 						location.href="/Account-Mgt/login.do";
 					}
-					/* showResult(JSON.stringify(authObj)) */
 					
 				},
 				fail : function(err) {
-					/* showResult(JSON.stringify(err)) */
 				},
 			})
 

@@ -38,6 +38,7 @@ public class LoginProcessController implements Controller{
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
 		
-		return "/login/loginProcess.jsp";
+		return "redirect :" + url;
+		/* return "/login/loginProcess.jsp"; */
 	}
 }

@@ -27,6 +27,30 @@
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/css/login.css" rel="stylesheet">
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script>
+Kakao.init('-')
+function loginFormWithKakao() {
+	Kakao.Auth.loginForm({
+		success : function(authObj) {
+			if(authObj == null){
+				Kakao.API.request({
+					url : '/v1/user/me',
+					success : function(res) {
+						console.log(res);
+					}
+				})
+				location.href="/Account-Mgt/join/joinForm.jsp";
+			}else {
+				console.log(authObj);
+				/* location.href="/Account-Mgt/login.do"; */
+			}
+		},
+		fail : function(err) {
+		},
+	})
+}
+</script>
 </head>
 <body>
 	<header id="header" class="fixed-top ">
@@ -46,7 +70,7 @@
 					<input type="text" id="password" class="fadeIn third" name="login" placeholder="password"> 
 					<input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
-
+				<a id="login-form-btn" href="javascript:loginFormWithKakao()"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222" /></a>
 				<!-- Remind Passowrd -->
 				<div id="formFooter">
 					<a class="underlineHover" href="#">비밀번호찾기</a><span class="underlineHover">회원가입</span>

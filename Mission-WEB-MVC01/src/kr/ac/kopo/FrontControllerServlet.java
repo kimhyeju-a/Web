@@ -29,8 +29,12 @@ public class FrontControllerServlet extends HttpServlet{
 			Controller control = mappings.getController(uri);
 			if(control != null) {
 				String callPage = control.handleRequest(request, response);
-				RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
-				dispatcher.forward(request, response);
+				if(callPage.startsWith("redirect :")) {
+					response.sendRedirect(callPage.substring("redirect :".length()));
+				} else {
+					RequestDispatcher dispatcher = request.getRequestDispatcher(callPage);
+					dispatcher.forward(request, response);
+				}
 			}
 			
 		}catch(Exception e) {

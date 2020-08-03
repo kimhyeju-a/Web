@@ -18,10 +18,11 @@ input[type="text"], input[type="password"] {
 	margin-bottom: 10px;
 	margin-top: 10px;
 }
+
 </style>
 <script src="/Mission-WEB/js/httpRequest.js"></script>
 <script>
-	let httpRequest = null;
+	httpRequest = null;
 	function getXMLHttpRequest(){
 		if(window.XMLHttpRequest){
 			return new XMLHttpRequest()
@@ -31,7 +32,6 @@ input[type="text"], input[type="password"] {
 		}
 		return null;
 	}
-	
 	function sendProcess() {
 		httpRequest = getXMLHttpRequest();
 		let id = document.getElementById("id");

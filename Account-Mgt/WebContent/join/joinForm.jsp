@@ -25,12 +25,128 @@
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/css/login.css" rel="stylesheet">
+<script src="<%=request.getContextPath() %>/assets/js/ajax.js"></script>
+	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
+<script>
+	// 핸드폰번호 입력란 자동 - 
+	function autoHypen(obj) {
+		var number = obj.value.replace(/[^0-9]/g, "");
+		var phone = ''
+
+		if (number.length < 4) {
+			return number;
+		} else if (number.length < 7) {
+			phone += number.substr(0, 3);
+			phone += "-";
+			phone += number.substr(3);
+		} else if (number.length < 11) {
+			phone += number.substr(0, 3);
+			phone += "-";
+			phone += number.substr(3, 3);
+			phone += "-";
+			phone += number.substr(6);
+		} else {
+			phone += number.substr(0, 3);
+			phone += "-";
+			phone += number.substr(3, 4);
+			phone += "-";
+			phone += number.substr(7);
+		}
+		obj.value = phone;
+	}
+	// 주민번호 자동 - 
+	function autoHypenJumin(obj){
+		var number = obj.value.replace(/[^0-9]/g, "");
+		var jumin = ''
+		if(number.length < 7){
+			return number;
+		} else {
+			jumin += number.substr(0,7);
+			jumin += '-'
+			jumin += number.substr(7);
+		}
+		obj.value = jumin;
+	}
+	
+
+	
+ 	$(document).ready(function(){
+		$('#idCheckBtn').click(function(){
+			let id = $('#id').val();
+			// id 는 4자 이상
+			if(id.length < 4){
+				alert('id는 4글자 이상입니다.')
+			}else {
+				$.post({
+					url : '<%=request.getContextPath()%>/check.do',
+					data : {
+						name : name
+					},
+					success : function(data){
+						$('.idCheckSpan').text($.trim(data))
+					},
+					error : function(data){
+						alert(data)
+					}
+				})
+			}
+		})
+	
+	function joinSubmit(){
+ 		if($('#idCheckSpan').text() != '이 아이디는 사용이 가능합니다.'){
+ 			alert('아이디를 확인해주세요')
+ 			$('#id').focus();
+ 			return false;
+ 		}
+ 		
+ 		if($('#passwordText').val() != '일치합니다.'){
+ 			alert('비밀번호를 확인해주세요')
+ 			$('#passwordText').focus();
+ 			return false;
+ 		}
+ 		
+ 		if($('#jumin').val().length()!= 13){
+ 			alert('주민번호를 확인해주세요')
+ 			$('#jumin').focus();
+ 		}
+ 		return true;
+ 	}
+ 	function passwd(obj){
+ 		
+ 	}
+
+	// 비밀번호 확인란
+	function passwd(obj){
+		var password = obj.value
+		var check = document.getElementById('passwordCheck').value
+		if(password.length < 8){
+			document.getElementById("passwordText").innerText = '비밀번호는 8자 이상이어야 합니다.'
+		}
+		if(password == check){
+			document.getElementById("passwordCheckText").innerText = '일치합니다.';
+			
+		}else {
+			document.getElementById("passwordCheckText").innerText = '일치하지 않습니다.';
+		}
+	}
+	// 비밀번호 확인란
+	function passwdChk(obj){
+		var password = document.getElementById("password").value
+		var check = obj.value
+		if(password == check){
+			document.getElementById("passwordCheckText").innerText = '일치합니다.';
+			
+		}else {
+			document.getElementById("passwordCheckText").innerText = '일치하지 않습니다.';
+		}
+	}
+</script>
 </head>
 <body>
 	<header id="header" class="fixed-top ">
 		<jsp:include page="/include/header.jsp"></jsp:include>
 	</header>
-		<section id="hero" class="d-flex align-items-center justify-content-center">
+	<section id="joinBackGround" class="d-flex align-items-center justify-content-center">
 		<div class="wrapper fadeInDown">
 			<div id="formContent">
 				<!-- Icon -->
@@ -39,11 +155,23 @@
 				</div>
 
 				<!-- Join Form -->
-				<form>
-					<span class="fadeIn second">아이디</span><input type="text" id="id" class="fadeIn second" name="id" placeholder="id"> 
-					<span class="fadeIn third">비밀번호</span><input type="password" id="password" class="fadeIn third" name="password" placeholder="password"> 
-															<input type="password" id="passwordCheck" class="fadeIn third" placeholder="password check"> 
-					<span class="fadeIn third">이메일</span><input type="text" id="email" class="fadeIn third" name="email" placeholder="Email Enter"> 
+				<form action="#" method="post" onsubmit="return joinSubmit()">
+					<h3 class="fadeIn second join_title">아이디</h3>
+					<input type="text" id="id" class="fadeIn second joinInput" name="id" placeholder="id" required>
+					<button type="button" id="idCheckBtn">중복체크</button><span id="idCheckSpan"></span>
+					<h3 class="fadeIn third join_title">비밀번호</h3>
+					<input type="password" id="password" class="fadeIn third joinInput" name="password" placeholder="password" onkeyup="passwd(this)" required> 
+					<span id="passwordText"></span>
+					<input type="password" id="passwordCheck" class="fadeIn third joinInput" placeholder="password check" onkeyup="passwdChk(this)" required>
+					<span id="passwordCheckText"></span>
+					<h3 class="fadeIn third join_title">이름</h3>
+					<input type="text" id="name" class="fadeIn third joinInput" name="name" placeholder="name">
+					<h3 class="fadeIn third join_title">주민번호</h3>
+					<input type="text" id="jumin" class="fadeIn third joinInput" name="jumin" placeholder="Social Security Number" maxlength="13" onkeyup="autoHypenJumin(this)" required>
+					<h3 class="fadeIn third join_title">이메일</h3>
+					<input type="text" id="email" class="fadeIn third joinInput" name="email" placeholder="Email Enter">
+					<h3 class="fadeIn third join_title">휴대전화</h3>
+					<input type="text" id="tel" class="fadeIn third joinInput" name="tel" placeholder="Tel" maxlength="13" onkeyup="autoHypen(this)"> 
 					<input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
 
@@ -55,7 +183,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<!-- Vendor JS Files -->
 	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
