@@ -15,6 +15,6 @@ public class JoinIdCheckController implements Controller{
 		String id = request.getParameter("id");
 		boolean idCheck = dao.idCheck(id);
 		request.setAttribute("check", idCheck);
-		return "/join/idCheck.jsp";
+		return "/jsp/join/idCheck.jsp";
 	}
 }

@@ -30,6 +30,9 @@
 					<li><a href="<%=request.getContextPath()%>/qnaList.do">Q&A</a></li>
 				</ul>
 			</li>
+			<c:if test="${ not empty userVO }">
+				<li><a href="#">내정보</a></li>
+			</c:if>
 		</ul>
 	</nav>
 	<!-- .nav-menu -->
@@ -38,8 +41,8 @@
 			<a href="<%=request.getContextPath()%>/login.do" class="get-started-btn">Login</a>
 		</c:when>
 		<c:otherwise>
-			<a href="#" class="get-started-btn">My Page</a>
-			<a href="#" class="get-started-btn">Logout</a>
+			<span>${ userVO.id }님</span>
+			<span><a href="#" class="get-started-btn">Logout</a></span>
 		</c:otherwise>
 	</c:choose>
 

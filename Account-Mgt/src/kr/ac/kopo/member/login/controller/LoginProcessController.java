@@ -20,7 +20,6 @@ public class LoginProcessController implements Controller {
 		boolean idCheck;
 		String params = "";
 		String msg = "";
-		System.out.println("id" + id);
 		// 카카오 계정인 경우에만
 		if (id.startsWith("@k")) {
 			System.out.println("카카오계정입니다");
@@ -33,11 +32,11 @@ public class LoginProcessController implements Controller {
 			member.setId(id);
 			member.setEmail(email);
 			member.setName(name);
-			session.setAttribute("memberVO", member);
+			session.setAttribute("userVO", member);
 
 			// 아이디가 있는 경우 세션에 등록 후, index.jsp로 보낸다.
 			if (!idCheck) {
-				url += "/join/joinForm.jsp";
+				url += "/jsp/join/joinForm.jsp";
 			}
 		} else {
 			System.out.println("일반계정입니다.");

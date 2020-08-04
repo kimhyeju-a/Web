@@ -10,6 +10,7 @@ public class QnaVO {
 	private String content;
 	private int viewCnt;
 	private String regDate;
+	private String formatRegDate;
 	
 	public QnaVO() {
 	}
@@ -67,5 +68,12 @@ public class QnaVO {
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
+	public String getFormatRegDate() {
+		return formatRegDate;
+	}
+	public void setFormatRegDate(String formatRegDate) {
+		this.formatRegDate = formatRegDate;
+	}
+	
 	
 }

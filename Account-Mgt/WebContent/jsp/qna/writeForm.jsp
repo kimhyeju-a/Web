@@ -45,48 +45,50 @@
 		</div>
 	</section>
 	<section>
-		<div class="container" align="center">
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th width="7%">번호</th>
-						<th>제목</th>
-						<th width="16%">글쓴이</th>
-						<th width="20%">등록일</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${ list }" var="board">
-						<tr>
-							<td>${ board.boardNo }</td>
-							<td>
-								<a href="#"> 
-									<c:if test="${ board.depth > 1 }">
-										<c:forEach begin="2" end="${ board.depth }">
-											<img src="<%=request.getContextPath()%>/assets/img/ico_re.gif">
-										</c:forEach>
-									</c:if>
-									<c:out value="${ board.title }" />
-									<c:if test="${ board.regDate >= nowday }">
-										<img src="<%=request.getContextPath()%>/assets/img/ico_new.gif">
-									</c:if>
-								</a>
-							</td>
-							<td>${ board.writer }</td>
-							<td>
-								${ board.formatRegDate }
-							</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<br>
-			<c:if test="${ not empty userVO }">
-				<a href="/write.do">새글 등록</a>
-			</c:if>
+		<div class="container contact">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="contact-info">
+						<i class="ri-question-mark"></i>
+						<h2>Q & A</h2>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="contact-form">
+						<form action="/writeProcess.do" method="post">
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="writer">작성자:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="writer" value="<c:if test="${ empty userVO.name }">
+																							 ${ userVO.id } </c:if> 
+																							 <c:if test="${ not empty userVO.name }">
+																							 ${ userVO.name } </c:if>" name="writer" readonly>
+									<%-- <input type="hidden" value="${ userVO.memberNo }" name="memberNo"> --%>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="title">제목:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="content">내용:</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" rows="5" id="content" placeholder="Enter Content" required></textarea>
+								</div>
+							</div>
+						</form>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
-
 	<!-- Vendor JS Files -->
 	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

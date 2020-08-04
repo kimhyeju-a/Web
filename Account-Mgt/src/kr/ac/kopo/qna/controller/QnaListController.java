@@ -1,5 +1,7 @@
 package kr.ac.kopo.qna.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +20,14 @@ public class QnaListController implements Controller{
 		
 		request.setAttribute("list", list);
 		
-		return "/qna/qnaList.jsp";
+		//게시판 타이틀 옆에 new를 띄우기 위함
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -12); //12시간전
+        String nowday = format.format(cal.getTime());
+        request.setAttribute("nowday",nowday);
+        System.out.println(nowday);
+		return "/jsp/qna/qnaList.jsp";
 	}
 	
 }

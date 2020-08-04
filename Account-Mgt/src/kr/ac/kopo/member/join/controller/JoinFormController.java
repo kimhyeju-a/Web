@@ -9,7 +9,7 @@ public class JoinFormController implements Controller{
 
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return "/join/joinForm.jsp";
+		return "/jsp/join/joinForm.jsp";
 	}
 	
 }

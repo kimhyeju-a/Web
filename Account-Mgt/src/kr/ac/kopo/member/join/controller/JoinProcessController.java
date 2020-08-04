@@ -31,7 +31,7 @@ public class JoinProcessController implements Controller {
 		String url = request.getContextPath() + "/login.do";
 		request.setAttribute("msg", msg);
 		request.setAttribute("url", url);
-		return "/join/joinProcess.jsp";
+		return "/jsp/join/joinProcess.jsp";
 	}
 
 	
