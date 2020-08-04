@@ -6,10 +6,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-
+/*
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.JsonParser;*/
 
 public class KakaoTest{
 
@@ -38,7 +38,7 @@ public class KakaoTest{
 	            result += line;
 	        }
 	        System.out.println("response body : " + result);
-	        
+	        /*
 	        JsonParser parser = new JsonParser();
 	        JsonElement element = parser.parse(result);
 	        
@@ -50,7 +50,7 @@ public class KakaoTest{
 	        System.out.println(nickname);
 	        userInfo.put("nickname", nickname);
 	        userInfo.put("email", email);
-	        
+	        */
 	    } catch (IOException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();

@@ -94,7 +94,7 @@
  	})
  	
 	function joinSubmit(){
- 		if($('#idCheckSpan').text() != '이 아이디는 사용이 가능합니다.' || $('#id').val().match("^@k") != false ){
+ 		if(($('#idCheckSpan').text() !== '이 아이디는 사용이 가능합니다.') || $('#id').val().match("^@k") != false ){
  			alert('아이디를 확인해주세요')
  			$('#id').focus();
  			return false;

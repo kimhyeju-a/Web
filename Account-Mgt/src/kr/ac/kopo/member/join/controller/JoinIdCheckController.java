@@ -1,8 +1,9 @@
-package kr.ac.kopo.controller;
+package kr.ac.kopo.member.join.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.ac.kopo.controller.Controller;
 import kr.ac.kopo.member.dao.MemberDAO;
 
 public class JoinIdCheckController implements Controller{

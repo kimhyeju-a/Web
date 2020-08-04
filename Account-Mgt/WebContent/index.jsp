@@ -52,44 +52,35 @@
 						<i class="ri-store-line"></i>
 
 						<h3>
-							<a href="">계좌조회</a>
+							<a href="#">계좌업무</a>
 						</h3>
 					</div>
 				</div>
 				<div class="col-xl-2 col-md-4 col-6 ">
 					<div class="icon-box">
-						<i class="ri-bar-chart-box-line"></i>
+						<i class="ri-database-2-line"></i>
 						<h3>
-							<a href="">계좌조회</a>
+							<a href="#">입/출금</a>
 						</h3>
 					</div>
 				</div>
 				<div class="col-xl-2 col-md-4 col-6 mt-4 mt-md-0">
 					<div class="icon-box">
-						<i class="ri-calendar-todo-line"></i>
+						<i class="ri-customer-service-2-line"></i>
 						<h3>
-							<a href="">계좌관리</a>
+							<a href="#">고객지원</a>
 						</h3>
 					</div>
 				</div>
 				<div class="col-xl-2 col-md-4 col-6 mt-4 mt-xl-0">
 					<div class="icon-box">
-						<i class="ri-paint-brush-line"></i>
+						<i class="ri-account-pin-box-line"></i>
 						<h3>
-							<a href="">계좌업무</a>
-						</h3>
-					</div>
-				</div>
-				<div class="col-xl-2 col-md-4 col-6 mt-4 mt-xl-0">
-					<div class="icon-box">
-						<i class="ri-database-2-line"></i>
-						<h3>
-							<a href="">지점조회</a>
+							<a href="#">마이페이지</a>
 						</h3>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</section>
 	<!-- End Hero -->

@@ -8,7 +8,7 @@ public class MemberVO {
 	private String jumin;
 	private String email;
 	private String phoneNo;
-	private char type;
+	private String type;
 	private String regDate;
 	
 	public MemberVO() {
@@ -60,11 +60,11 @@ public class MemberVO {
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
-	public char getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(char type) {
-		this.type = type;
+	public void setType(String string) {
+		this.type = string;
 	}
 	public String getRegDate() {
 		return regDate;

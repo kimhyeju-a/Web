@@ -1,13 +1,14 @@
-package kr.ac.kopo.controller;
+package kr.ac.kopo.member.login.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import kr.ac.kopo.controller.Controller;
 import kr.ac.kopo.member.dao.MemberDAO;
 import kr.ac.kopo.member.vo.MemberVO;
 
-public class LoginFormController implements Controller {
+public class LoginProcessController implements Controller {
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
@@ -17,9 +18,13 @@ public class LoginFormController implements Controller {
 		String id = request.getParameter("id");
 		String url = request.getContextPath();
 		boolean idCheck;
+		String params = "";
+		String msg = "";
 		System.out.println("id" + id);
 		// 카카오 계정인 경우에만
 		if (id.startsWith("@k")) {
+			System.out.println("카카오계정입니다");
+			
 			member = new MemberVO();
 			idCheck = dao.idCheck(request.getParameter("id"));
 
@@ -31,14 +36,15 @@ public class LoginFormController implements Controller {
 			session.setAttribute("memberVO", member);
 
 			// 아이디가 있는 경우 세션에 등록 후, index.jsp로 보낸다.
-			if (idCheck) {
-				System.out.println("어디로갔니" + idCheck);
-			} else {
+			if (!idCheck) {
 				url += "/join/joinForm.jsp";
-				System.out.println("어디로갔니" + idCheck);
 			}
 		} else {
+			System.out.println("일반계정입니다.");
+			
+			
 			String password = request.getParameter("password");
+			params = "";
 			member = new MemberVO();
 			member.setId(id);
 			member.setPassword(password);
@@ -49,10 +55,11 @@ public class LoginFormController implements Controller {
 			// 반환값이 null 이면 로그인 실패
 			// 반환값이 LoginVO 객체라면 로그인 성공
 			MemberVO userVO = dao.login(member);
-			String msg = "";
+			msg = "";
 			if (userVO == null) {
-				msg = "아이디 또는 패스워드를 잘못입력했습니다.";
-				url = "/Mission-WEB/jsp/login/login.jsp";
+				msg = "로그인을 실패하였습니다\\n로그인 페이지로 이동합니다";
+				url += "/login.do";
+				System.out.println("URL : "+url);
 			} else {
 				// 세션 등록
 				session.setAttribute("userVO", userVO);
@@ -67,7 +74,8 @@ public class LoginFormController implements Controller {
 					break;
 				}
 			}
-			return "redirect :" + url;
+			params = "msg=" + msg;
 		}
+		return "redirect :" + url +"?" + params;
 	}
 }
