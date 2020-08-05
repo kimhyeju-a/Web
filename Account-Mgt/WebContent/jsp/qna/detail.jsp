@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,30 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	<c:if test="${ not empty param.msg }">
+		alert('${ param.msg }');
+	</c:if>
+	$(document).ready(function() {
+		$('.modify-btn').click(function(){
+			$.ajax({
+				url : '<%=request.getContextPath()%>/jsp/qna/passwordCheck.jsp?no=${ board.boardNo }?type=m',
+				success : function(data) {
+					$('#modifyPasswordCheck').html(data);
+				}
+			})
+		})
+		$('.delete-btn').click(function(){
+			$.ajax({
+				url : '<%=request.getContextPath()%>/jsp/qna/passwordCheck.jsp?no=${ board.boardNo }&type=d',
+				success : function(data) {
+					$('#modifyPasswordCheck').html(data);
+				}
+			})
+		})
+	})	
+</script>
 </head>
 <body>
 	<header id="header" class="fixed-top ">
@@ -54,6 +79,9 @@
 				<div class="col-sm-3 detail">${ board.boardNo }</div>
 				<div class="col-sm-2 detail-info-title">Writer</div>
 				<div class="col-sm-3 detail">${ board.writer }</div>
+				<!-- 왜 if 태그 쓰고는 안되고 안쓰고는 되는지!!!!!!!!!!!!! -->
+				<c:set var="writerId" value="${ board.writerId }"></c:set>
+				<c:set var="check" value="${ userVO.id eq writerId }"></c:set>
 			</div>
 			<div class="row detail-form">
 				<div class="col-sm-2 detail-info-title">Title</div>
@@ -71,14 +99,22 @@
 			</div>
 			<div class="row detail-content">
 				<div class="col-sm-2 detail-info-title">Content</div>
-				<div class="col-sm-10 detail-info">${ board.content }</div>
+				<c:set var="contentBr" value="${ board.content }"></c:set>
+				<div class="col-sm-10 detail-info">${ fn:replace(contentBr, newLine, '</br>') }</div>
 			</div>
 			<div class="row float-right">
+				<c:if test="${ check }"><a href="#" class="float-right btn btn-outline-danger write-no-btn delete-btn">삭제</a></c:if>
+				<c:if test="${ check }"><a href="#" class="float-right btn btn-outline-info write-no-btn modify-btn">수정</a></c:if>
 				<a href="<%=request.getContextPath()%>/qnaList.do" class="float-right btn btn-outline-dark write-no-btn">목록</a>
 				<a href="<%=request.getContextPath()%>/writeReply.do?no=${ board.boardNo }" class="float-right btn btn-outline-dark write-no-btn">답변</a>
 			</div>
 		</div>
 	</section>
+	<div class="container">
+		<div class="row float-right">
+			<div id="modifyPasswordCheck"></div>
+		</div>
+	</div>
 	<!-- Vendor JS Files -->
 	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

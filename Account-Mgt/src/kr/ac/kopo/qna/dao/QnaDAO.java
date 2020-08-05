@@ -65,6 +65,8 @@ public class QnaDAO {
 	 * @param qna 삽입할 내용
 	 */
 	public void insertOriQna(QnaVO qna) {
+		System.out.println("inserOriQna들어옴");
+		
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into a_qna(board_no, group_no, group_order, depth, title, writer, writer_id, content) ");
 		sql.append(" values(seq_a_qna_no.nextval,seq_a_qna_no.currval, 1, 1, ?, ?, ?, ?) ");
@@ -76,6 +78,7 @@ public class QnaDAO {
 			pstmt.setString(2, qna.getWriter());
 			pstmt.setString(3, qna.getWriterId());
 			pstmt.setString(4, qna.getContent());
+			System.out.println("title : " + qna.getTitle() + ", writer : " + qna.getWriter() + ", writerId: " + qna.getWriterId());
 			pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -90,7 +93,7 @@ public class QnaDAO {
 	public QnaVO selectByNo(int no) {
 		List<QnaVO> list = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
-		sql.append("select board_no, group_no, group_order, depth, title, writer, content, view_cnt, reg_date ");
+		sql.append("select board_no, group_no, group_order, depth, title, writer, writer_id, content, view_cnt, reg_date ");
 		sql.append("       , case when to_char(sysdate, 'yyyy-mm-dd') = to_char(reg_date, 'yyyy-mm-dd') ");
 		sql.append("                   then to_char(reg_date, 'hh24:mi:ss') ");
 		sql.append("                   else to_char(reg_date, 'yyyy-mm-dd') ");
@@ -111,6 +114,7 @@ public class QnaDAO {
 				qna.setDepth(rs.getInt("depth"));
 				qna.setTitle(rs.getString("title"));
 				qna.setWriter(rs.getString("writer"));
+				qna.setWriterId(rs.getString("writer_id"));
 				qna.setContent(rs.getString("content"));
 				qna.setViewCnt(rs.getInt("view_cnt"));
 				qna.setRegDate(rs.getString("reg_date"));
@@ -186,7 +190,6 @@ public class QnaDAO {
 			Connection conn = new ConnectionFactory().getConnection(url, user, password);
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		) {
-			System.out.println("updateGroupOrder : " + qna.getGroupNo());
 			pstmt.setInt(1, qna.getGroupNo());
 			pstmt.setInt(2, qna.getGroupOrder());
 			pstmt.executeUpdate();
@@ -201,8 +204,8 @@ public class QnaDAO {
 	 */
 	public void insertReplyQna(QnaVO qna, QnaVO parentQna) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into a_qna(board_no, group_no, group_order, depth, title, writer, content) ");
-		sql.append(" values(seq_a_qna_no.nextval,?, ?, ?, ?, ?, ?) ");
+		sql.append("insert into a_qna(board_no, group_no, group_order, depth, title, writer, writer_id, content) ");
+		sql.append(" values(seq_a_qna_no.nextval,?, ?, ?, ?, ?, ?, ?) ");
 		try (
 			Connection conn = new ConnectionFactory().getConnection(url, user, password);
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
@@ -212,7 +215,8 @@ public class QnaDAO {
 			pstmt.setInt(3, parentQna.getDepth()+1);
 			pstmt.setString(4, qna.getTitle());
 			pstmt.setString(5, qna.getWriter());
-			pstmt.setString(6, qna.getContent());
+			pstmt.setString(6, qna.getWriterId());
+			pstmt.setString(7, qna.getContent());
 			pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -240,4 +244,29 @@ public class QnaDAO {
 		}
 		return seqNo;
 	}
+	
+	/**
+	 * Qna를 수정한다.
+	 * @param qna
+	 */
+	public void modifyQna(QnaVO qna) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update a_qna ");
+		sql.append(" set title=?, content=? ");
+		sql.append(" where board_no = ? ");
+		try (
+			Connection conn = new ConnectionFactory().getConnection(url, user, password);
+			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+		) {
+			System.out.println("updateGroupOrder : " + qna.getGroupNo());
+			pstmt.setString(1, qna.getTitle() );
+			pstmt.setString(2, qna.getContent() );
+			pstmt.setInt(3, qna.getBoardNo() );
+			
+			pstmt.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -50,32 +50,34 @@
 				<div class="col-md-3">
 					<div class="contact-info">
 						<i class="ri-question-mark"></i>
-						<h2>Q & A</h2>
+						<h2>Modify</h2>
 					</div>
 				</div>
 				<div class="col-md-9">
 					<div class="contact-form">
-					<!-- 부모 no가 있으면 writeReplyProcess.do로 이동, 없으면 writeProcess.do로 이동 -->
-						<form action="<c:if test="${ empty parentNo }"><%=request.getContextPath()%>/writeProcess.do</c:if><c:if test="${ not empty parentNo }"><%=request.getContextPath()%>/writeReplyProcess.do?no=${ parentNo }</c:if>" method="post">
+						<form action="<%=request.getContextPath() %>/modifyProcess.do" method="post">
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="writer">글번호:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="boardNo" value="${ param.no }" name="boardNo" readonly>
+								</div>
+							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="writer">작성자:</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="writer" 
-											value="<c:if test="${ empty userVO.name }"><c:out value="${ userVO.id }"/></c:if><c:if test="${ not empty userVO.name }"><c:out value="${ userVO.name }"/></c:if>" 
-											name="writer" readonly>
-									<input type="hidden" value="${ userVO.id }" name="writerId">
+									<input type="text" class="form-control" id="writer" value="${ board.writer }" name="writer" disabled>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="title">제목:</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required>
+									<input type="text" class="form-control" id="title" value="${ board.title }" name="title" required>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="content">내용:</label>
 								<div class="col-sm-10">
-									<textarea class="form-control" rows="5" id="content" placeholder="Enter Content" name="content" required></textarea>
+									<textarea class="form-control" rows="5" id="content" name="content" required>${ board.content }</textarea>
 								</div>
 							</div>
 							<div class="col-sm-offset-2 col-sm-10">

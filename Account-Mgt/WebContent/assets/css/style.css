@@ -1661,12 +1661,50 @@ Boarddetail
 }
 .detail-content{
 	border-bottom: 1px solid #cfccc2;
-	height: 150px;
+	height: 300px;
+}
+.detail-content > .detail-info-title {
 	line-height: 135px;
+}
+.detail-content > .detail-info {
+	height: 300px;
+	overflow: auto;
 }
 .write-no-btn{
 	/* margin-left: auto; */
 	margin-top: 20px;	
 	width: 100px;
 	margin-right :20px;
+}
+.hiddenDiv{
+	display: none;
+}
+
+.modify-password-span{
+	font-weight: bold;
+}
+
+/*-------------------------------------------------
+		Account
+---------------------------------------------------*/
+.account .input-group-prepend {
+	width : 25%;
+	background-color: #efefef;
+}
+.account .input-group-prepend .input-group-text{
+	width: 100%;
+	font-weight: 700;
+}
+.account input:read-only{
+	background-color: #fff;
+}
+.account select{
+	background-color: #efefef;
+	font-weight: 700;
+}
+.account .less-money{
+	color: red;
+}
+.account .ok-money{
+	color: blue;
 }

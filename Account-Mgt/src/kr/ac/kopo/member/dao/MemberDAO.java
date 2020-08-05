@@ -81,7 +81,6 @@ public class MemberDAO {
 
 	/**
 	 * 아이디 중복체크
-	 * 
 	 * @param id
 	 * @return true : 아이디 있음 , false : 아이디 없음
 	 */
@@ -110,6 +109,33 @@ public class MemberDAO {
 			e.printStackTrace();
 		} finally {
 			JDBCClose.close(conn, pstmt);
+		}
+		return false;
+	}
+	
+	/**
+	 * 글 수정, 삭제를 했을 때 패스워드가 맞는지 확인 - qna와 관련된 클래스
+	 * @param password 입력한 패스워드
+	 * @return true-패스워드가 맞음, false-패스워드가 틀림
+	 */
+	public boolean passwordCheck(String password) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select id ");
+		sql.append(" from a_member ");
+		sql.append(" where password = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setString(1, password);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return false;
 	}

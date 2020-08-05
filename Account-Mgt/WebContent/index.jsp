@@ -67,7 +67,7 @@
 					<div class="icon-box">
 						<i class="ri-customer-service-2-line"></i>
 						<h3>
-							<a href="#">고객지원</a>
+							<a href="<%=request.getContextPath()%>/qnaList.do">고객지원</a>
 						</h3>
 					</div>
 				</div>

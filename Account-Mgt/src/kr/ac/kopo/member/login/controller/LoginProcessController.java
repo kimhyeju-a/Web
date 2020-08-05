@@ -1,5 +1,7 @@
 package kr.ac.kopo.member.login.controller;
 
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -75,6 +77,7 @@ public class LoginProcessController implements Controller {
 					break;
 				}
 			}
+			/* msg = msg = URLEncoder.encode(msg, "utf-8"); */
 			params = "msg=" + msg;
 		}
 		return "redirect :" + url +"?" + params;

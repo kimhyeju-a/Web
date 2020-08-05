@@ -93,7 +93,7 @@
 				<!-- Login Form -->
 				<form action="<%=request.getContextPath()%>/loginProcess.do" method="post">
 					<input type="text" id="id" class="fadeIn second" name="id" placeholder="id" value="user"> 
-					<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value="asdf1234!"> 
+					<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value="123456789"> 
 					<input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
 				<a id="login-form-btn" href="javascript:loginFormWithKakao()"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222" /></a>

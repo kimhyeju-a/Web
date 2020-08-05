@@ -12,7 +12,7 @@
 			<li class="active"><a href="/Account-Mgt">Home</a></li>
 			<li class="drop-down"><a href="#">계좌업무</a>
 				<ul>
-					<li><a href="#">계좌등록</a></li>
+					<li><a href="<%=request.getContextPath()%>/insertAccountForm.do">계좌등록</a></li>
 					<li><a href="#">계좌조회</a></li>
 					<li><a href="#">계좌관리</a></li>
 				</ul>

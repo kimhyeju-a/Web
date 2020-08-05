@@ -21,10 +21,12 @@ public class WriteReplyProcessContoller implements Controller {
 		String writer = request.getParameter("writer");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-
+		String writerId = request.getParameter("writerId");
+		
 		qna.setWriter(writer);
 		qna.setTitle(title);
 		qna.setContent(content);
+		qna.setWriterId(writerId);
 
 		// group_order와 depth를 얻어온다.
 		parentQna = dao.selectDepthGroupOrder(no);
@@ -32,7 +34,7 @@ public class WriteReplyProcessContoller implements Controller {
 		dao.updateGroupOrder(parentQna);
 		dao.insertReplyQna(qna, parentQna);
 		int seqNo = dao.selectSequenceNo() - 1;
-		String url = request.getContextPath() + "/detail.do?no=" + seqNo;
+		String url = request.getContextPath() + "/detail.do?no=" + seqNo + "&id=" + writerId;
 		return "redirect :" + url;
 	}
 
