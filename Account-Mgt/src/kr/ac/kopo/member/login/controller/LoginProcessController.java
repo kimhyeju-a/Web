@@ -26,23 +26,25 @@ public class LoginProcessController implements Controller {
 			
 			member = new MemberVO();
 			idCheck = dao.idCheck(request.getParameter("id"));
-
 			String email = request.getParameter("email");
 			String name = request.getParameter("name");
 			member.setId(id);
 			member.setEmail(email);
 			member.setName(name);
-			session.setAttribute("userVO", member);
-
-			// 아이디가 있는 경우 세션에 등록 후, index.jsp로 보낸다.
+			session.setAttribute("kakaoVO", member);
+			// 아이디가 없는경우 세션에 등록 후, join.jsp로 보낸다.
+			System.out.println("idCheck : " +idCheck);
 			if (!idCheck) {
 				url += "/jsp/join/joinForm.jsp";
+			}else {
+				session.setAttribute("userVO",member);
+				System.out.println("url :" + url);
 			}
 		} else {
 			System.out.println("일반계정입니다.");
 			
-			
 			String password = request.getParameter("password");
+			System.out.println("id : " + id + ",password : " + password);
 			params = "";
 			member = new MemberVO();
 			member.setId(id);
@@ -56,7 +58,7 @@ public class LoginProcessController implements Controller {
 			MemberVO userVO = dao.login(member);
 			msg = "";
 			if (userVO == null) {
-				msg = "로그인을 실패하였습니다\\n로그인 페이지로 이동합니다";
+				msg = "로그인을 실패하였습니다.";
 				url += "/login.do";
 				System.out.println("URL : "+url);
 			} else {

@@ -7,6 +7,7 @@ public class QnaVO {
 	private int depth;
 	private String title;
 	private String writer;
+	private String writerId;
 	private String content;
 	private int viewCnt;
 	private String regDate;
@@ -49,6 +50,12 @@ public class QnaVO {
 	}
 	public void setWriter(String writer) {
 		this.writer = writer;
+	}
+	public String getWriterId() {
+		return writerId;
+	}
+	public void setWriterId(String writerId) {
+		this.writerId = writerId;
 	}
 	public String getContent() {
 		return content;

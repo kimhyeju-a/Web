@@ -200,7 +200,7 @@ public class BoardDAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		){
 			pstmt.setInt(1, no);
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

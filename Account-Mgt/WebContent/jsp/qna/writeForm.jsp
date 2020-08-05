@@ -27,6 +27,11 @@
 
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
+<script>
+	console.log("id : ${ userVO.id }")
+	console.log("name : ${ userVO.name }")
+	console.log("name : ${ usrVO.memberNo}")
+</script>
 </head>
 <body>
 	<header id="header" class="fixed-top ">
@@ -46,7 +51,7 @@
 	</section>
 	<section>
 		<div class="container contact">
-			<div class="row">
+			<div class="row write_form">
 				<div class="col-md-3">
 					<div class="contact-info">
 						<i class="ri-question-mark"></i>
@@ -55,15 +60,15 @@
 				</div>
 				<div class="col-md-9">
 					<div class="contact-form">
-						<form action="/writeProcess.do" method="post">
+					<!-- 부모 no가 있으면 writeReplyProcess.do로 이동, 없으면 writeProcess.do로 이동 -->
+						<form action="<c:if test="${ empty parentNo }"><%=request.getContextPath()%>/writeProcess.do</c:if><c:if test="${ not empty parentNo }"><%=request.getContextPath()%>/writeReplyProcess.do?no=${ parentNo }</c:if>" method="post">
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="writer">작성자:</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" id="writer" value="<c:if test="${ empty userVO.name }">
-																							 ${ userVO.id } </c:if> 
-																							 <c:if test="${ not empty userVO.name }">
-																							 ${ userVO.name } </c:if>" name="writer" readonly>
-									<%-- <input type="hidden" value="${ userVO.memberNo }" name="memberNo"> --%>
+									<input type="text" class="form-control" id="writer" 
+											value="<c:if test="${ empty userVO.name }"><c:out value="${ userVO.id }"/></c:if><c:if test="${ not empty userVO.name }"><c:out value="${ userVO.name }"/></c:if>" 
+											name="writer" readonly>
+									<input type="hidden" value="${ userVO.memberNo }" name="writerNo">
 								</div>
 							</div>
 							<div class="form-group">
@@ -75,15 +80,18 @@
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="content">내용:</label>
 								<div class="col-sm-10">
-									<textarea class="form-control" rows="5" id="content" placeholder="Enter Content" required></textarea>
+									<textarea class="form-control" rows="5" id="content" placeholder="Enter Content" name="content" required></textarea>
 								</div>
 							</div>
-						</form>
-						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
 								<button type="submit" class="btn btn-default">Submit</button>
 							</div>
-						</div>
+						</form>
+<!-- 						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">Submit</button>
+							</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

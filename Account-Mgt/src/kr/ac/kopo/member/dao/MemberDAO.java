@@ -55,7 +55,7 @@ public class MemberDAO {
 		MemberVO userVO = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("select id, type ");
+		sql.append("select id, type, name ");
 		sql.append(" from a_member ");
 		sql.append(" where id = ? and password = ? ");
 
@@ -69,7 +69,8 @@ public class MemberDAO {
 			if (rs.next()) {
 				userVO = new MemberVO();
 				userVO.setId(rs.getString("id"));
-				userVO.setType(rs.getString("tpye"));
+				userVO.setType(rs.getString("type"));
+				userVO.setName(rs.getString("name"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

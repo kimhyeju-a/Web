@@ -94,7 +94,7 @@
  	})
  	
 	function joinSubmit(){
- 		if(($('#idCheckSpan').text() !== '이 아이디는 사용이 가능합니다.') || $('#id').val().match("^@k") != false ){
+ 		if(($('#idCheckSpan').text() !== '이 아이디는 사용이 가능합니다.') && $('#id').val().match("^@k") != false ){
  			alert('아이디를 확인해주세요')
  			$('#id').focus();
  			return false;
@@ -162,11 +162,11 @@
 				</div>
 
 				<!-- Join Form -->
-				<form action="<%= request.getContextPath() %>/join.do" method="post" onsubmit="return joinSubmit()">
+				<form action="<%= request.getContextPath() %>/joinProcess.do" method="post" onsubmit="return joinSubmit()">
 					<h3 class="fadeIn second join_title">아이디</h3>
 					<c:choose>
-						<c:when test="${ not empty memberVO.id }">
-							<input type="text" id="id" class="fadeIn second joinInput" name="id" value="${ memberVO.id }" readonly>
+						<c:when test="${ not empty kakaoVO.id }">
+							<input type="text" id="id" class="fadeIn second joinInput" name="id" value="${ kakaoVO.id }" readonly>
 						</c:when>
 						<c:otherwise>
 							<input type="text" id="id" class="fadeIn second joinInput" name="id" placeholder="id" required>
@@ -180,8 +180,8 @@
 					<span id="passwordCheckText"></span>
 					<h3 class="fadeIn third join_title">이름</h3>
 					<c:choose>
-						<c:when test="${ not empty memberVO.name }">
-							<input type="text" id="name" class="fadeIn third joinInput" name="name" value="${ memberVO.name }" readonly>
+						<c:when test="${ not empty kakaoVO.name }">
+							<input type="text" id="name" class="fadeIn third joinInput" name="name" value="${ kakaoVO.name }" readonly>
 						</c:when>
 						<c:otherwise>
 							<input type="text" id="name" class="fadeIn third joinInput" name="name" placeholder="name">
@@ -191,8 +191,8 @@
 					<input type="text" id="jumin" class="fadeIn third joinInput" name="jumin" placeholder="Social Security Number" maxlength="13" onkeyup="autoHypenJumin(this)" required>
 					<h3 class="fadeIn third join_title">이메일</h3>
 					<c:choose>
-						<c:when test="${ not empty memberVO.email }">
-							<input type="text" id="email" class="fadeIn third joinInput" name="email" value="${ memberVO.email }" readonly>
+						<c:when test="${ not empty kakaoVO.email }">
+							<input type="text" id="email" class="fadeIn third joinInput" name="email" value="${ kakaoVO.email }" readonly>
 						</c:when>
 						<c:otherwise>
 							<input type="text" id="email" class="fadeIn third joinInput" name="email" placeholder="Email Enter">

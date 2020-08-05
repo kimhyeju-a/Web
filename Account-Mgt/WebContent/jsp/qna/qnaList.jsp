@@ -24,9 +24,24 @@
 <link href="<%=request.getContextPath()%>/assets/vendor/venobox/venobox.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
+<script>
+	function doAction(boardNo){
+		<c:choose>
+			<c:when test="${ empty userVO }">
+				if(confirm('로그인 후 사용 가능합니다\n로그인 페이지로 이동하시겠습니까?'))
+					location.href = "<%=request.getContextPath()%>/login.do"
+			</c:when>
+			<c:otherwise>
+				location.href = "<%=request.getContextPath()%>/detail.do?no=" + boardNo + "&type=list";
+			</c:otherwise>
+		</c:choose>
+	}
+</script>
 </head>
 <body>
 	<header id="header" class="fixed-top ">
@@ -46,6 +61,8 @@
 	</section>
 	<section>
 		<div class="container" align="center">
+			<h3 class="detail-title">Q & A</h3>
+			<hr width="20%">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -60,7 +77,7 @@
 						<tr>
 							<td>${ board.boardNo }</td>
 							<td>
-								<a href="#"> 
+								<a href="javascript:doAction(${ board.boardNo })"> 
 									<c:if test="${ board.depth > 1 }">
 										<c:forEach begin="2" end="${ board.depth }">
 											<img src="<%=request.getContextPath()%>/assets/img/ico_re.gif">
@@ -81,9 +98,11 @@
 				</tbody>
 			</table>
 			<br>
-			<c:if test="${ not empty userVO }">
-				<a href="/write.do">새글 등록</a>
-			</c:if>
+			<div class="row float-right">
+				<c:if test="${ not empty userVO }">
+					<a href="<%=request.getContextPath()%>/write.do" class="float-right btn btn-outline-dark write-no-btn">새글 등록</a>
+				</c:if>
+			</div>
 		</div>
 	</section>
 
