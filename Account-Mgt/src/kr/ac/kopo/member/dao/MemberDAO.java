@@ -39,7 +39,7 @@ public class MemberDAO {
 			pstmt.setString(5, member.getEmail());
 			pstmt.setString(6, member.getPhoneNo());
 
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -55,7 +55,7 @@ public class MemberDAO {
 		MemberVO userVO = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("select id, type, name ");
+		sql.append("select id, type, name, member_no ");
 		sql.append(" from a_member ");
 		sql.append(" where id = ? and password = ? ");
 
@@ -71,6 +71,7 @@ public class MemberDAO {
 				userVO.setId(rs.getString("id"));
 				userVO.setType(rs.getString("type"));
 				userVO.setName(rs.getString("name"));
+				userVO.setMemberNo(rs.getInt("member_no"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

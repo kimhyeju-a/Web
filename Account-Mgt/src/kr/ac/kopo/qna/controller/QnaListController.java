@@ -26,7 +26,6 @@ public class QnaListController implements Controller{
         cal.add(Calendar.HOUR, -12); //12시간전
         String nowday = format.format(cal.getTime());
         request.setAttribute("nowday",nowday);
-        System.out.println(nowday);
 		return "/jsp/qna/qnaList.jsp";
 	}
 	

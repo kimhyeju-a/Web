@@ -42,7 +42,6 @@
 				Kakao.API.request({
 					url : '/v2/user/me',
 					success : function(res) {
-						console.log(res);
 						res.id = '@k' + res.id;
 						var params = {
 								id : res.id,
@@ -63,14 +62,11 @@
 		var form = document.createElement("form");
 		form.setAttribute("method", method);
 		form.setAttribute("action", path);
-		console.log(params)
 		for (var key in params) {
 			var hiddenField = document.createElement("input");
 			hiddenField.setAttribute("type", "hidden");
 			hiddenField.setAttribute("name", key);
-			console.log(key);
 			hiddenField.setAttribute("value", params[key]);
-			console.log(params[key]);
 			form.appendChild(hiddenField);
 		}
 		document.body.appendChild(form);
@@ -93,7 +89,7 @@
 				<!-- Login Form -->
 				<form action="<%=request.getContextPath()%>/loginProcess.do" method="post">
 					<input type="text" id="id" class="fadeIn second" name="id" placeholder="id" value="user"> 
-					<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value="123456789"> 
+					<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value="asdf1234!"> 
 					<input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
 				<a id="login-form-btn" href="javascript:loginFormWithKakao()"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222" /></a>

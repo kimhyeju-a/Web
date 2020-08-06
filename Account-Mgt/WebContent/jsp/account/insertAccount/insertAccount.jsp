@@ -30,7 +30,9 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="<%=request.getContextPath()%>/assets/js/account.js"></script>
 <script>
-
+	<c:if test="${ not empty param.msg }">
+		alert('${ param.msg }');
+	</c:if>
 	$(document).ready(function(){
 		$("#first-deposit").keyup(function(){
 			var temp = $("#first-deposit").val()
@@ -89,7 +91,7 @@
 						</select>
 					</div>
 					<input type="hidden" id="bankName" name="bankName">
-					<input type="text" class="form-control" placeholder="원하시는 계좌번호를 입력해주세요." id="accountNo" name="accountNo" onkeyup="autoHypen(this)" required>
+					<input type="text" class="form-control" placeholder="원하시는 계좌번호를 입력해주세요." id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
 					<div class="input-group-append">
 						<a href="#" class="btn btn-outline-info">중복확인</a>
 					</div>
@@ -124,13 +126,13 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="addon-wrapping">계좌비밀번호</span>
 					</div>
-					<input type="password" class="form-control password" id="password" name="password" maxlength="4" placeholder="계좌비밀번호를 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)">
+					<input type="password" class="form-control password" id="password" name="password" maxlength="4" placeholder="계좌비밀번호를 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)" required>
 				</div>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="addon-wrapping">비밀번호확인</span>
 					</div>
-					<input type="password" class="form-control password" id="passwordCheck" name="passwordCheck" maxlength="4" placeholder="계좌비밀번호를 다시 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)">
+					<input type="password" class="form-control password" id="passwordCheck" name="passwordCheck" maxlength="4" placeholder="계좌비밀번호를 다시 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)" required>
 				</div>
 				<div class="float-right mt-3">
 					<input type="submit" class=" btn btn-outline-info" value="계좌 생성하기">

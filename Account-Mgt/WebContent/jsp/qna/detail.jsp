@@ -37,7 +37,7 @@
 	$(document).ready(function() {
 		$('.modify-btn').click(function(){
 			$.ajax({
-				url : '<%=request.getContextPath()%>/jsp/qna/passwordCheck.jsp?no=${ board.boardNo }?type=m',
+				url : '<%=request.getContextPath()%>/jsp/qna/passwordCheck.jsp?no=${ board.boardNo }&type=m',
 				success : function(data) {
 					$('#modifyPasswordCheck').html(data);
 				}
@@ -82,6 +82,7 @@
 				<!-- 왜 if 태그 쓰고는 안되고 안쓰고는 되는지!!!!!!!!!!!!! -->
 				<c:set var="writerId" value="${ board.writerId }"></c:set>
 				<c:set var="check" value="${ userVO.id eq writerId }"></c:set>
+				<c:out value="${ writeId }"></c:out>
 			</div>
 			<div class="row detail-form">
 				<div class="col-sm-2 detail-info-title">Title</div>

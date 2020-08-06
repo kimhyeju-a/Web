@@ -24,8 +24,6 @@ public class LoginProcessController implements Controller {
 		String msg = "";
 		// 카카오 계정인 경우에만
 		if (id.startsWith("@k")) {
-			System.out.println("카카오계정입니다");
-			
 			member = new MemberVO();
 			idCheck = dao.idCheck(request.getParameter("id"));
 			String email = request.getParameter("email");
@@ -43,8 +41,6 @@ public class LoginProcessController implements Controller {
 				System.out.println("url :" + url);
 			}
 		} else {
-			System.out.println("일반계정입니다.");
-			
 			String password = request.getParameter("password");
 			System.out.println("id : " + id + ",password : " + password);
 			params = "";
@@ -66,6 +62,7 @@ public class LoginProcessController implements Controller {
 			} else {
 				// 세션 등록
 				session.setAttribute("userVO", userVO);
+				url +="/main.do";
 				switch (userVO.getType()) {
 				case "s":
 				case "S":
@@ -77,7 +74,7 @@ public class LoginProcessController implements Controller {
 					break;
 				}
 			}
-			/* msg = msg = URLEncoder.encode(msg, "utf-8"); */
+			msg = URLEncoder.encode(msg, "utf-8");
 			params = "msg=" + msg;
 		}
 		return "redirect :" + url +"?" + params;
