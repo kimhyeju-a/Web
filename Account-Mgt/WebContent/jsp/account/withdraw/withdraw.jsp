@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,33 +24,74 @@
 <link href="<%=request.getContextPath()%>/assets/vendor/venobox/venobox.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/assets/vendor/aos/aos.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="<%=request.getContextPath()%>/assets/js/account.js"></script>
 <script>
 	<c:if test="${ not empty param.msg }">
 		alert('${ param.msg }');
 	</c:if>
-	$(document).ready(function() {
-		$('.modify-btn').click(function(){
+	$(document).ready(function(){
+		$("#balance").keyup(function(){
+			var temp = $("#balance").val()
+			trimDiff('#balance')
+			let money = $('#balance').val()
 			$.ajax({
-				url : '<%=request.getContextPath()%>/jsp/qna/passwordCheck.jsp?no=${ board.boardNo }&type=m',
-				success : function(data) {
-					$('#modifyPasswordCheck').html(data);
+				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money +'&type=d',
+				success : function(data){
+					$('#withdraw-result').html($.trim(data));
 				}
+			});
+		});
+		$('#bankName').attr('value',$('select option:selected').val())
+		$("#sel1").on('change', function(){
+			$('#bankName').attr('value',$('select option:selected').val())
+		});
+		
+		$('#accountNumberCheck').click(function(){
+			var form = $('<form></form>');
+		    form.attr('action', '<%=request.getContextPath()%>/withdrawProcess.do');
+			form.attr('method', 'post');
+			form.attr('id', 'test');
+			var accountNo = $("#sel1 option:selected").attr("id");
+			console.log("accountNo : " + accountNo)
+			var balance = $('#balance').val();
+			form.append('$<input/>', {
+				type : 'hidden',
+				name : 'accountNo',
+				value : accountNo,
 			})
-		})
-		$('.delete-btn').click(function(){
-			$.ajax({
-				url : '<%=request.getContextPath()%>/jsp/qna/passwordCheck.jsp?no=${ board.boardNo }&type=d',
-				success : function(data) {
-					$('#modifyPasswordCheck').html(data);
-				}
+			form.append('$<input/>', {
+				type : 'hidden',
+				name : 'balance',
+				value : balance,
 			})
+			form.appendTo('body');
+			form.submit();
+			post_to_url("<%=request.getContextPath()%>/withdrawProcess.do", {
+				"accountNo" : accountNo,
+				"balance" : balance
+			},'post')
 		})
-	})	
+	});
+	
+	function post_to_url(path, params, method) {
+		method = method || 'post'; // Set method to post by default, if not specified.
+		var form = document.createElement("form");
+		form.setAttribute("method", method);
+		form.setAttribute("action", path);
+		for(var key in params) {
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", key);
+		hiddenField.setAttribute("value", params[key]);
+		form.appendChild(hiddenField);
+		}
+		document.body.appendChild(form);
+		form.submit();
+		}
 </script>
 </head>
 <body>
@@ -61,10 +101,10 @@
 	<section id="breadcrumbs" class="breadcrumbs">
 		<div class="container">
 			<div class="d-flex justify-content-between align-items-center">
-				<h2>Q&A - 상세페이지</h2>
+				<h2>입/출금</h2>
 				<ol>
-					<li><a href="#">고객관리</a></li>
-					<li>Q&A</li>
+					<li><a href="#">입/출금</a></li>
+					<li>출금</li>
 				</ol>
 			</div>
 
@@ -72,51 +112,35 @@
 	</section>
 	<section>
 		<div class="container">
-			<h3 class="detail-title">${ board.title }</h3>
+			<h3 class="detail-title">출금</h3>
 			<hr width="20%">
-			<div class="row detail-form">
-				<div class="col-sm-2 detail-info-title">No</div>
-				<div class="col-sm-3 detail">${ board.boardNo }</div>
-				<div class="col-sm-2 detail-info-title">Writer</div>
-				<div class="col-sm-3 detail">${ board.writer }</div>
-				<!-- 왜 if 태그 쓰고는 안되고 안쓰고는 되는지!!!!!!!!!!!!! -->
-				<c:set var="writerId" value="${ board.writerId }"></c:set>
-				<c:set var="check" value="${ userVO.id eq writerId }"></c:set>
-				<c:out value="${ writeId }"></c:out>
+		</div>
+		<div class="container col-md-7 account">
+			<div class="input-group mt-3 mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="addon-wrapping">계좌선택</span>
+				</div>
+				<select class="form-control account-select" id="sel1" name="bankName">
+					<c:forEach items="${ list }" var="account" varStatus="vs">
+						<option id="${ account.accountNo }">은행명 : ${ account.bankName } | 계좌 : ${ account.accountNumber } | 잔액 : ${ account.balance }</option>
+					</c:forEach>
+				</select>
 			</div>
-			<div class="row detail-form">
-				<div class="col-sm-2 detail-info-title">Title</div>
-				<div class="col-sm-10 detail">
-					<c:if test="${ board.parentNo eq 0}">[원글삭제]</c:if>
-					<c:if test="${ board.depth > 1 }">
-						<c:forEach begin="2" end="${ board.depth }">
-							<img src="<%=request.getContextPath()%>/assets/img/ico_re.gif">
-						</c:forEach>
-					</c:if>
-					<c:out value="${ board.title }" />
-					<c:if test="${ board.regDate >= nowday }">
-						<img src="<%=request.getContextPath()%>/assets/img/ico_new.gif">
-					</c:if>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="addon-wrapping">출금액</span>
+				</div>
+				<input type="text" class="form-control" id="balance" name="balance" placeholder="출금액은 1원 이상이어야 합니다." required>
+				<div class="input-group-append">
+					<span class="input-group-text">원</span>
 				</div>
 			</div>
-			<div class="row detail-content">
-				<div class="col-sm-2 detail-info-title">Content</div>
-				<c:set var="contentBr" value="${ board.content }"></c:set>
-				<div class="col-sm-10 detail-info">${ fn:replace(contentBr, newLine, '</br>') }</div>
-			</div>
-			<div class="row float-right">
-				<c:if test="${ check }"><a href="#" class="float-right btn btn-outline-danger write-no-btn delete-btn">삭제</a></c:if>
-				<c:if test="${ check }"><a href="#" class="float-right btn btn-outline-info write-no-btn modify-btn">수정</a></c:if>
-				<a href="<%=request.getContextPath()%>/qnaList.do" class="float-right btn btn-outline-dark write-no-btn">목록</a>
-				<a href="<%=request.getContextPath()%>/writeReply.do?no=${ board.boardNo }" class="float-right btn btn-outline-dark write-no-btn">답변</a>
+			<div id='withdraw-result' class="float-right mb-1"></div>
+			<div class="float-right mt-3">
+				<input type="button" class=" btn btn-outline-info" id="accountNumberCheck" value="출금하기">
 			</div>
 		</div>
 	</section>
-	<div class="container">
-		<div class="row float-right">
-			<div id="modifyPasswordCheck"></div>
-		</div>
-	</div>
 	<!-- Vendor JS Files -->
 	<script src="<%=request.getContextPath()%>/assets/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

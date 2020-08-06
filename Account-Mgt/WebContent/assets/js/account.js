@@ -26,9 +26,9 @@ function autoHypen(obj){
 		} else {
 			account += number.substr(0,3);
 			account += "-";
-			account += number.substr(3,7);
+			account += number.substr(3,6);
 			account += "-";
-			account += number.substr(10);
+			account += number.substr(9);
 		}
 	}
 	//신한은행 3-3-6
@@ -54,9 +54,9 @@ function autoHypen(obj){
 		if(number.length < 7){
 			return number
 		} else if (number.length < 9) {
-			account += number.substr(0,7);
+			account += number.substr(0,6);
 			account += "-";
-			account += number.substr(7);
+			account += number.substr(6);
 		} else {
 			account += number.substr(0,6);
 			account += "-";
@@ -84,27 +84,27 @@ function autoHypen(obj){
 	} 
 	//기업은행 3-6-2-3
 	else if (bankName == "기업은행"){
-		$(obj).attr("maxlength","16");
-		if(number.length < 4){
+		$(obj).attr("maxlength","17");
+		if(number.length < 3){
 			return number
 		} else if (number.length < 10) {
-			account += number.substr(0,4);
+			account += number.substr(0,3);
 			account += "-";
-			account += number.substr(4);
+			account += number.substr(3);
 		} else if (number.length < 12){
-			account += number.substr(0,4);
+			account += number.substr(0,3);
 			account += "-";
-			account += number.substr(4,6);
+			account += number.substr(3,6);
 			account += "-";
-			account += number.substr(10);
+			account += number.substr(9);
 		} else {
-			account += number.substr(0,4);
+			account += number.substr(0,3);
 			account += "-";
-			account += number.substr(4,6);
+			account += number.substr(3,6);
 			account += "-";
-			account += number.substr(10,2);
+			account += number.substr(9,2);
 			account += "-";
-			account += number.substr(12);
+			account += number.substr(11);
 		}
 	}
 	

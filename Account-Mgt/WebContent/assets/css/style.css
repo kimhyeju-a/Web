@@ -1725,3 +1725,7 @@ Boarddetail
 	margin-top: 20px;
 	overflow: hidden;
 }
+
+.alias-modify-btn{
+	width: 70px
+}

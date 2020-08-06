@@ -10,7 +10,12 @@
 			<span class="ok-money">확인</span>
 		</c:if>
 	</c:when>
-<%-- 	<c:when test="${ param.type eq 'c' }">
-	
-	</c:when> --%>
+	<c:when test="${ param.type eq 'd' }">
+		<c:if test="${ param.money+0 lt 1+0 }">
+			<span class="less-money">금액이 작습니다. 1000원 이상을 입금해주세요</span>
+		</c:if>
+		<c:if test="${ param.money+0 ge 1+0 }">
+			<span class="ok-money">확인</span>
+		</c:if>
+	</c:when>
 </c:choose>

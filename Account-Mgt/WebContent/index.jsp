@@ -31,6 +31,9 @@
 	<c:if test="${ not empty param.msg }">
 		alert('${ param.msg }');
 	</c:if>
+	<c:if test="${ not empty msg }">
+		alert('${ msg }');
+	</c:if>
 </script>
 </head>
 <body>

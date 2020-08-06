@@ -3,6 +3,7 @@ package kr.ac.kopo.qna.vo;
 public class QnaVO {
 	private int boardNo;
 	private int groupNo;
+	private int parentNo;
 	private int groupOrder;
 	private int depth;
 	private String title;
@@ -26,6 +27,12 @@ public class QnaVO {
 	}
 	public void setGroupNo(int groupNo) {
 		this.groupNo = groupNo;
+	}
+	public int getParentNo() {
+		return parentNo;
+	}
+	public void setParentNo(int parentNo) {
+		this.parentNo = parentNo;
 	}
 	public int getGroupOrder() {
 		return groupOrder;

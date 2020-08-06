@@ -30,15 +30,18 @@
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
 <script>
-	function doAction(boardNo){
+	<c:if test="${ not empty param.msg }">
+		alert('${ param.msg }');
+	</c:if>
+	function detailLogin(boardNo){
 		<c:choose>
-			<c:when test="${ empty userVO }">
-				if(confirm('로그인 후 사용 가능합니다\n로그인 페이지로 이동하시겠습니까?'))
-					location.href = "<%=request.getContextPath()%>/login.do"
-			</c:when>
-			<c:otherwise>
-				location.href = "<%=request.getContextPath()%>/detail.do?no=" + boardNo + "&type=list";
-			</c:otherwise>
+		<c:when test="${ empty userVO }">
+			if(confirm('로그인 후 사용 가능합니다\n로그인 페이지로 이동하시겠습니까?'))
+				location.href = "<%=request.getContextPath()%>/login.do"
+		</c:when>
+		<c:otherwise>
+			location.href = "<%=request.getContextPath()%>/detail.do?no=" + boardNo + "&type=list";
+		</c:otherwise>
 		</c:choose>
 	}
 </script>
@@ -77,7 +80,8 @@
 						<tr>
 							<td>${ board.boardNo }</td>
 							<td>
-								<a href="javascript:doAction(${ board.boardNo })"> 
+								<a href="javascript:detailLogin(${ board.boardNo })"> 
+									<c:if test="${ board.parentNo eq 0}">[원글삭제]</c:if>
 									<c:if test="${ board.depth > 1 }">
 										<c:forEach begin="2" end="${ board.depth }">
 											<img src="<%=request.getContextPath()%>/assets/img/ico_re.gif">

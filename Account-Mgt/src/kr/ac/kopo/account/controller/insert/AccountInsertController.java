@@ -14,7 +14,7 @@ public class AccountInsertController implements Controller{
 	@Override
 	public String handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		
+		System.out.println("AccountInsertController");
 		String bankName = request.getParameter("bankName");
 		String accountNumber = request.getParameter("accountNumber");
 		int firstDeposit = Integer.parseInt(request.getParameter("firstDeposit"));
@@ -36,14 +36,14 @@ public class AccountInsertController implements Controller{
 		AccountDAO dao = new AccountDAO();
 		if(dao.newAccountNumber(account) == 1) {
 			msg = "계좌등록이 완료되었습니다.";
-			url += "/selectAccount.do";
+			url += "/selectAccount.do?userNo="+userNo +"&msg=";
 		}else {
 			msg = "계좌등록에 실패하였습니다. 다시 등록해주세요";
-			url += "/insertAccountForm.do";
+			url += "/insertAccountForm.do?msg=";
 		}
 		msg = URLEncoder.encode(msg,"utf-8");
 		
-		return "redirect :" + url +"?msg=" + msg;
+		return "redirect :" + url + msg;
 	}
 	
 }

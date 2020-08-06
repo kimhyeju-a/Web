@@ -34,12 +34,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script>
-	<c:if test="${ not empty param.msg }">
-		alert('${ param.msg }');
-	</c:if>
-	<c:if test="${ not empty msg }">
-		alert('${ msg }');
-	</c:if>
 	$(document).ready(function() {
 		$("#myInput").on("keyup", function() {
 			var value = $(this).val().toLowerCase();
@@ -47,26 +41,7 @@
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		});
-		<%-- $(document).on("click", ".modifyBtn",function(event){
-			var id = $(this).attr("id");
-			var alias = $(this).attr("title");
-			var accountNo = $(id + "accountNo").attr("value")
-			test = id + "box"
-			$.ajax({
-				type : 'POST',
-				url : '<%=request.getContextPath()%>/jsp/account/selectAccount/modifyPasswordCheck.jsp',
-				dataType: 'json',
-				data : {
-					"no" : accountNo,
-					type : "am" ,
-				},success : function(data) {
-					console.log(data)
-					$(id + "box").html(data);
-				},error : function(err){
-					alert("err")
-				}
-			});
-		}); --%>
+
 	});
 </script>
 </head>
@@ -80,7 +55,7 @@
 				<h2>계좌업무</h2>
 				<ol>
 					<li><a href="#">계좌업무</a></li>
-					<li>계좌조회</li>
+					<li>계좌수정</li>
 				</ol>
 			</div>
 		</div>
@@ -89,7 +64,7 @@
 		<div class="container" data-aos="fade-up">
 
 			<div class="section-title">
-				<h2>계좌조회</h2>
+				<h2>계좌수정</h2>
 				<p>
 					<c:if test="${ empty userVO.name }">
 						<c:out value="${ userVO.id }" />
@@ -97,7 +72,7 @@
 					<c:if test="${ not empty userVO.name }">
 						<c:out value="${ userVO.name }" />
 					</c:if>
-					님의 계좌
+					님의 계좌 - 수정하실 계좌를 선택해주세요.
 				</p>
 			</div>
 			<div id="myBtnContainer" class="row">
@@ -112,7 +87,7 @@
 				<c:if test="${ not empty list }">
 					<c:forEach items="${ list }" var="account" varStatus="vs">
 						<div class="filterDiv ${ account.bankName } col-lg-4 col-md-6 d-flex align-items-stretch mb-4" data-aos="zoom-in" data-aos-delay="100">
-							<div class="icon-box">
+							<div class="icon-box" onclick="location.href="<%=request.getContextPath() %>/modifyAccountProcess.do?accountNo=${ account.accountNo }">
 								<div class="icon">
 									<c:choose>
 										<c:when test="${ account.bankName eq '하나은행' }">
@@ -136,16 +111,9 @@
 									<a href="" class="bankName">${ account.bankName }</a>
 								</h4>
 								<p>계좌번호 : ${ account.accountNumber }</p>
-								<p id="modify${vs.index}Ptag">별칭 : ${ account.alias }</p>
+								<p>별칭 : ${ account.alias }</p>
 								<p>잔액 : ${ account.balance }</p>
-								<input type="hidden" value="${ account.accountNo }" id="modify${ vs.index }accountNo">
-								<div class="row float-right">
-									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn modifyBtn" id = "#modify${ vs.index }" onclick="location.href='<%=request.getContextPath()%>/modifyAccount.do?accountNo=${ account.accountNo }'">수정</a>
-								</div>
 							</div>
-								<div class="row float-right">
-									<div id="modify${ vs.index }box"></div>
-								</div>
 						</div>
 					</c:forEach>
 				</c:if>

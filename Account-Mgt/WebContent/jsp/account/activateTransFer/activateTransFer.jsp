@@ -34,27 +34,67 @@
 		alert('${ param.msg }');
 	</c:if>
 	$(document).ready(function(){
-		$("#first-deposit").keyup(function(){
-			var temp = $("#first-deposit").val()
-			trimDiff('#first-deposit')
-			let money = $('#first-deposit').val()
+		$("#balance").keyup(function(){
+			var temp = $("#balance").val()
+			trimDiff('#balance')
+			let money = $('#balance').val()
 			$.ajax({
-				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money +'&type=m',
+				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money +'&type=d',
 				success : function(data){
-					$('#first-deposit-result').html($.trim(data));
+					$('#withdraw-result').html($.trim(data));
 				}
 			});
 		});
-		
-		
 		$('#bankName').attr('value',$('select option:selected').val())
 		$("#sel1").on('change', function(){
 			$('#bankName').attr('value',$('select option:selected').val())
 		});
 		
-		
+		$('#accountNumberCheck').click(function(){
+			var form = $('<form></form>');
+		    form.attr('action', '<%=request.getContextPath()%>/transferProcess.do');
+			form.attr('method', 'post');
+			form.attr('id', 'test');
+			var accountNoTo = $("#sel1 option:selected").attr("id");
+			var balance = $('#balance').val();
+			var bankName = $('#toAccount').val();
+			var accountNumber = $('#accountNumber').val();
+			form.append('$<input/>', {
+				type : 'hidden',
+				name : 'accountNo',
+				value : accountNo,
+			})
+			form.append('$<input/>', {
+				type : 'hidden',
+				name : 'balance',
+				value : balance,
+			})
+			form.appendTo('body');
+			form.submit();
+			post_to_url("<%=request.getContextPath()%>/transferProcess.do", {
+				"fromAccount" : accountNo,
+				"balance" : balance,
+				'toAccountBank' : bankName,
+				'toAccountNumber' : accountNumber
+			},'post')
+		})
 	});
 	
+	function post_to_url(path, params, method) {
+		method = method || 'post'; // Set method to post by default, if not specified.
+		var form = document.createElement("form");
+		form.setAttribute("method", method);
+		form.setAttribute("action", path);
+		for(var key in params) {
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", key);
+		hiddenField.setAttribute("value", params[key]);
+		form.appendChild(hiddenField);
+		}
+		document.body.appendChild(form);
+		form.submit();
+		}
 </script>
 </head>
 <body>
@@ -64,10 +104,10 @@
 	<section id="breadcrumbs" class="breadcrumbs">
 		<div class="container">
 			<div class="d-flex justify-content-between align-items-center">
-				<h2>계좌업무</h2>
+				<h2>입/출금</h2>
 				<ol>
-					<li><a href="#">계좌업무</a></li>
-					<li>계좌등록</li>
+					<li><a href="#">입/출금</a></li>
+					<li>출금</li>
 				</ol>
 			</div>
 
@@ -75,14 +115,34 @@
 	</section>
 	<section>
 		<div class="container">
-			<h3 class="detail-title">계좌 등록</h3>
+			<h3 class="detail-title">출금</h3>
 			<hr width="20%">
 		</div>
 		<div class="container col-md-7 account">
-			<form action="<%=request.getContextPath()%>/insertAccount.do" method="post" onsubmit="return insertAccountCheck()">
-				<div class="input-group mt-3 mb-3">
+			<div class="input-group mt-3 mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="addon-wrapping">계좌선택</span>
+				</div>
+				<select class="form-control account-select" id="sel1" name="bankName">
+					<c:forEach items="${ list }" var="account" varStatus="vs">
+						<option id="${ account.accountNo }">은행명 : ${ account.bankName } | 계좌 : ${ account.accountNumber } | 잔액 : ${ account.balance }</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="addon-wrapping">금액</span>
+				</div>
+				<input type="text" class="form-control" id="balance" name="balance" placeholder="계좌이체는 1원 이상이어야 합니다." required>
+				<div class="input-group-append">
+					<span class="input-group-text">원</span>
+				</div>
+			</div>
+			<div id='withdraw-result' class="float-right mb-1"></div>
+			<div class="float-right mt-3">
+			<div class="input-group mt-3 mb-3">
 					<div class="input-group-prepend">
-						<select class="form-control account-select" id="sel1">
+						<select class="form-control account-select" id="toAccount" name="bankName">
 							<option>하나은행</option>
 							<option>신한은행</option>
 							<option>국민은행</option>
@@ -90,54 +150,10 @@
 							<option>기업은행</option>
 						</select>
 					</div>
-					<input type="hidden" id="bankName" name="bankName">
-					<input type="text" class="form-control" placeholder="원하시는 계좌번호를 입력해주세요." id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
-					<div class="input-group-append">
-						<a href="#" class="btn btn-outline-info">중복확인</a>
-					</div>
-					<!-- <div class="input-group-append">
-						<a href="#" class="btn btn-outline-info">랜덤생성</a>
-					</div> -->
+					<input type="text" class="form-control" placeholder="입금하실 계좌번호를 입력해주세요" id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
 				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="addon-wrapping">최초 입금액</span>
-					</div>
-					<input type="text" class="form-control" id="first-deposit" name="firstDeposit" placeholder="최초 입금액은 1000원 이상이어야 합니다." required>
-					<div class="input-group-append">
-						<span class="input-group-text">원</span>
-					</div>
-				</div>
-				<div id='first-deposit-result' class="float-right mb-1"></div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="addon-wrapping">별칭</span>
-					</div>
-					<input type="text" class="form-control" id="alias" name="alias" value="통장">
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="addon-wrapping">소유주</span>
-					</div>
-					<input type="text" class="form-control" id="name" value="${ userVO.name }" readonly>
-					<input type="hidden" value="${ userVO.memberNo }" name="userNo">
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="addon-wrapping">계좌비밀번호</span>
-					</div>
-					<input type="password" class="form-control password" id="password" name="password" maxlength="4" placeholder="계좌비밀번호를 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)" required>
-				</div>
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text" id="addon-wrapping">비밀번호확인</span>
-					</div>
-					<input type="password" class="form-control password" id="passwordCheck" name="passwordCheck" maxlength="4" placeholder="계좌비밀번호를 다시 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)" required>
-				</div>
-				<div class="float-right mt-3">
-					<input type="submit" class=" btn btn-outline-info" value="계좌 생성하기">
-				</div>
-			</form>
+				<input type="button" class=" btn btn-outline-info" id="accountNumberCheck" value="입금하기">
+			</div>
 		</div>
 	</section>
 	<!-- Vendor JS Files -->

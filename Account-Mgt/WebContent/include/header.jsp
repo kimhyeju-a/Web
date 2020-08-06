@@ -1,5 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script>
+	function doAction(hrefLink){
+		<c:choose>
+			<c:when test="${ empty userVO }">
+				if(confirm('로그인 후 사용 가능합니다\n로그인 페이지로 이동하시겠습니까?'))
+					location.href = "<%=request.getContextPath()%>/login.do"
+			</c:when>
+			<c:otherwise>
+				location.href = "<%=request.getContextPath()%>" + hrefLink;
+			</c:otherwise>
+		</c:choose>
+	}
+</script>
 <!-- ======= Header ======= -->
 <div class="container d-flex align-items-center justify-content-between">
 
@@ -12,15 +25,14 @@
 			<li class="active"><a href="/Account-Mgt">Home</a></li>
 			<li class="drop-down"><a href="#">계좌업무</a>
 				<ul>
-					<li><a href="<%=request.getContextPath()%>/insertAccountForm.do">계좌등록</a></li>
-					<li><a href="<%=request.getContextPath()%>/selectAccount.do?userNo=${ userVO.memberNo }">계좌조회</a></li>
-					<li><a href="#">계좌관리</a></li>
+					<li><a href="javascript:doAction('/insertAccountForm.do')">계좌등록</a></li>
+					<li><a href="javascript:doAction('/selectAccount.do?userNo=${ userVO.memberNo }')">계좌조회</a></li>
 				</ul>
 			</li>
 			<li class="drop-down"><a href="#">입/출금</a>
 				<ul>
-					<li><a href="#">입금</a></li>
-					<li><a href="#">출금</a></li>
+					<li><a href="javascript:doAction('/depositForm.do')">입금</a></li>
+					<li><a href="javascript:doAction('/withdraw.do')">출금</a></li>
 					<li><a href="#">계좌이체</a></li>
 				</ul>
 			</li>
@@ -42,7 +54,7 @@
 		</c:when>
 		<c:otherwise>
 			<span>${ userVO.id }님</span>
-			<span><a href="#" class="get-started-btn">Logout</a></span>
+			<span><a href="<%=request.getContextPath() %>/logout.do" class="get-started-btn">Logout</a></span>
 		</c:otherwise>
 	</c:choose>
 

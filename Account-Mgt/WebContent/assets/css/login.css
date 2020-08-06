@@ -329,4 +329,5 @@ input[type=text]:placeholder, input[type=password]:placeholder {
 
 #joinBackGround{
 	height: 100%;
+	margin-top: 70px;
 }

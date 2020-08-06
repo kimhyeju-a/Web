@@ -27,6 +27,47 @@
 
 <!-- Template Main CSS File -->
 <link href="<%=request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="<%=request.getContextPath()%>/assets/js/account.js"></script>
+<script>
+	<c:if test="${ not empty param.msg }">
+		alert('${ param.msg }');
+	</c:if>
+	$(document).ready(function(){
+		$("#deposit").keyup(function(){
+			var temp = $("#deposit").val()
+			trimDiff('#deposit')
+			let money = $('#deposit').val()
+			$.ajax({
+				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money +'&type=d',
+				success : function(data){
+					$('#deposit-result').html($.trim(data));
+				}
+			});
+		});
+		$('#bankName').attr('value',$('select option:selected').val())
+		$("#sel1").on('change', function(){
+			$('#bankName').attr('value',$('select option:selected').val())
+		});
+		
+		<%-- $('#accountNumberCheck').click(){
+			var bankName = $('#sel1').val()
+			var accountNumber = $('#bankName').val();
+			
+			$.post({
+				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp',
+				data : {
+					"type" : "depositCheck",
+					"accountNumber" : accountNumber,
+					"bankName" : bankName
+				},
+				success : function(data){
+					$('#deposit-result').html($.trim(data));
+				}
+			});
+		}; --%>
+	});
+</script>
 </head>
 <body>
 	<header id="header" class="fixed-top ">
@@ -35,56 +76,48 @@
 	<section id="breadcrumbs" class="breadcrumbs">
 		<div class="container">
 			<div class="d-flex justify-content-between align-items-center">
-				<h2>Q&A</h2>
+				<h2>입/출금</h2>
 				<ol>
-					<li><a href="#">고객관리</a></li>
-					<li>Q&A</li>
+					<li><a href="#">입/출금</a></li>
+					<li>입금</li>
 				</ol>
 			</div>
 
 		</div>
 	</section>
 	<section>
-		<div class="container contact">
-			<div class="row write_form">
-				<div class="col-md-3">
-					<div class="contact-info">
-						<i class="ri-question-mark"></i>
-						<h2>Q & A</h2>
+		<div class="container">
+			<h3 class="detail-title">입금</h3>
+			<hr width="20%">
+		</div>
+		<div class="container col-md-7 account">
+			<form action="<%=request.getContextPath()%>/depositProcessAccount.do" method="post" onsubmit="return insertAccountCheck()">
+				<div class="input-group mt-3 mb-3">
+					<div class="input-group-prepend">
+						<select class="form-control account-select" id="sel1" name="bankName">
+							<option>하나은행</option>
+							<option>신한은행</option>
+							<option>국민은행</option>
+							<option>우리은행</option>
+							<option>기업은행</option>
+						</select>
+					</div>
+					<input type="text" class="form-control" placeholder="입금하실 계좌번호를 입력해주세요" id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="addon-wrapping">입금액</span>
+					</div>
+					<input type="text" class="form-control" id="deposit" name="balance" placeholder="입금액은 1원 이상이어야 합니다." required>
+					<div class="input-group-append">
+						<span class="input-group-text">원</span>
 					</div>
 				</div>
-				<div class="col-md-9">
-					<div class="contact-form">
-					<!-- 부모 no가 있으면 writeReplyProcess.do로 이동, 없으면 writeProcess.do로 이동 -->
-						<form action="<c:if test="${ empty param.parentNo }"><%=request.getContextPath()%>/writeProcess.do</c:if><c:if test="${ not empty param.parentNo }"><%=request.getContextPath()%>/writeReplyProcess.do?no=${ param.parentNo }</c:if>" method="post">
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="writer">작성자:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="writer" 
-											value="<c:if test="${ empty userVO.name }"><c:out value="${ userVO.id }"/></c:if><c:if test="${ not empty userVO.name }"><c:out value="${ userVO.name }"/></c:if>" 
-											name="writer" readonly>
-									<input type="hidden" value="${ userVO.id }" name="writerId">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="title">제목:</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="title" placeholder="Enter Title" name="title" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="control-label col-sm-2" for="content">내용:</label>
-								<div class="col-sm-10">
-									<textarea class="form-control" rows="5" id="content" placeholder="Enter Content" name="content" required></textarea>
-								</div>
-							</div>
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-default">Submit</button>
-							</div>
-						</form>
-					</div>
+				<div id='deposit-result' class="float-right mb-1"></div>
+				<div class="float-right mt-3">
+					<input type="submit" class=" btn btn-outline-info" id="#accountNumberCheck" value="입금하기">
 				</div>
-			</div>
+			</form>
 		</div>
 	</section>
 	<!-- Vendor JS Files -->
