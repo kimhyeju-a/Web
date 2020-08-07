@@ -47,26 +47,6 @@
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		});
-		<%-- $(document).on("click", ".modifyBtn",function(event){
-			var id = $(this).attr("id");
-			var alias = $(this).attr("title");
-			var accountNo = $(id + "accountNo").attr("value")
-			test = id + "box"
-			$.ajax({
-				type : 'POST',
-				url : '<%=request.getContextPath()%>/jsp/account/selectAccount/modifyPasswordCheck.jsp',
-				dataType: 'json',
-				data : {
-					"no" : accountNo,
-					type : "am" ,
-				},success : function(data) {
-					console.log(data)
-					$(id + "box").html(data);
-				},error : function(err){
-					alert("err")
-				}
-			});
-		}); --%>
 	});
 </script>
 </head>
