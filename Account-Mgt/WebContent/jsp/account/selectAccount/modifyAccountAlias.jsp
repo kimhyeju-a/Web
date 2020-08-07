@@ -60,63 +60,49 @@
 			</div>
 		</div>
 	</section>
-	<section id="services" class="services">
-		<div class="container" data-aos="fade-up">
-
-			<div class="section-title">
-				<h2>계좌수정</h2>
-				<p>
-					<c:if test="${ empty userVO.name }">
-						<c:out value="${ userVO.id }" />
-					</c:if>
-					<c:if test="${ not empty userVO.name }">
-						<c:out value="${ userVO.name }" />
-					</c:if>
-					님의 계좌 - 수정하실 계좌를 선택해주세요.
-				</p>
-			</div>
-			<div id="myBtnContainer" class="row">
-				<button class="btn active" onclick="filterSelection('all')">전체계좌</button>
-				<button class="btn" onclick="filterSelection('하나은행')">하나은행</button>
-				<button class="btn" onclick="filterSelection('국민은행')">국민은행</button>
-				<button class="btn" onclick="filterSelection('기업은행')">기업은행</button>
-				<button class="btn" onclick="filterSelection('신한은행')">신한은행</button>
-				<button class="btn" onclick="filterSelection('우리은행')">우리은행</button>
-			</div>
-			<div class="row container test">
-				<c:if test="${ not empty list }">
-					<c:forEach items="${ list }" var="account" varStatus="vs">
-						<div class="filterDiv ${ account.bankName } col-lg-4 col-md-6 d-flex align-items-stretch mb-4" data-aos="zoom-in" data-aos-delay="100">
-							<div class="icon-box" onclick="location.href="<%=request.getContextPath() %>/modifyAccountProcess.do?accountNo=${ account.accountNo }">
-								<div class="icon">
-									<c:choose>
-										<c:when test="${ account.bankName eq '하나은행' }">
-											<img src='<%=request.getContextPath()%>/assets/img/logo/accountHana.png' alt="${ account.bankName }">
-										</c:when>
-										<c:when test="${ account.bankName eq '국민은행' }">
-											<img src='<%=request.getContextPath()%>/assets/img/logo/accountKb.png' alt="${ account.bankName }">
-										</c:when>
-										<c:when test="${ account.bankName eq '기업은행' }">
-											<img src='<%=request.getContextPath()%>/assets/img/logo/accountIBK.png' alt="${ account.bankName }">
-										</c:when>
-										<c:when test="${ account.bankName eq '신한은행' }">
-											<img src='<%=request.getContextPath()%>/assets/img/logo/accountSinhan.png' alt="${ account.bankName }">
-										</c:when>
-										<c:when test="${ account.bankName eq '우리은행' }">
-											<img src='<%=request.getContextPath()%>/assets/img/logo/accountWoori.png' alt="${ account.bankName }">
-										</c:when>
-									</c:choose>
+	<section>
+		<div class="container contact">
+			<div class="row write_form">
+				<div class="col-md-3">
+					<div class="contact-info">
+						<i class="ri-question-mark"></i>
+						<h2>Modify</h2>
+					</div>
+				</div>
+				<div class="col-md-9">
+					<div class="contact-form">
+						<form action="<%=request.getContextPath() %>/modifyAccountProcess.do" method="post">
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="userNo">소유자:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="userNo" value="${ account.userNo }" name="userNo" readonly>
+									<input type="hidden" id="accountNo" value="${ account.accountNo }" name="accountNo" readonly>
 								</div>
-								<h4>
-									<a href="" class="bankName">${ account.bankName }</a>
-								</h4>
-								<p>계좌번호 : ${ account.accountNumber }</p>
-								<p>별칭 : ${ account.alias }</p>
-								<p>잔액 : ${ account.balance }</p>
 							</div>
-						</div>
-					</c:forEach>
-				</c:if>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="bankName">은행명:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="bankName" value="${ account.bankName }" name="bankName" disabled>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="accountNumber">계좌번호 :</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="accountNumber" value="${ account.accountNumber }" name="accountNumber" readonly>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="alias">별칭 :</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="alias" value="${ account.alias }" name="alias">
+								</div>
+							</div>
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>

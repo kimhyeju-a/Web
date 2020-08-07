@@ -35,7 +35,7 @@
 		alert('${ param.msg }');
 	</c:if>
 	// 카카오 로그인에서 받은 파라미터를 가지고 loginProcess.do로 간다.
-	Kakao.init('-')
+	Kakao.init('6efec64f19194a184a55d1902a6d6e99')
 	function loginFormWithKakao() {
 		Kakao.Auth.loginForm({
 			success : function(authObj) {
@@ -88,8 +88,8 @@
 
 				<!-- Login Form -->
 				<form action="<%=request.getContextPath()%>/loginProcess.do" method="post">
-					<input type="text" id="id" class="fadeIn second" name="id" placeholder="id" value="user"> 
-					<input type="password" id="password" class="fadeIn third" name="password" placeholder="password" value="asdf1234!"> 
+					<input type="text" id="id" class="fadeIn second" name="id" placeholder="id"> 
+					<input type="password" id="password" class="fadeIn third" name="password" placeholder="password"> 
 					<input type="submit" class="fadeIn fourth" value="Log In">
 				</form>
 				<a id="login-form-btn" href="javascript:loginFormWithKakao()"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222" /></a>

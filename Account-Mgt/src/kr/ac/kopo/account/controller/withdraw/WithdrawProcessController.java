@@ -26,7 +26,8 @@ public class WithdrawProcessController implements Controller {
 		String url = "";
 		AccountDAO dao = new AccountDAO();
 		AccountVO account = dao.selectByNo(accountNo);
-
+		
+		System.out.println("WithdrawProcessCheck");
 		int withdraw = dao.withdraw(accountNo, money, account);
 		if (withdraw == 2) {
 			msg += "잔액 : " + account.getBalance() + ", 출금액 : " + money + " 잔액이 부족합니다.";

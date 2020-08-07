@@ -52,9 +52,75 @@
 			$('#bankName').attr('value',$('select option:selected').val())
 		});
 		
-		
+		$("#accountNumberCheck").click(function(){
+			let accountNumber = $('#accountNumber').val();
+			var number = accountNumber.replace(/[^0-9]/g, "");
+			$.post({
+				url : '<%=request.getContextPath()%>/accountCheck.do',
+				data : {
+					accountNumber : number,
+					type : "accountNumber"
+				},
+				success : function(data) {
+					$('#accountDupleCheckSpan').html($.trim(data))
+				},
+				error : function(data) {
+					alert(data)
+				}
+			})
+		})
 	});
-	
+	function passwd(obj){
+		var temp = $(obj).val();
+		$(obj).val(temp.replace(/[^0-9 \-]*$/g, ""));
+		var password = $(obj).val()
+		var check = $('#passwordCheck').val()
+		if (password.length < 4) {
+			$('#passwordText').text('비밀번호는 4자리 숫자, 특수문자로 구성하여야 합니다.');
+		} else {
+			$('#passwordText').text('올바른 비밀번호입니다.');
+		}
+		if (password == check) {
+			document.getElementById("passwordCheckText").innerText = '일치합니다.';
+		} else {
+			document.getElementById("passwordCheckText").innerText = '일치하지 않습니다.';
+		}
+	}
+	function passwdCheck(obj){
+		var temp = $(obj).val();
+		$(obj).val(temp.replace(/[^0-9 \-]*$/g, ""));
+		var password = document.getElementById("password").value
+		var check = $(obj).val();
+		
+		if (password == check) {
+			document.getElementById("passwordCheckText").innerText = '일치합니다.';
+		} else {
+			document.getElementById("passwordCheckText").innerText = '일치하지 않습니다.';
+		}
+	}
+	function accountSubmit(){
+		if($('#accountDupleCheckSpan').text() != "이 계좌번호는 사용이 가능합니다."){
+			alert('계좌번호를 확인해주세요')
+			$('#accountNumber').focus();
+			return false;
+		}
+		if($('#first-deposit-result').text() != "확인"){
+			alert('최초 입금액을 확인해주세요')
+			$('#first-deposit').focus();
+			return false;
+		}
+		if($('#first-deposit-result').text() != "확인"){
+			alert('최초 입금액을 확인해주세요')
+			$('#first-deposit').focus();
+			return false;
+		}
+		if($('#passwordText').text() != '올바른 비밀번호입니다.' && $('#passwordCheckText').text() != '일치합니다.'){
+			alert('비밀번호를 확인해주세요')
+			$('#password').focus();
+			return false;
+		}
+		return true;
+	}
 </script>
 </head>
 <body>
@@ -79,10 +145,10 @@
 			<hr width="20%">
 		</div>
 		<div class="container col-md-7 account">
-			<form action="<%=request.getContextPath()%>/insertAccount.do" method="post" onsubmit="return insertAccountCheck()">
+			<form action="<%=request.getContextPath()%>/insertAccount.do" method="post" onsubmit="return accountSubmit()">
 				<div class="input-group mt-3 mb-3">
 					<div class="input-group-prepend">
-						<select class="form-control account-select" id="sel1">
+						<select class="form-control account-select select-bank" id="sel1">
 							<option>하나은행</option>
 							<option>신한은행</option>
 							<option>국민은행</option>
@@ -93,12 +159,10 @@
 					<input type="hidden" id="bankName" name="bankName">
 					<input type="text" class="form-control" placeholder="원하시는 계좌번호를 입력해주세요." id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
 					<div class="input-group-append">
-						<a href="#" class="btn btn-outline-info">중복확인</a>
+						<a href="#" class="btn btn-outline-info" id="accountNumberCheck">중복확인</a>
 					</div>
-					<!-- <div class="input-group-append">
-						<a href="#" class="btn btn-outline-info">랜덤생성</a>
-					</div> -->
 				</div>
+				<div id="accountDupleCheckSpan" class="float-right mb-1"></div>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="addon-wrapping">최초 입금액</span>
@@ -126,15 +190,19 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="addon-wrapping">계좌비밀번호</span>
 					</div>
-					<input type="password" class="form-control password" id="password" name="password" maxlength="4" placeholder="계좌비밀번호를 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)" required>
+					<input type="password" class="form-control password " id="password" name="password" maxlength="4" placeholder="계좌비밀번호를 입력해주세요(숫자만 입력 가능)" onkeyup="passwd(this)" required>
 				</div>
+				<div id="passwordText" class="float-right mb-1"></div>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<span class="input-group-text" id="addon-wrapping">비밀번호확인</span>
 					</div>
-					<input type="password" class="form-control password" id="passwordCheck" name="passwordCheck" maxlength="4" placeholder="계좌비밀번호를 다시 입력해주세요(숫자만 입력 가능)" onkeyup="trimDiff(this)" required>
+					<input type="password" class="form-control password" id="passwordCheck" name="passwordCheck" maxlength="4" placeholder="계좌비밀번호를 다시 입력해주세요(숫자만 입력 가능)" onkeyup="passwdCheck(this)" required>
 				</div>
-				<div class="float-right mt-3">
+				<div class="float-right mb-1">
+					<div id='passwordCheckText'></div>
+				</div>
+				<div class="row float-right mt-5">
 					<input type="submit" class=" btn btn-outline-info" value="계좌 생성하기">
 				</div>
 			</form>

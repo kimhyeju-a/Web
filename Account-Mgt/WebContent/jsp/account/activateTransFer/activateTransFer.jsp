@@ -35,66 +35,70 @@
 	</c:if>
 	$(document).ready(function(){
 		$("#balance").keyup(function(){
+			console.log('1')
 			var temp = $("#balance").val()
 			trimDiff('#balance')
 			let money = $('#balance').val()
 			$.ajax({
 				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money +'&type=d',
 				success : function(data){
-					$('#withdraw-result').html($.trim(data));
+					$('#balance-result').html($.trim(data));
 				}
 			});
 		});
-		$('#bankName').attr('value',$('select option:selected').val())
+ 		$('#bankName').attr('value',$('select option:selected').val())
 		$("#sel1").on('change', function(){
 			$('#bankName').attr('value',$('select option:selected').val())
+			console.log('2')
 		});
 		
 		$('#accountNumberCheck').click(function(){
+			console.log('3')
 			var form = $('<form></form>');
 		    form.attr('action', '<%=request.getContextPath()%>/transferProcess.do');
 			form.attr('method', 'post');
 			form.attr('id', 'test');
-			var accountNoTo = $("#sel1 option:selected").attr("id");
+			var accountNo = $("#sel1 option:selected").attr("id");
 			var balance = $('#balance').val();
-			var bankName = $('#toAccount').val();
+			var bankName =  $('.select-bank').val();
 			var accountNumber = $('#accountNumber').val();
 			form.append('$<input/>', {
 				type : 'hidden',
 				name : 'accountNo',
-				value : accountNo,
+				value : accountNo
 			})
 			form.append('$<input/>', {
 				type : 'hidden',
 				name : 'balance',
-				value : balance,
+				value : balance
 			})
 			form.appendTo('body');
 			form.submit();
+			alert(accountNo + " , " + balance +", " +bankName + ", " + accountNumber)
 			post_to_url("<%=request.getContextPath()%>/transferProcess.do", {
 				"fromAccount" : accountNo,
 				"balance" : balance,
 				'toAccountBank' : bankName,
 				'toAccountNumber' : accountNumber
-			},'post')
+			}, 'post')
 		})
 	});
-	
+
 	function post_to_url(path, params, method) {
 		method = method || 'post'; // Set method to post by default, if not specified.
 		var form = document.createElement("form");
 		form.setAttribute("method", method);
 		form.setAttribute("action", path);
-		for(var key in params) {
-		var hiddenField = document.createElement("input");
-		hiddenField.setAttribute("type", "hidden");
-		hiddenField.setAttribute("name", key);
-		hiddenField.setAttribute("value", params[key]);
-		form.appendChild(hiddenField);
+		for ( var key in params) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+			form.appendChild(hiddenField);
 		}
 		document.body.appendChild(form);
 		form.submit();
-		}
+	}
 </script>
 </head>
 <body>
@@ -107,42 +111,41 @@
 				<h2>입/출금</h2>
 				<ol>
 					<li><a href="#">입/출금</a></li>
-					<li>출금</li>
+					<li>계좌이체</li>
 				</ol>
 			</div>
-
 		</div>
 	</section>
 	<section>
 		<div class="container">
-			<h3 class="detail-title">출금</h3>
+			<h3 class="detail-title">계좌이체</h3>
 			<hr width="20%">
 		</div>
 		<div class="container col-md-7 account">
-			<div class="input-group mt-3 mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="addon-wrapping">계좌선택</span>
-				</div>
-				<select class="form-control account-select" id="sel1" name="bankName">
-					<c:forEach items="${ list }" var="account" varStatus="vs">
-						<option id="${ account.accountNo }">은행명 : ${ account.bankName } | 계좌 : ${ account.accountNumber } | 잔액 : ${ account.balance }</option>
-					</c:forEach>
-				</select>
-			</div>
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<span class="input-group-text" id="addon-wrapping">금액</span>
-				</div>
-				<input type="text" class="form-control" id="balance" name="balance" placeholder="계좌이체는 1원 이상이어야 합니다." required>
-				<div class="input-group-append">
-					<span class="input-group-text">원</span>
-				</div>
-			</div>
-			<div id='withdraw-result' class="float-right mb-1"></div>
-			<div class="float-right mt-3">
-			<div class="input-group mt-3 mb-3">
+			<form action="<%=request.getContextPath()%>/insertAccount.do" method="post" onsubmit="return accountSubmit()">
+				<div class="input-group mt-3 mb-3">
 					<div class="input-group-prepend">
-						<select class="form-control account-select" id="toAccount" name="bankName">
+						<span class="input-group-text" id="addon-wrapping">계좌선택</span>
+					</div>
+					<select class="form-control account-select account-selected" id="sel1" name="bankName">
+						<c:forEach items="${ list }" var="account" varStatus="vs">
+							<option id="${ account.accountNo }">은행명 : ${ account.bankName } | 계좌 : ${ account.accountNumber } | 잔액 : ${ account.balance }</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text" id="addon-wrapping">금액</span>
+					</div>
+					<input type="text" class="form-control" id="balance" name="balance" placeholder="계좌이체는 1원 이상이어야 합니다." required>
+					<div class="input-group-append">
+						<span class="input-group-text">원</span>
+					</div>
+				</div>
+				<div id='balance-result' class="float-right mb-1"></div>
+				<div class="input-group mt-3 mb-3">
+					<div class="input-group-prepend">
+						<select class="form-control account-select select-bank" id="sel2">
 							<option>하나은행</option>
 							<option>신한은행</option>
 							<option>국민은행</option>
@@ -150,10 +153,15 @@
 							<option>기업은행</option>
 						</select>
 					</div>
-					<input type="text" class="form-control" placeholder="입금하실 계좌번호를 입력해주세요" id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
+					<input type="hidden" id="bankName" name="bankName">
+					<input type="text" class="form-control" placeholder="원하시는 계좌번호를 입력해주세요." id="accountNumber" name="accountNumber" onkeyup="autoHypen(this)" required>
 				</div>
-				<input type="button" class=" btn btn-outline-info" id="accountNumberCheck" value="입금하기">
-			</div>
+				<div id="accountDupleCheckSpan" class="float-right mb-1"></div>
+				<div class="float-right mt-5">
+					<input type="button" class=" btn btn-outline-info" id="accountNumberCheck" value="이체하기">
+					</div>
+			</form>
+			
 		</div>
 	</section>
 	<!-- Vendor JS Files -->

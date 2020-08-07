@@ -60,12 +60,13 @@ public class AccountDAO {
 	public List<AccountVO> selectAccountList(int userNo) {
 		List<AccountVO> list = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
-		sql.append(
-				"select account_no, user_no, account_number, account_pw, bank_name, balance, alias, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
+		sql.append("select account_no, user_no, account_number, account_pw, bank_name, balance, alias, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
 		sql.append("   from a_account ");
+		sql.append("  where user_no = ? ");
 		sql.append(" order by reg_date ");
 		try (Connection conn = new ConnectionFactory().getConnection(url, user, password);
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setInt(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				AccountVO account = new AccountVO();
@@ -95,8 +96,7 @@ public class AccountDAO {
 	public AccountVO selectByNo(int no) {
 		AccountVO account = new AccountVO();
 		StringBuilder sql = new StringBuilder();
-		sql.append(
-				"select account_no, user_no, account_number, account_pw, bank_name, balance, alias, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
+		sql.append("select account_no, user_no, account_number, account_pw, bank_name, balance, alias, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
 		sql.append("   from a_account ");
 		sql.append(" where account_no = ? ");
 		try (Connection conn = new ConnectionFactory().getConnection(url, user, password);
@@ -266,7 +266,8 @@ public class AccountDAO {
 	 */
 	public boolean acivateTransFer(int fromAccount, int toAccount, int money, AccountVO account) {
 		boolean bool = false;
-		if(withdraw(fromAccount,money,account)==1) {
+		if(withdraw(fromAccount,money,account) == 1) {
+			System.out.println("들어왔다");
 			if(deposit(toAccount, money)) {
 				bool = true;
 			}else {
@@ -275,5 +276,61 @@ public class AccountDAO {
 		}
 		
 		return bool;
+	}
+	/**
+	 * 계좌번호 중복체크
+	 * @param accountNumber 입력한 계좌번호
+	 * @return
+	 */
+	public boolean accountNumberCheck(String accountNumber) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select account_number ");
+		sql.append("   from a_account ");
+		sql.append(" where replace(account_number,'-','') = ? ");
+		try (Connection conn = new ConnectionFactory().getConnection(url, user, password);
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setString(1, accountNumber);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public AccountVO passwordCheck(int accountNo, String password2) {
+		AccountVO account = new AccountVO();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select account_no, user_no, account_number, account_pw, bank_name, balance, alias, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
+		sql.append("   from a_account ");
+		sql.append(" where account_no = ? and account_pw = ? ");
+		try (
+				Connection conn = new ConnectionFactory().getConnection(url, user, password);
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+				) {
+			pstmt.setInt(1, accountNo);
+			pstmt.setString(2, password2);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				account.setAccountNo(rs.getInt("account_no"));
+				account.setUserNo(rs.getInt("user_no"));
+				account.setAccountNumber(rs.getString("account_number"));
+				account.setAccountPw(rs.getString("account_pw"));
+				account.setBankName(rs.getString("bank_name"));
+				account.setBalance(rs.getInt("balance"));
+				account.setAlias(rs.getString("alias"));
+				account.setRegDate(rs.getString("reg_date"));
+				return account;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

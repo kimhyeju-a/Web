@@ -8,12 +8,18 @@
  * @returns 
  */
 function autoHypen(obj){
-	var temp = $(obj).val()
-	$(obj).val(temp.replace(/[^0-9 \-]*$/g, ""))
-	var number = obj.value.replace(/[^0-9]/g, "");
+	var temp = obj.value;
+	obj.value = temp.replace(/[^0-9\-]*$/g, "");
+	
+	console.log('temp : ' + temp)
+	console.log('obj.value : ' + obj.value)
+	
+	
+	var number = temp.replace(/[^0-9]/g, '');
 	var account = ''
 		
-	var bankName = $('select option:selected').text()
+	var bankName = $('.select-bank  option:selected').text()
+	console.log(bankName)
 	//하나은행 3-6-5
 	if(bankName == '하나은행'){
 		$(obj).attr("maxlength","16");
@@ -30,6 +36,7 @@ function autoHypen(obj){
 			account += "-";
 			account += number.substr(9);
 		}
+		console.log("hana : "  + account)
 	}
 	//신한은행 3-3-6
 	else if (bankName == "신한은행"){
@@ -108,7 +115,7 @@ function autoHypen(obj){
 		}
 	}
 	
-	obj.value = account;
+	$(obj).val(account);
 }
 
 function trimDiff(obj){

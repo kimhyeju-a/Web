@@ -140,4 +140,30 @@ public class MemberDAO {
 		}
 		return false;
 	}
+	/**
+	 * 주민번호는 unique이므로 중복이 안됨. 중복검사
+	 * @param jumin 입력한 주민
+	 * @return true- 있음, false- 없음
+	 */
+	public boolean juminCheck(String jumin) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select id ");
+		sql.append(" from a_member ");
+		sql.append(" where jumin = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setString(1, jumin);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

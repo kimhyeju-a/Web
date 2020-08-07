@@ -39,33 +39,16 @@
 			trimDiff('#deposit')
 			let money = $('#deposit').val()
 			$.ajax({
-				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money +'&type=d',
-				success : function(data){
+				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp?money=' + money + '&type=d',
+				success : function(data) {
 					$('#deposit-result').html($.trim(data));
 				}
 			});
 		});
-		$('#bankName').attr('value',$('select option:selected').val())
-		$("#sel1").on('change', function(){
-			$('#bankName').attr('value',$('select option:selected').val())
+		$('#bankName').attr('value', $('select option:selected').val())
+		$("#sel1").on('change', function() {
+			$('#bankName').attr('value', $('select option:selected').val())
 		});
-		
-		<%-- $('#accountNumberCheck').click(){
-			var bankName = $('#sel1').val()
-			var accountNumber = $('#bankName').val();
-			
-			$.post({
-				url : '<%=request.getContextPath()%>/jsp/account/insertAccount/checkAccount.jsp',
-				data : {
-					"type" : "depositCheck",
-					"accountNumber" : accountNumber,
-					"bankName" : bankName
-				},
-				success : function(data){
-					$('#deposit-result').html($.trim(data));
-				}
-			});
-		}; --%>
 	});
 </script>
 </head>
@@ -94,7 +77,7 @@
 			<form action="<%=request.getContextPath()%>/depositProcessAccount.do" method="post" onsubmit="return insertAccountCheck()">
 				<div class="input-group mt-3 mb-3">
 					<div class="input-group-prepend">
-						<select class="form-control account-select" id="sel1" name="bankName">
+						<select class="form-control account-select select-bank" id="sel1" name="bankName">
 							<option>하나은행</option>
 							<option>신한은행</option>
 							<option>국민은행</option>
@@ -113,10 +96,12 @@
 						<span class="input-group-text">원</span>
 					</div>
 				</div>
-				<div id='deposit-result' class="float-right mb-1"></div>
-				<div class="float-right mt-3">
-					<input type="submit" class=" btn btn-outline-info" id="#accountNumberCheck" value="입금하기">
-				</div>
+					<div class="row float-right mb-1">
+						<div id='deposit-result'></div>
+					</div>
+					<div class="float-right mt-5">
+						<input type="submit" class=" btn btn-outline-info" id="#accountNumberCheck" value="입금하기">
+					</div>
 			</form>
 		</div>
 	</section>

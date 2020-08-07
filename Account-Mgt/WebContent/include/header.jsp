@@ -33,12 +33,12 @@
 				<ul>
 					<li><a href="javascript:doAction('/depositForm.do')">입금</a></li>
 					<li><a href="javascript:doAction('/withdraw.do')">출금</a></li>
-					<li><a href="#">계좌이체</a></li>
+					<li><a href="javascript:doAction('/transfer.do')">계좌이체</a></li>
 				</ul>
 			</li>
 			<li class="drop-down"><a href="#">고객지원</a>
 				<ul>
-					<li><a href="#">지점조회</a></li>
+					<li><a href="<%=request.getContextPath()%>/map.do">지점조회</a></li>
 					<li><a href="<%=request.getContextPath()%>/qnaList.do">Q&A</a></li>
 				</ul>
 			</li>

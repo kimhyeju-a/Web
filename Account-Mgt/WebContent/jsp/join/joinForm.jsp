@@ -40,7 +40,8 @@
 				$.post({
 					url : '<%=request.getContextPath()%>/check.do',
 						data : {
-							id : id
+							id : id,
+							type : "id"
 						},
 						success : function(data) {
 							$('#idCheckSpan').text($.trim(data))
@@ -51,9 +52,25 @@
 					})
 				}
 			});
+		$('#juminCheckBtn').click(function(){
+			let jumin = $('#jumin').val();
+			$.post({
+				url : '<%=request.getContextPath()%>/check.do',
+				data : {
+					jumin : jumin,
+					type : "jumin"
+				},
+				success : function(data) {
+					$('#juminCheckSpan').text($.trim(data))
+				},
+				error : function(data) {
+					alert(data)
+				}
+			})
 		});
+	});
 	//아이디 공백제거
-	function idFormat(obj){
+	function idFormat(obj) {
 		var temp = $(obj).val();
 		$(obj).val($.trim(temp));
 	}
@@ -109,10 +126,16 @@
 			$('#passwordText').focus();
 			return false;
 		}
-
-		if ($('#jumin').val().length() != 13) {
+		if (($('#juminCheckSpan').text() !== "이 주민번호는 사용이 가능합니다.")) {
 			alert('주민번호를 확인해주세요')
 			$('#jumin').focus();
+			return false;
+		}
+
+		if ($('#jumin').val().length() != 14) {
+			alert('주민번호를 확인해주세요')
+			$('#jumin').focus();
+			return false;
 		}
 		return true;
 	}
@@ -183,10 +206,7 @@
 						<button type="button" id="idCheckBtn">중복체크</button>
 						<span id="idCheckSpan"></span>
 						<h3 class="fadeIn third join_title">비밀번호</h3>
-						<input type="password" id="password" class="fadeIn third joinInput" name="password" placeholder="password" onkeyup="passwd(this)" required> 
-						<span id="passwordText"></span> 
-						<input type="password" id="passwordCheck" class="fadeIn third joinInput" placeholder="password check" onkeyup="passwdChk(this)" required> 
-						<span id="passwordCheckText"></span>
+						<input type="password" id="password" class="fadeIn third joinInput" name="password" placeholder="password" onkeyup="passwd(this)" required> <span id="passwordText"></span> <input type="password" id="passwordCheck" class="fadeIn third joinInput" placeholder="password check" onkeyup="passwdChk(this)" required> <span id="passwordCheckText"></span>
 
 						<h3 class="fadeIn third join_title">이름</h3>
 						<c:choose>
@@ -199,6 +219,8 @@
 						</c:choose>
 						<h3 class="fadeIn third join_title">주민번호</h3>
 						<input type="text" id="jumin" class="fadeIn third joinInput" name="jumin" placeholder="Social Security Number" maxlength="13" onkeyup="autoHypenJumin(this)" required>
+						<button type="button" id="juminCheckBtn">중복체크</button>
+						<span id="juminCheckSpan"></span>
 						<h3 class="fadeIn third join_title">이메일</h3>
 						<c:choose>
 							<c:when test="${ not empty kakaoVO.email }">

@@ -17,7 +17,7 @@ public class ModifyAccountController implements Controller{
 		AccountVO account = dao.selectByNo(no);
 		request.setAttribute("account", account);
 		
-		return "/jsp/account/modifyAccount/modifyAccountForm.jsp";
+		return "/jsp/account/selectAccount/modifyAccountAlias.jsp";
 	}
 	 
 }
