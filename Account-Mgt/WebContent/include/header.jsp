@@ -43,7 +43,7 @@
 				</ul>
 			</li>
 			<c:if test="${ not empty userVO }">
-				<li><a href="#">내정보</a></li>
+				<li><a href="<%=request.getContextPath()%>/mypage.do">내정보</a></li>
 			</c:if>
 		</ul>
 	</nav>

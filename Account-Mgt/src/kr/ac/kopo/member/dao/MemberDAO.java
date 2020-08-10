@@ -55,7 +55,7 @@ public class MemberDAO {
 		MemberVO userVO = null;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("select id, type, name, member_no ");
+		sql.append("select id, type, name, member_no, phone_no, email ");
 		sql.append(" from a_member ");
 		sql.append(" where id = ? and password = ? ");
 
@@ -72,6 +72,8 @@ public class MemberDAO {
 				userVO.setType(rs.getString("type"));
 				userVO.setName(rs.getString("name"));
 				userVO.setMemberNo(rs.getInt("member_no"));
+				userVO.setPhoneNo(rs.getString("phone_no"));
+				userVO.setEmail(rs.getString("email"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,15 +121,16 @@ public class MemberDAO {
 	 * @param password 입력한 패스워드
 	 * @return true-패스워드가 맞음, false-패스워드가 틀림
 	 */
-	public boolean passwordCheck(String password) {
+	public boolean passwordCheck(String password, int memberNo) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select id ");
 		sql.append(" from a_member ");
-		sql.append(" where password = ? ");
+		sql.append(" where password = ? and member_no = ? ");
 
 		try (Connection conn = new ConnectionFactory().getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
 			pstmt.setString(1, password);
+			pstmt.setInt(2, memberNo);
 			ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -166,4 +169,92 @@ public class MemberDAO {
 		}
 		return false;
 	}
+	
+	public boolean modifyMember(MemberVO member) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("update a_member ");
+		sql.append(" set name = ?, email = ? , phone_no = ? ");
+		sql.append(" where member_no = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			System.out.println("modifyMember : " + member.getName());
+			pstmt.setString(1, member.getName());
+			pstmt.setString(2, member.getEmail());
+			pstmt.setString(3, member.getPhoneNo());
+			pstmt.setInt(4, member.getMemberNo());
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	/**
+	 * memberNo 로 select
+	 */
+	public MemberVO selectOneMebmer(int memberNo) {
+
+		MemberVO userVO = null;
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("select id, type, name, member_no, phone_no, email ");
+		sql.append(" from a_member ");
+		sql.append(" where member_no = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setInt(1, memberNo);
+
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				userVO = new MemberVO();
+				userVO.setId(rs.getString("id"));
+				userVO.setType(rs.getString("type"));
+				userVO.setName(rs.getString("name"));
+				userVO.setMemberNo(rs.getInt("member_no"));
+				userVO.setPhoneNo(rs.getString("phone_no"));
+				userVO.setEmail(rs.getString("email"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return userVO;
+	}
+	
+	/**
+	 * 회원탈퇴
+	 * @param member 탈퇴할 회원
+	 * @return
+	 */
+	public boolean deleteMember(MemberVO member) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("delete ");
+		sql.append(" from a_member ");
+		sql.append(" where member_no = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setInt(1, member.getMemberNo());
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

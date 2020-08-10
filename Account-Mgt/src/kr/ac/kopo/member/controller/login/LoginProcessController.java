@@ -42,7 +42,6 @@ public class LoginProcessController implements Controller {
 			}
 		} else {
 			String password = request.getParameter("password");
-			System.out.println("id : " + id + ",password : " + password);
 			params = "";
 			member = new MemberVO();
 			member.setId(id);
