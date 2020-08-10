@@ -93,7 +93,7 @@
 									</c:if>
 								</a>
 							</td>
-							<td>${ board.writer }</td>
+							<td><c:if test="${ empty board.writer }"><c:out value="${ board.writerId }"/></c:if><c:if test="${ not empty board.writer }"><c:out value="${ board.writer }"/></c:if></td>
 							<td>
 								${ board.formatRegDate }
 							</td>

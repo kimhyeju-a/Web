@@ -78,11 +78,10 @@
 				<div class="col-sm-2 detail-info-title">No</div>
 				<div class="col-sm-3 detail">${ board.boardNo }</div>
 				<div class="col-sm-2 detail-info-title">Writer</div>
-				<div class="col-sm-3 detail">${ board.writer }</div>
+				<div class="col-sm-3 detail"><c:if test="${ empty board.writer }"><c:out value="${ board.writerId }"/></c:if><c:if test="${ not empty board.writer }"><c:out value="${ board.writerId }"/></c:if></div>
 				<!-- 왜 if 태그 쓰고는 안되고 안쓰고는 되는지!!!!!!!!!!!!! -->
-				<c:set var="writerId" value="${ board.writerId }"></c:set>
-				<c:set var="check" value="${ userVO.id eq writerId }"></c:set>
-				<c:out value="${ writeId }"></c:out>
+				<c:set var="writerNo" value="${ board.writerNo }"></c:set>
+				<c:set var="check" value="${ userVO.memberNo eq writerNo }"></c:set>
 			</div>
 			<div class="row detail-form">
 				<div class="col-sm-2 detail-info-title">Title</div>

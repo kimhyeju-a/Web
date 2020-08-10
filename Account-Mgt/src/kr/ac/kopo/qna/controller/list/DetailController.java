@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.ac.kopo.controller.Controller;
+import kr.ac.kopo.member.dao.MemberDAO;
+import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.qna.dao.QnaDAO;
 import kr.ac.kopo.qna.vo.QnaVO;
 
@@ -20,6 +22,7 @@ public class DetailController implements Controller{
 		}
 		
 		QnaVO qna = dao.selectByNo(no);
+		
 		request.setAttribute("board", qna);
 		request.setAttribute("newLine", "\r\n");
 		return "/jsp/qna/detail.jsp";

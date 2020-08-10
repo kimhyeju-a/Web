@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.ac.kopo.member.dao.MemberDAO;
+import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.qna.vo.QnaVO;
 import kr.ac.kopo.util.ConnectionFactory;
 
@@ -26,7 +28,7 @@ public class QnaDAO {
 	public List<QnaVO> selectQna() {
 		List<QnaVO> list = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
-		sql.append("select board_no, group_no, parent_no, group_order, depth, title, writer, content, view_cnt, reg_date ");
+		sql.append("select board_no, group_no, parent_no, group_order, depth, title, writer_no, content, view_cnt, reg_date ");
 		sql.append("       , case when to_char(sysdate, 'yyyy-mm-dd') = to_char(reg_date, 'yyyy-mm-dd') ");
 		sql.append("                   then to_char(reg_date, 'hh24:mi:ss') ");
 		sql.append("                   else to_char(reg_date, 'yyyy-mm-dd') ");
@@ -46,12 +48,19 @@ public class QnaDAO {
 				qna.setGroupOrder(rs.getInt("group_order"));
 				qna.setDepth(rs.getInt("depth"));
 				qna.setTitle(rs.getString("title"));
-				qna.setWriter(rs.getString("writer"));
+				qna.setWriterNo(rs.getInt("writer_no"));
 				qna.setContent(rs.getString("content"));
 				qna.setViewCnt(rs.getInt("view_cnt"));
 				qna.setRegDate(rs.getString("reg_date"));
 				qna.setFormatRegDate(rs.getString("reg_date_format"));
 				list.add(qna);
+				
+				//writer_no를 가지고 member에 있는 정보를 가져온다.
+				MemberDAO dao = new MemberDAO();
+				MemberVO member = dao.selectOneMebmer(rs.getInt("writer_no"));
+				qna.setWriter(member.getName());
+				qna.setWriterId(member.getId());
+				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -69,16 +78,15 @@ public class QnaDAO {
 		System.out.println("inserOriQna들어옴");
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into a_qna(board_no, group_no, parent_no, group_order, depth, title, writer, writer_id, content) ");
-		sql.append(" values(seq_a_qna_no.nextval,seq_a_qna_no.currval, seq_a_qna_no.currval, 1, 1, ?, ?, ?, ?) ");
+		sql.append("insert into a_qna(board_no, group_no, parent_no, group_order, depth, title, writer_no, content) ");
+		sql.append(" values(seq_a_qna_no.nextval,seq_a_qna_no.currval, seq_a_qna_no.currval, 1, 1, ?, ?, ?) ");
 		try (
 			Connection conn = new ConnectionFactory().getConnection(url, user, password);
 			PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		) {
 			pstmt.setString(1, qna.getTitle());
-			pstmt.setString(2, qna.getWriter());
-			pstmt.setString(3, qna.getWriterId());
-			pstmt.setString(4, qna.getContent());
+			pstmt.setInt(2, qna.getWriterNo());
+			pstmt.setString(3, qna.getContent());
 			pstmt.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -93,7 +101,7 @@ public class QnaDAO {
 	public QnaVO selectByNo(int no) {
 		List<QnaVO> list = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
-		sql.append("select board_no, group_no, parent_no, group_order, depth, title, writer, writer_id, content, view_cnt, reg_date ");
+		sql.append("select board_no, group_no, parent_no, group_order, depth, title, writer_no, content, view_cnt, reg_date ");
 		sql.append("       , case when to_char(sysdate, 'yyyy-mm-dd') = to_char(reg_date, 'yyyy-mm-dd') ");
 		sql.append("                   then to_char(reg_date, 'hh24:mi:ss') ");
 		sql.append("                   else to_char(reg_date, 'yyyy-mm-dd') ");
@@ -114,12 +122,17 @@ public class QnaDAO {
 				qna.setGroupOrder(rs.getInt("group_order"));
 				qna.setDepth(rs.getInt("depth"));
 				qna.setTitle(rs.getString("title"));
-				qna.setWriter(rs.getString("writer"));
-				qna.setWriterId(rs.getString("writer_id"));
+				qna.setWriterNo(rs.getInt("writer_no"));
 				qna.setContent(rs.getString("content"));
 				qna.setViewCnt(rs.getInt("view_cnt"));
 				qna.setRegDate(rs.getString("reg_date"));
 				qna.setFormatRegDate(rs.getString("reg_date_format"));
+				
+				//writer_no를 가지고 member에 있는 정보를 가져온다.
+				MemberDAO dao = new MemberDAO();
+				MemberVO member = dao.selectOneMebmer(rs.getInt("writer_no"));
+				qna.setWriter(member.getName());
+				qna.setWriterId(member.getId());
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -205,8 +218,8 @@ public class QnaDAO {
 	 */
 	public void insertReplyQna(QnaVO qna, QnaVO parentQna) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into a_qna(board_no, group_no, parent_no, group_order, depth, title, writer, writer_id, content) ");
-		sql.append(" values(seq_a_qna_no.nextval,?, ?, ?, ?, ?, ?, ?, ?) ");
+		sql.append("insert into a_qna(board_no, group_no, parent_no, group_order, depth, title, writer_no, content) ");
+		sql.append(" values(seq_a_qna_no.nextval, ?, ?, ?, ?, ?, ?, ?) ");
 		int i = 0;
 		try (
 			Connection conn = new ConnectionFactory().getConnection(url, user, password);
@@ -217,8 +230,7 @@ public class QnaDAO {
 			pstmt.setInt(++i, parentQna.getGroupOrder()+1);
 			pstmt.setInt(++i, parentQna.getDepth()+1);
 			pstmt.setString(++i, qna.getTitle());
-			pstmt.setString(++i, qna.getWriter());
-			pstmt.setString(++i, qna.getWriterId());
+			pstmt.setInt(++i, qna.getWriterNo());
 			pstmt.setString(++i, qna.getContent());
 			pstmt.executeUpdate();
 		}catch (Exception e) {

@@ -151,17 +151,19 @@ public class MemberDAO {
 	public boolean juminCheck(String jumin) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("select id ");
-		sql.append(" from a_member ");
+		sql.append("  from a_member ");
 		sql.append(" where jumin = ? ");
-
+		System.out.println("jumin : " + jumin);
 		try (Connection conn = new ConnectionFactory().getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
 			pstmt.setString(1, jumin);
 			ResultSet rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
+				System.out.println("주민있음");
 				return true;
 			}else {
+				System.out.println("주민없음");
 				return false;
 			}
 		} catch (Exception e) {

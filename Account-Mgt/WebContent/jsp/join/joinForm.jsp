@@ -132,8 +132,8 @@
 			return false;
 		}
 
-		if ($('#jumin').val().length() != 14) {
-			alert('주민번호를 확인해주세요')
+		if ($('#jumin').val().length != 14) {
+			alert('주민번호는 -을 포함해 14자리로 구성되어야 합니다.')
 			$('#jumin').focus();
 			return false;
 		}
@@ -218,7 +218,7 @@
 							</c:otherwise>
 						</c:choose>
 						<h3 class="fadeIn third join_title">주민번호</h3>
-						<input type="text" id="jumin" class="fadeIn third joinInput" name="jumin" placeholder="Social Security Number" maxlength="13" onkeyup="autoHypenJumin(this)" required>
+						<input type="text" id="jumin" class="fadeIn third joinInput" name="jumin" placeholder="Social Security Number" maxlength="14" onkeyup="autoHypenJumin(this)" required>
 						<button type="button" id="juminCheckBtn">중복체크</button>
 						<span id="juminCheckSpan"></span>
 						<h3 class="fadeIn third join_title">이메일</h3>
