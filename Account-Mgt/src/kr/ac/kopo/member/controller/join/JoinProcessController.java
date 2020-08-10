@@ -20,6 +20,7 @@ public class JoinProcessController implements Controller {
 		member.setName(request.getParameter("name"));
 		member.setJumin(request.getParameter("jumin"));
 		member.setPhoneNo(request.getParameter("tel"));
+		member.setEmail(request.getParameter("email"));
 
 		MemberDAO dao = new MemberDAO();
 		dao.insertMember(member);

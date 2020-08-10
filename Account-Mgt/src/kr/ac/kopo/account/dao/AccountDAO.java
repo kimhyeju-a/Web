@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.kopo.account.vo.AccountVO;
-import kr.ac.kopo.qna.vo.QnaVO;
+import kr.ac.kopo.history.dao.HistoryDAO;
+import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.util.ConnectionFactory;
 import kr.ac.kopo.util.JDBCClose;
 
@@ -31,8 +32,7 @@ public class AccountDAO {
 	 */
 	public int newAccountNumber(AccountVO account) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(
-				"insert into a_account(account_no, user_no, account_number, account_pw, bank_name, balance, alias ) ");
+		sql.append("insert into a_account(account_no, user_no, account_number, account_pw, bank_name, balance, alias ) ");
 		sql.append(" values(seq_a_account_no.nextval, ?, ?, ?, ?, ?, ? ) ");
 		try (Connection conn = new ConnectionFactory().getConnection(url, user, password);
 				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
@@ -173,7 +173,7 @@ public class AccountDAO {
 	}
 
 	/**
-	 * 입금
+	 * 일반적인 입금
 	 * 
 	 * @param accountNo : 계좌의 번호
 	 * @param money     : 입금액
@@ -187,17 +187,18 @@ public class AccountDAO {
 		sql.append(" where account_no = ? ");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		HistoryDAO dao = new HistoryDAO();
 		try {
 			conn = new ConnectionFactory().getConnection(url, user, password);
 			pstmt = conn.prepareStatement(sql.toString());
 			conn.setAutoCommit(false);
-
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, money);
 			pstmt.setInt(2, accountNo);
-			System.out.println("deposit");
 			pstmt.executeUpdate();
 			conn.commit();
+			AccountVO history = selectByNo(accountNo);
+			dao.depositHistory(history, money);
 			bool = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -224,6 +225,7 @@ public class AccountDAO {
 		int bool = 0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		HistoryDAO dao = new HistoryDAO();
 		try {
 			int balance = account.getBalance();
 			if (balance - money < 0) {
@@ -238,10 +240,117 @@ public class AccountDAO {
 			pstmt = conn.prepareStatement(sql.toString());
 			pstmt.setInt(1, money);
 			pstmt.setInt(2, accountNo);
-
 			pstmt.executeUpdate();
 			conn.commit();
 			bool = 1;
+			AccountVO history = selectByNo(accountNo);
+			dao.withdrawHistory(history, money);
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+				System.out.println("\t업무가 취소되었습니다. 다시시도해주세요.");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			JDBCClose.close(conn, pstmt);
+		}
+		return bool;
+	}
+	
+	/**
+	 * 계좌이체 서비스
+	 * @param fromAccountVO
+	 * @param toAccountVO
+	 * @param money
+	 * @return
+	 */
+	public boolean acivateTransFer(AccountVO fromAccountVO, AccountVO toAccountVO, int money) {
+		boolean bool = false;
+		if(withdraw(fromAccountVO, toAccountVO, money) == 1) {
+			if(deposit(fromAccountVO, toAccountVO, money)) {
+				bool = true;
+			}else {
+				bool = false;
+			}
+		}
+		
+		return bool;
+	}
+	
+	/**
+	 * 계좌이체 입금 
+	 * @param fromAccount
+	 * @param toAccount
+	 * @param money
+	 * @return
+	 */
+	private boolean deposit(AccountVO fromAccountVO, AccountVO toAccountVO, int money) {
+		boolean bool = false;
+		StringBuilder sql = new StringBuilder();
+		sql.append("update a_account ");
+		sql.append("   set balance = balance + ? ");
+		sql.append(" where account_no = ? ");
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		HistoryDAO dao = new HistoryDAO();
+		try {
+			conn = new ConnectionFactory().getConnection(url, user, password);
+			pstmt = conn.prepareStatement(sql.toString());
+			conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, money);
+			pstmt.setInt(2, toAccountVO.getAccountNo());
+			pstmt.executeUpdate();
+			conn.commit();
+			AccountVO history = selectByNo(toAccountVO.getAccountNo());
+			dao.depositHistory(history, money, fromAccountVO);
+			bool = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			JDBCClose.close(conn, pstmt);
+		}
+		return bool;
+	}
+
+	/**
+	 * 계좌이체 출금
+	 * @param fromAccount
+	 * @param toAccount
+	 * @param money
+	 * @return
+	 */
+	private int withdraw(AccountVO fromAccountVO, AccountVO toAccountVO, int money) {
+		int bool = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		HistoryDAO dao = new HistoryDAO();
+		try {
+			int balance = fromAccountVO.getBalance();
+			if (balance - money < 0) {
+				return 2;
+			}
+			conn = new ConnectionFactory().getConnection();
+			conn.setAutoCommit(false);
+			StringBuilder sql = new StringBuilder();
+			sql.append("update a_account ");
+			sql.append("   set balance = balance - ? ");
+			sql.append(" where account_no = ? ");
+			pstmt = conn.prepareStatement(sql.toString());
+			pstmt.setInt(1, money);
+			pstmt.setInt(2, fromAccountVO.getAccountNo());
+			pstmt.executeUpdate();
+			conn.commit();
+			bool = 1;
+			AccountVO history = selectByNo(fromAccountVO.getAccountNo());
+			dao.withdrawHistory(history, money, toAccountVO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
@@ -256,27 +365,6 @@ public class AccountDAO {
 		return bool;
 	}
 
-	/**
-	 * 계좌이체 서비스
-	 * @param fromAccount
-	 * @param toAccount
-	 * @param money
-	 * @param account
-	 * @return
-	 */
-	public boolean acivateTransFer(int fromAccount, int toAccount, int money, AccountVO account) {
-		boolean bool = false;
-		if(withdraw(fromAccount,money,account) == 1) {
-			System.out.println("들어왔다");
-			if(deposit(toAccount, money)) {
-				bool = true;
-			}else {
-				bool = false;
-			}
-		}
-		
-		return bool;
-	}
 	/**
 	 * 계좌번호 중복체크
 	 * @param accountNumber 입력한 계좌번호
@@ -332,5 +420,36 @@ public class AccountDAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	/**
+	 * 계좌번호로 계좌조회
+	 * @param toAccountNumber
+	 * @return
+	 */
+	public AccountVO selectByAccountNumber(String toAccountNumber) {
+		AccountVO account = new AccountVO();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select account_no, user_no, account_number, account_pw, bank_name, balance, alias, to_char(reg_date, 'yyyy-mm-dd') as reg_date ");
+		sql.append("   from a_account ");
+		sql.append(" where account_number = ? ");
+		try (Connection conn = new ConnectionFactory().getConnection(url, user, password);
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setString(1, toAccountNumber);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				account.setAccountNo(rs.getInt("account_no"));
+				account.setUserNo(rs.getInt("user_no"));
+				account.setAccountNumber(rs.getString("account_number"));
+				account.setAccountPw(rs.getString("account_pw"));
+				account.setBankName(rs.getString("bank_name"));
+				account.setBalance(rs.getInt("balance"));
+				account.setAlias(rs.getString("alias"));
+				account.setRegDate(rs.getString("reg_date"));
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return account;
 	}
 }

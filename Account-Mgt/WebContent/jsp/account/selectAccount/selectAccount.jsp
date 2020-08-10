@@ -33,12 +33,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 <script>
 	<c:if test="${ not empty param.msg }">
-		alert('${ param.msg }');
+	alert('${ param.msg }');
 	</c:if>
 	<c:if test="${ not empty msg }">
-		alert('${ msg }');
+	alert('${ msg }');
 	</c:if>
 	$(document).ready(function() {
 		$("#myInput").on("keyup", function() {
@@ -47,6 +48,22 @@
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		});
+		$('.btnTest').click(function(){
+			console.log($(this).attr('id'))
+			$.ajax({
+				url : '<%=request.getContextPath()%>/historyList.do',
+				type : 'post',
+				data : {
+					accountNo : $(this).attr('id')
+				},
+				success : function(data) {
+					$('.modal-data').text(data)
+					$('section .modal').modal();
+				},error: function(data) {
+					alert("test");
+				}
+			})
+		})
 	});
 </script>
 </head>
@@ -120,15 +137,40 @@
 								<p>잔액 : ${ account.balance }</p>
 								<input type="hidden" value="${ account.accountNo }" id="modify${ vs.index }accountNo">
 								<div class="row float-right">
-									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn modifyBtn" id = "#modify${ vs.index }" onclick="location.href='<%=request.getContextPath()%>/modifyAccount.do?accountNo=${ account.accountNo }'">수정</a>
+									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn modifyBtn" id="modify${ vs.count }" onclick="location.href='<%=request.getContextPath()%>/modifyAccount.do?accountNo=${ account.accountNo }'">수정</a> 
+									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn modifyBtn btnTest historyModal" id="${ account.accountNo }">test</a>
 								</div>
 							</div>
-								<div class="row float-right">
-									<div id="modify${ vs.index }box"></div>
-								</div>
+							<div class="row float-right">
+								<div id="modify${ vs.index }box"></div>
+							</div>
 						</div>
 					</c:forEach>
 				</c:if>
+			</div>
+		</div>
+		<div class="test modal fade" id="historyModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Modal Heading</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form action="<%=request.getContextPath()%>/test.do">
+							<span class="modal-data"></span>
+						</form>
+					</div>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+
+				</div>
 			</div>
 		</div>
 	</section>

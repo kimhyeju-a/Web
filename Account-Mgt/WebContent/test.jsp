@@ -12,7 +12,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
   	$(document).ready(function(){
-  		$("#myModal").click(function(){
+  		$(".myModal").click(function(){
   			$('#id').val($('#rid').val())
   			$('div .modal').modal();
   		})
@@ -28,7 +28,7 @@
   <!-- Button to Open the Modal -->
   <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"> -->
   <input type="text" name="rid" id="rid">
-  <button type="button" class="btn btn-primary" id="myModal">
+  <button type="button" class="btn btn-primary myModal" id="myModal">
     Open modal
   </button>
 

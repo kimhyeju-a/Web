@@ -30,11 +30,15 @@ public class ActivateTransFerProcessController implements Controller {
 		String toAccountNumber = request.getParameter("toAccountNumber");
 		
 		AccountDAO dao = new AccountDAO();
-		AccountVO account = dao.selectByNo(fromAccount);
-		
+		AccountVO fromAccountVO = dao.selectByNo(fromAccount);
 		int toAccount = dao.checkAccountNumber(toAccountBank, toAccountNumber);
-		
-		if(dao.acivateTransFer(fromAccount, toAccount, money, account)) {
+		if(toAccount == 0) {
+			msg = "계좌가 존재하지 않습니다. 다시 시도해주세요";
+			url = request.getContextPath() + "/transfer.do?msg=";
+			return "redirect :" + url + msg;
+		}
+		AccountVO toAccountVO = dao.selectByNo(toAccount);
+		if(dao.acivateTransFer(fromAccountVO, toAccountVO, money)) {
 			msg += "계좌이체가 정상 처리되었습니다";
 			url += request.getContextPath() + "/selectAccount.do?userNo=" + member.getMemberNo()+"&msg=";
 		}else {
