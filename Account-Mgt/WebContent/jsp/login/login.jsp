@@ -95,7 +95,7 @@
 				<a id="login-form-btn" href="javascript:loginFormWithKakao()"> <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222" /></a>
 				<!-- Remind Passowrd -->
 				<div id="formFooter">
-					<a class="underlineHover" href="#">비밀번호찾기</a><a class="underlineHover" href="<%=request.getContextPath()%>/join.do">회원가입</a>
+					<a class="underlineHover" href="<%=request.getContextPath()%>/join.do">회원가입</a>
 				</div>
 
 			</div>

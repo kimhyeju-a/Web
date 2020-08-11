@@ -232,12 +232,12 @@
 						</c:choose>
 
 						<h3 class="fadeIn third join_title">휴대전화</h3>
-						<input type="text" id="tel" class="fadeIn third joinInput" name="tel" placeholder="Tel" maxlength="13" onkeyup="autoHypen(this)"> <input type="submit" class="fadeIn fourth" value="Log In">
+						<input type="text" id="tel" class="fadeIn third joinInput" name="tel" placeholder="Tel" maxlength="13" onkeyup="autoHypen(this)"> <input type="submit" class="fadeIn fourth" value="JOIN">
 					</form>
 
 					<!-- Remind Passowrd -->
 					<div id="formFooter">
-						<a class="underlineHover" href="#">비밀번호찾기</a><span class="underlineHover">회원가입</span>
+						<span class="underlineHover">회원가입</span>
 					</div>
 
 				</div>
