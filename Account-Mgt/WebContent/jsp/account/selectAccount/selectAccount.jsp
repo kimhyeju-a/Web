@@ -48,7 +48,7 @@
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		});
-		$('.btnTest').click(function(){
+		$('.historyBtn').click(function(){
 			console.log($(this).attr('id'))
 			$.ajax({
 				url : '<%=request.getContextPath()%>/historyList.do',
@@ -57,7 +57,7 @@
 					accountNo : $(this).attr('id')
 				},
 				success : function(data) {
-					$('.modal-data').text(data)
+					$('.modal-data').html(data)
 					$('section .modal').modal();
 				},error: function(data) {
 					alert("test");
@@ -138,7 +138,7 @@
 								<input type="hidden" value="${ account.accountNo }" id="modify${ vs.index }accountNo">
 								<div class="row float-right">
 									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn modifyBtn" id="modify${ vs.count }" onclick="location.href='<%=request.getContextPath()%>/modifyAccount.do?accountNo=${ account.accountNo }'">수정</a> 
-									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn modifyBtn btnTest historyModal" id="${ account.accountNo }">test</a>
+									<a href="#" class="float-right btn btn-outline-info write-no-btn alias-modify-btn historyBtn" id="${ account.accountNo }">입출금내역</a>
 								</div>
 							</div>
 							<div class="row float-right">
@@ -149,8 +149,8 @@
 				</c:if>
 			</div>
 		</div>
-		<div class="test modal fade" id="historyModal">
-			<div class="modal-dialog">
+		<div class="test modal fade bd-example-modal-lg" id="historyModal">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 
 					<!-- Modal Header -->

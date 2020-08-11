@@ -2,8 +2,15 @@ package kr.ac.kopo.history.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
+import kr.ac.kopo.account.dao.AccountDAO;
 import kr.ac.kopo.account.vo.AccountVO;
+import kr.ac.kopo.history.vo.HistoryVO;
+import kr.ac.kopo.member.dao.MemberDAO;
+import kr.ac.kopo.member.vo.MemberVO;
 import kr.ac.kopo.util.ConnectionFactory;
 
 public class HistoryDAO {
@@ -100,6 +107,51 @@ public class HistoryDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
+	}
+	public List<HistoryVO> selectHistoryList(int accountNo) {
+		List<HistoryVO> list = new ArrayList<>();
+		HistoryVO historyVO = null;
+		AccountDAO dao = new AccountDAO();
+		AccountVO accountVO = null;
+		MemberDAO member = new MemberDAO();
+		MemberVO memberVO =null;
+		StringBuilder sql = new StringBuilder();
+		sql.append("select account_no, deposit, withdraw, balance, sender, to_char(sent_date,'yyyy-mm-dd hh24:mi:ss') as sent_date ");
+		sql.append(" from a_history ");
+		sql.append(" where account_no = ? ");
+
+		try (Connection conn = new ConnectionFactory().getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql.toString());) {
+			pstmt.setInt(1, accountNo);
+
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				historyVO = new HistoryVO();
+				historyVO.setAccountNo(rs.getInt("account_no"));
+				accountVO = dao.selectByNo(rs.getInt("account_no"));
+				historyVO.setAccountNumber(accountVO.getAccountNumber());
+				historyVO.setDeposit(rs.getInt("deposit"));
+				historyVO.setWithdraw(rs.getInt("withdraw"));
+				historyVO.setBalance(rs.getInt("balance"));
+				historyVO.setSender(rs.getInt("sender"));
+				if(rs.getInt("sender") == 0) {
+					historyVO.setSenderId("혜주은행atm");
+					historyVO.setSenderName("혜주은행atm");
+				}else {
+					memberVO = member.selectOneMebmer(rs.getInt("sender"));
+					historyVO.setSenderName(memberVO.getName());
+					historyVO.setSenderId(memberVO.getId());
+					historyVO.setSentDate(rs.getString("sender"));
+				}
+				historyVO.setSentDate(rs.getString("sent_date"));
+				list.add(historyVO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
 	}
 	
 }
