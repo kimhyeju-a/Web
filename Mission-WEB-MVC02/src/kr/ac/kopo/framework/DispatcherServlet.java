@@ -3,6 +3,8 @@ package kr.ac.kopo.framework;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
@@ -55,6 +57,7 @@ public class DispatcherServlet extends HttpServlet {
 		/* uri 의 값을 가지고 어느 컨트롤러로 가야되는지 안다 */
 		CtrlAndMethod cam = mappings.getCtrlAndMethod(uri);
 		String view = "";
+		ModelAndView mav = null;
 		try {
 			if(cam == null) {
 				throw new Exception("요청 URL은 존재하지 않습니다.");
@@ -69,7 +72,18 @@ public class DispatcherServlet extends HttpServlet {
 				메소드가 매개변수가 없다면 method.invoke(target)으로만 써도 된다.
 				RequestMapping 어노테이션을 가지고 있는 메소드들은 모두 Request, Response 매개변수를 가지고 있어야 한다.
 			 */
-			view = (String)method.invoke(target, request, response);
+//			view = (String)method.invoke(target, request, response);
+			mav = (ModelAndView)method.invoke(target, request, response);
+			view = mav.getView();
+			
+			//request 공유 영역에 객체 등록
+			Map<String, Object> model = mav.getModel();
+			Set<String> keys = model.keySet();
+			for(String key : keys) {
+				Object value = model.get(key);
+				request.setAttribute(key, value);
+			}
+				
 		} catch (Exception e) {
 			response.setContentType("html/text; charset=utf-8");
 			PrintWriter out = response.getWriter();
@@ -78,10 +92,16 @@ public class DispatcherServlet extends HttpServlet {
 //			추후 에러메시지 화면 따로 구성..........
 		}
 		/*
-				주소 매핑(?) 포워드를 한다.
+				주소 매핑(?) 포워드/Redirect를 한다.
+				응답(sendRedirect or forward)
 		 */
-		RequestDispatcher dispatcher = request.getRequestDispatcher(view);
-		dispatcher.forward(request, response);
+		if(view.startsWith("redirect:")) {
+			view = view.substring("redirect:".length());
+			response.sendRedirect(request.getContextPath() + view);
+		}else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+			dispatcher.forward(request, response);
+		}
 	}
 
 	/**
